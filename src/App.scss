@@ -7,7 +7,7 @@
     }
 }
 
-button, input[type="submit"] {
+button, input[type="submit"], input[type="text"] {
     border-radius: 5px;
     background-color: #282c34;
     color: white;
@@ -18,6 +18,15 @@ button, input[type="submit"] {
     outline: none;
     border: none;
     @include button-pseudo;
+}
+
+input[type="text"] {
+    &:hover {
+        cursor: auto;
+    }
+    &:active {
+        background-color: #101010;
+    }
 }
 
 button.accent {
