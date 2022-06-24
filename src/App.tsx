@@ -5,7 +5,7 @@ import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
-import {fetchGreeting, setGreeting } from './contract.service';
+import {fetchGreeting, listenToNewGreeting, setGreeting, unsubscribeFromNewGreeting } from './contract.service';
 import { connectMetaMask, getBalance } from './metamask.service';
 
 
@@ -23,6 +23,8 @@ function App() {
 
   const [textInput, setTextInput] = useState("")
 
+  const [currentGreet, setCurrentGreet] = useState("")
+
   const scrollEffect = () =>{
     if(headerRef.current) {  
       if(window.scrollY > headerRef.current.offsetTop - 100) {
@@ -30,6 +32,17 @@ function App() {
       }
     }
   }
+
+  const onNewGreet = (greeting: string) => {
+    setCurrentGreet(greeting)
+  }
+
+  useEffect(() => {
+      listenToNewGreeting(onNewGreet);
+    return () => {
+      unsubscribeFromNewGreeting(onNewGreet);
+    }
+  }, [])
 
   useEffect(() => {
     if(headerRef.current) {
@@ -77,6 +90,7 @@ function App() {
       <header className="App-header" ref={headerRef}>
           <span className='App-header-title'>You have selected Card Nr. <br/><small>{cards[selectedCard]?.id ?? "-"}</small></span>
           <button className='App-header-addCard accent' onClick={addCard}>Add Card</button>
+          <span>Current Greet: {currentGreet}</span>
       </header>
       <section className='contract'>
           <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>

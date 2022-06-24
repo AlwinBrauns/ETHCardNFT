@@ -18,15 +18,22 @@ const setGreeting = async (textInput: string, setTextInput: Function) => {
     setTextInput("")
 }
 
-const listenToNewGreeting = async (fkt: Function) => {
+const listenToNewGreeting = async (listener: (greeting: string)=>void) => {
     if (typeof window.ethereum !== 'undefined'){
         //@ts-ignore 
         const provider = new ethers.providers.Web3Provider(window.ethereum) 
         const contract = new ethers.Contract(greetersAddress, Greeters.abi, provider)
-        contract.on("newGreeting", (newGreeting: string) => {
-            fkt(newGreeting);
-        })
+        contract.on("newGreet", listener)
     }
+}
+
+const unsubscribeFromNewGreeting = async (listener: (greeting: string)=>void) => {
+    if (typeof window.ethereum !== 'undefined'){
+        //@ts-ignore 
+        const provider = new ethers.providers.Web3Provider(window.ethereum) 
+        const contract = new ethers.Contract(greetersAddress, Greeters.abi, provider)
+        contract.off("newGreet", listener)
+    } 
 }
 
 const fetchGreeting = async () => {
@@ -43,4 +50,4 @@ if (typeof window.ethereum !== 'undefined'){
 }
 }
 
-export {fetchGreeting, setGreeting}
+export {fetchGreeting, setGreeting, listenToNewGreeting, unsubscribeFromNewGreeting}
