@@ -1,3 +1,5 @@
+# Work in Progress (still playing around with ethers.js solidity)
+
 ## How To:
 1. Install MetaMask
 2. ```npm install```
