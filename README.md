@@ -6,6 +6,7 @@
 5. Import Account into MetaMask (private key)
 6. ```shell npx hardhat run scripts/sample-script.js --network localhost```
 7. copy contract address to contract.service.ts greetersAddress
+8. ```shell npm run dev```
 
 
 ## Commands
