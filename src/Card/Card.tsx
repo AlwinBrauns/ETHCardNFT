@@ -2,7 +2,7 @@ import CardProperties from "./CardProperties"
 import React, { useRef } from "react"
 import PulseAnimation from "../Animations/PulseAnimation"
 
-function Card ({key, text, onClick, className, onDelete, id}: CardProperties) {
+function Card ({text, onClick, onDelete, id}: CardProperties) {
     const ref = useRef<HTMLDivElement>(null)
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if(ref.current) {
@@ -22,7 +22,7 @@ function Card ({key, text, onClick, className, onDelete, id}: CardProperties) {
         }
     }
     return (
-    <div ref={ref} className={className} key={key + id} onClick={handleClick} onAnimationEnd={handleAnimationEnd}>
+    <div ref={ref} className={"App-main-card"} onClick={handleClick} onAnimationEnd={handleAnimationEnd}>
         <span>{text} <small style={{fontSize: "0.8rem"}}>{id.substring(0, 3)}...</small></span>
         {onDelete ? <button onClick={handleDelete}>Delete</button>: null}
     </div>

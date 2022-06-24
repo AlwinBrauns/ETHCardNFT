@@ -88,14 +88,13 @@ function App() {
         {
           cards.map((card, index) => {
             return (
-              <Card
-                key={index}
-                text={card.text}
-                onClick={card.onClick}
-                className='App-main-card'
-                onDelete={() => {removeCard(index)}}
-                id={card.id}
-              />
+                <Card
+                  key={card.id}
+                  text={card.text}
+                  onClick={card.onClick}
+                  onDelete={() => {removeCard(index)}}
+                  id={card.id}
+                />
             )
           })
         }
