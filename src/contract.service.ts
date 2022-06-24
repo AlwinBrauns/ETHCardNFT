@@ -3,22 +3,6 @@ import { ethers } from "ethers"
 
 const greetersAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
-const connectMetaMask = async (setAccounts: Function, setCurrentAccount: Function): Promise<boolean> => {
-    let success: boolean = false
-    if (typeof window.ethereum !== 'undefined') {
-        await window.ethereum.request({ method: 'eth_requestAccounts' }).then((_accounts: any) => {
-        setAccounts(_accounts)
-        setCurrentAccount(_accounts[0])
-        success = true
-        })
-        return success
-    }else {
-        success = false
-        console.log('MetaMask is not installed!');
-        return success
-    }
-  }
-
 const setGreeting = async (textInput: string, setTextInput: Function) => {
     if(textInput) {
         if(typeof window.ethereum !== 'undefined') {
@@ -48,4 +32,4 @@ if (typeof window.ethereum !== 'undefined'){
 }
 }
 
-export {fetchGreeting, setGreeting, connectMetaMask}
+export {fetchGreeting, setGreeting}

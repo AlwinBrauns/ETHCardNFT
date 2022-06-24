@@ -5,7 +5,8 @@ import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
-import { connectMetaMask, fetchGreeting, setGreeting } from './contract.service';
+import {fetchGreeting, setGreeting } from './contract.service';
+import { connectMetaMask, getBalance } from './metamask.service';
 
 
 function App() {
@@ -61,8 +62,8 @@ function App() {
     }
   }
 
-  const removeCard = (nunber: number) => {
-    const newCards = cards.filter((card, index) => index !== nunber)
+  const removeCard = (number: number) => {
+    const newCards = cards.filter((card, index) => index !== number)
     newCards.forEach((card, index) => {
       card.onClick = () => {
         setSelectedCard(index)
@@ -79,6 +80,7 @@ function App() {
       </header>
       <section className='contract'>
           <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
+          <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
           <button onClick={() => fetchGreeting()}>Fetch Greeting</button>
           <button onClick={() => setGreeting(textInput, setTextInput)}>Set Greeting</button>
           <input onChange={(e) => setTextInput(e.target.value)} type={"text"}/>
