@@ -5,9 +5,8 @@ import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
-import Greeters from "./artifacts/contracts/Greeter.sol/Greeter.json"
+import { connectMetaMask, fetchGreeting, setGreeting } from './contract.service';
 
-const greetersAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
 function App() {
   const ref = useRef<HTMLDivElement>(null)
@@ -25,7 +24,6 @@ function App() {
 
   const scrollEffect = () =>{
     if(headerRef.current) {  
-      console.log(window.scrollY)  
       if(window.scrollY > headerRef.current.offsetTop - 100) {
         headerRef.current.style.setProperty("--y", "-" + 100 + "px") 
       }
@@ -40,51 +38,6 @@ function App() {
       window.removeEventListener("scroll", scrollEffect)
     }
   }, [headerRef])
-
-  const connectMetaMask = async (): Promise<boolean> => {
-    let success: boolean = false
-    if (typeof window.ethereum !== 'undefined') {
-      await window.ethereum.request({ method: 'eth_requestAccounts' }).then((_accounts: any) => {
-        setAccounts(_accounts)
-        setCurrentAccount(_accounts[0])
-        success = true
-      })
-      return success
-    }else {
-      success = false
-      console.log('MetaMask is not installed!');
-      return success
-    }
-  }
-
-  const fetchGreeting = async () => {
-    if (typeof window.ethereum !== 'undefined'){
-      //@ts-ignore 
-      const provider = new ethers.providers.Web3Provider(window.ethereum) 
-      const contract = new ethers.Contract(greetersAddress, Greeters.abi, provider)
-      try {
-        const data = await contract.greetGreet()
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  const setGreeting = async () => {
-    if(textInput) {
-      if(typeof window.ethereum !== 'undefined') {
-         //@ts-ignore 
-          const provider = new ethers.providers.Web3Provider(window.ethereum) 
-          const signer = provider.getSigner()
-          const contract = new ethers.Contract(greetersAddress, Greeters.abi, signer)
-          const transaction = await contract.setGreeting(textInput)
-          await transaction.wait()
-          console.log("transaction send")
-      }
-    }
-    setTextInput("")
-  }
   
   useEffect(() => {
     if(cards.length <= selectedCard) {
@@ -124,11 +77,14 @@ function App() {
           <span className='App-header-title'>You have selected Card Nr. <br/><small>{cards[selectedCard]?.id ?? "-"}</small></span>
           <button className='App-header-addCard accent' onClick={addCard}>Add Card</button>
       </header>
+      <section className='contract'>
+          <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
+          <button onClick={() => fetchGreeting()}>Fetch Greeting</button>
+          <button onClick={() => setGreeting(textInput, setTextInput)}>Set Greeting</button>
+          <input onChange={(e) => setTextInput(e.target.value)} type={"text"}/>
+      </section>
       <main className="App-main">
-        <button onClick={() => connectMetaMask()}>METAMASK</button>
-        <button onClick={() => fetchGreeting()}>Fetch Greeting</button>
-        <button onClick={() => setGreeting()}>Set Greeting</button>
-        <input onChange={(e) => setTextInput(e.target.value)} type={"text"}/>
+        
         {
           cards.map((card, index) => {
             return (

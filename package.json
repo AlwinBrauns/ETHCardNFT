@@ -17,6 +17,7 @@
   "devDependencies": {
     "@metamask/providers": "^9.0.0",
     "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@openzeppelin/contracts": "^4.6.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^8.3.4",
