@@ -7,6 +7,13 @@ async function main() {
   await greeter.deployed();
 
   console.log("Greeter deployed to:", greeter.address);
+
+  const Cards = await hre.ethers.getContractFactory("Cards");
+  const cards = await Cards.deploy();
+
+  await cards.deployed();
+
+  console.log("Cards deployed to:", cards.address);
 }
 
 main()

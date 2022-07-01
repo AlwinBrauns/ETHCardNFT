@@ -5,7 +5,7 @@ import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
-import {fetchGreeting, listenToNewGreeting, setGreeting, unsubscribeFromNewGreeting } from './contract.service';
+import {fetchGreeting, generateCard, getCards, listenToNewCard, listenToNewGreeting, setGreeting, unsubscribeFromNewCard, unsubscribeFromNewGreeting } from './contract.service';
 import { connectMetaMask, getBalance } from './metamask.service';
 
 
@@ -21,9 +21,12 @@ function App() {
 
   const [currentAccount, setCurrentAccount] = useState("")
 
+
   const [textInput, setTextInput] = useState("")
 
   const [currentGreet, setCurrentGreet] = useState("")
+  const [latestCard, setLatestCard] = useState(null)
+  const [latestCardOwner, setLatestCardOwner] = useState(null)
 
   const scrollEffect = () =>{
     if(headerRef.current) {  
@@ -37,12 +40,28 @@ function App() {
     setCurrentGreet(greeting)
   }
 
-  useEffect(() => {
-      listenToNewGreeting(onNewGreet);
-    return () => {
-      unsubscribeFromNewGreeting(onNewGreet);
+  const onNewCard = (card: any, owner: any) => {  
+    setLatestCard(card)
+    setLatestCardOwner(owner)
+    if(owner.toString().toUpperCase() == currentAccount.toString().toUpperCase()) {
+      console.log("add card")
+      addCard(card._hex.toString())
     }
-  }, [])
+  }
+
+  useEffect(() => {
+    if(!currentAccount && window.ethereum?.isConnected()){
+      console.log("connect...")
+      connectMetaMask(setAccounts, setCurrentAccount)
+    } else {
+      listenToNewGreeting(onNewGreet)
+      listenToNewCard(onNewCard)
+    }
+    return () => {
+      unsubscribeFromNewGreeting(onNewGreet)
+      unsubscribeFromNewCard(onNewCard)
+    }
+  }, [currentAccount])
 
   useEffect(() => {
     if(headerRef.current) {
@@ -59,8 +78,8 @@ function App() {
     }
   }, [cards])
 
-  const addCard = () => {
-    const uniqueID: string = uuidv5(Date.now().toString()+""/* TODO */, uuidv5.URL).toString()
+  const addCard = (card: string) => {
+    const uniqueID: string = card
     const newCard = {
       id: uniqueID,
       text: `Card`,
@@ -89,14 +108,16 @@ function App() {
     <div className="App" ref={ref}>
       <header className="App-header" ref={headerRef}>
           <span className='App-header-title'>You have selected Card Nr. <br/><small>{cards[selectedCard]?.id ?? "-"}</small></span>
-          <button className='App-header-addCard accent' onClick={addCard}>Add Card</button>
+          <button className='App-header-addCard accent' onClick={() => generateCard()}>Add Card</button>
           <span>Current Greet: {currentGreet}</span>
+          <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
       </header>
       <section className='contract'>
           <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
           <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
           <button onClick={() => fetchGreeting()}>Fetch Greeting</button>
           <button onClick={() => setGreeting(textInput, setTextInput)}>Set Greeting</button>
+          <button onClick={() => getCards()}>Cards</button>
           <input onChange={(e) => setTextInput(e.target.value)} type={"text"}/>
       </section>
       <main className="App-main">
