@@ -2,8 +2,8 @@ import Greeters from "./artifacts/contracts/Greeter.sol/Greeter.json"
 import Cards from "./artifacts/contracts/Cards.sol/Cards.json"
 import { ethers } from "ethers"
 
-const greetersAddress = "0x610178dA211FEF7D417bC0e6FeD39F05609AD788"
-const cardsAddress = "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
+const greetersAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+const cardsAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
 
 const generateCard = async () => {
     if (typeof window.ethereum !== 'undefined'){
@@ -100,4 +100,13 @@ const fetchGreeting = async () => {
     }
 }
 
-export {fetchGreeting, setGreeting, listenToNewGreeting, listenToNewCard, unsubscribeFromNewCard, unsubscribeFromNewGreeting, generateCard, getCards}
+export {
+    fetchGreeting, 
+    setGreeting, 
+    listenToNewGreeting, 
+    listenToNewCard, 
+    unsubscribeFromNewCard, 
+    unsubscribeFromNewGreeting, 
+    generateCard, 
+    getCards
+}
