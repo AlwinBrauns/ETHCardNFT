@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './App.scss'
-import { useState, useRef } from 'react';
+import { useState, useRef, useReducer } from 'react';
 import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
@@ -21,12 +21,11 @@ function App() {
 
   const [currentAccount, setCurrentAccount] = useState("")
 
-
   const [textInput, setTextInput] = useState("")
 
   const [currentGreet, setCurrentGreet] = useState("")
-  const [latestCard, setLatestCard] = useState(null)
-  const [latestCardOwner, setLatestCardOwner] = useState(null)
+  const [latestCard, setLatestCard] = useState<any>(null)
+  const [latestCardOwner, setLatestCardOwner] = useState("")
 
   const scrollEffect = () =>{
     if(headerRef.current) {  
@@ -80,7 +79,6 @@ function App() {
 
   const selectACard = (uid: string) => {
     const index = cards.findIndex((elem)=>{
-      console.log(uid)
       return elem.id === uid
     })
     setSelectedCard(index)
@@ -90,8 +88,7 @@ function App() {
     const uniqueID: string = card
     const newCard = {
       id: uniqueID,
-      text: `Card`,
-      onClick: () => selectACard(uniqueID)
+      text: `Card`
     }
     setCards(prevState => [...prevState, newCard])
   }
@@ -130,7 +127,7 @@ function App() {
                 <Card
                   key={card.id}
                   text={card.text}
-                  onClick={card.onClick}
+                  onClick={() => selectACard(card.id)}
                   onDelete={() => {removeCard(index)}}
                   id={card.id}
                 />

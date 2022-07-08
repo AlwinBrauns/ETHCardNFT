@@ -1,7 +1,7 @@
 interface CardProperties {
     id: string,
     text: string
-    onClick: Function
+    onClick?: Function
     onDelete?: Function
 }
 export default CardProperties
