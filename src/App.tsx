@@ -53,7 +53,7 @@ function App() {
     if(!currentAccount && window.ethereum?.isConnected()){
       console.log("connect...")
       connectMetaMask(setAccounts, setCurrentAccount)
-    } else {
+    } else if (window.ethereum && currentAccount){
       listenToNewGreeting(onNewGreet)
       listenToNewCard(onNewCard)
     }
@@ -78,20 +78,22 @@ function App() {
     }
   }, [cards])
 
-  const addCard = (card: string) => {
+  const selectACard = (uid: string) => {
+    const index = cards.findIndex((elem)=>{
+      console.log(uid)
+      return elem.id === uid
+    })
+    setSelectedCard(index)
+  }
+
+  const addCard = async (card: string) => {
     const uniqueID: string = card
     const newCard = {
       id: uniqueID,
       text: `Card`,
-      onClick: () => {
-        setSelectedCard(cards.length)
-      }
+      onClick: () => selectACard(uniqueID)
     }
-    if(cards.length === 0) {
-      setCards([newCard])
-    } else {
-      setCards([...cards, newCard])
-    }
+    setCards(prevState => [...prevState, newCard])
   }
 
   const removeCard = (number: number) => {
