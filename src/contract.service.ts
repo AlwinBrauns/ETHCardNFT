@@ -2,8 +2,8 @@ import Greeters from "./artifacts/contracts/Greeter.sol/Greeter.json"
 import Cards from "./artifacts/contracts/Cards.sol/Cards.json"
 import { ethers } from "ethers"
 
-const greetersAddress = "0x0165878A594ca255338adfa4d48449f69242Eb8F"
-const cardsAddress = "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"
+const greetersAddress = "0x9A676e781A523b5d0C0e43731313A708CB607508"
+const cardsAddress = "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
 
 const generateCard = async () => {
     if (typeof window.ethereum !== 'undefined'){
@@ -25,9 +25,10 @@ const getCards = async () => {
     if (typeof window.ethereum !== 'undefined'){
         //@ts-ignore 
         const provider = new ethers.providers.Web3Provider(window.ethereum) 
+        const signer = provider.getSigner()
         const contract = new ethers.Contract(cardsAddress, Cards.abi, provider)
         try {
-            const data = await contract.getOwnCards()
+            const data = await contract.getCardsByOwner(signer.getAddress())
             console.log(data)
         } catch (error) {
             console.log(error)
