@@ -21,7 +21,7 @@ contract Cards {
         emit newCard(cards[cardId], msg.sender);
     }
 
-    function getCardsByOwner(address user) external view returns(uint[] memory _cards) {
+    function getCardsByOwner(address user) public view returns(uint[] memory _cards) {
         uint[] memory result = new uint[](userToCardsCount[user]);
         uint counter = 0;
         for (uint i = 0; i < cards.length; i++) {
@@ -31,6 +31,10 @@ contract Cards {
             }
         }
         return result;
+    }
+
+    function getOwnCards() public view returns(uint[] memory _cards) {
+        return getCardsByOwner(msg.sender);
     }
 
     function getCards() external view returns(uint[] memory _cards) {
