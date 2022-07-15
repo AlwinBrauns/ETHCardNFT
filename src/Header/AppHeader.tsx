@@ -36,7 +36,7 @@ function AppHeader(
                 ?? "-" : "-"}
             </small>
             </span>
-            <button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>
+            {!!(currentAccount)??<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>}
             {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:<span>MetaMask Connected</span>}
             <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
       </header>

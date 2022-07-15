@@ -90,8 +90,8 @@ function App() {
         selectedCard={selectedCard}
       />
       <section className='contract'>
-        <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
-        <button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>
+        {!!(currentAccount)??<button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>}
+        {!!(currentAccount)??<button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>}
       </section>
       <main className="App-main">
         {

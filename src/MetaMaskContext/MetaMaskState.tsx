@@ -29,7 +29,17 @@ function MetaMaskSate({children}: {children: React.ReactNode}) {
       setIsListeningToAccountsChanged(false)
     }
   }, [isConnected])
-
+  useEffect(() => {
+    if(isConnected){
+      localStorage.setItem("isConnected", isConnected.toString())
+    }
+  }, [isConnected])
+  useEffect(() => {
+    if(localStorage.getItem("isConnected") === "true") {
+      setIsConnected(true)
+      _connectMetaMask()
+    }
+  }, [])
   
   return <MetaMaskContext.Provider value={{
     currentAccount: currentAccount,
