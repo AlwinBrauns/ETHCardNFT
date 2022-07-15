@@ -68,6 +68,7 @@ function App() {
         setTimeout(() => {
           cleaning = false
         }, 1000)
+        return true
       }
     }
   }
@@ -132,7 +133,9 @@ function App() {
       <main className="App-main">
         {
           cards.map((card, index) => {
-            cleanUpDuplicates()
+            if(cleanUpDuplicates()) {
+              return null
+            }
             return (
                 <Card
                   key={card.id}
