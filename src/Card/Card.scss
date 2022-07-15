@@ -1,0 +1,22 @@
+.App-main-card {
+    position: relative;
+    background-color: #202020;
+    box-shadow: 0px 0px 3px #000000;
+    padding: 20px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    justify-items: center;
+    align-items: center; 
+    overflow: hidden;
+    span {
+        font-size: 1.5rem;
+        font-weight: bold;
+        pointer-events: none;
+    }
+    &:hover {
+        background-color: #1a1a1a;
+        cursor: pointer;
+    }
+}
