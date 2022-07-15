@@ -31,11 +31,11 @@ function MetaMaskSate({children}: {children: React.ReactNode}) {
   }, [isConnected])
   useEffect(() => {
     if(isConnected){
-      localStorage.setItem("isConnected", isConnected.toString())
+      localStorage.setItem("wasConnected", isConnected.toString())
     }
   }, [isConnected])
   useEffect(() => {
-    if(localStorage.getItem("isConnected") === "true") {
+    if(localStorage.getItem("wasConnected") === "true") {
       setIsConnected(true)
       _connectMetaMask()
     }
