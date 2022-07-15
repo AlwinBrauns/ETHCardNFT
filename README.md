@@ -6,7 +6,7 @@
 3. ```npx hardhat compile```
 4. ```npx hardhat node```
 5. Import Account into MetaMask (private key)
-6. ```npx hardhat run scripts/sample-script.js --network localhost```
+6. ```npx hardhat run scripts/deploy-cards-contract.js --network localhost```
 7. copy contract address to contract.service.ts greetersAddress
 8. ```npm run dev```
 
