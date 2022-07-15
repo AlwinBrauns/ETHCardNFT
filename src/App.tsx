@@ -4,7 +4,7 @@ import { useState, useRef, useReducer } from 'react';
 import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { connectMetaMask, getBalance } from './metamask.service';
 import { CardsContract } from './contract.service';
 import AppHeader from './Header/AppHeader';
@@ -22,6 +22,8 @@ function App() {
   
   const { currentAccount } = useContext(MetaMaskContext)
 
+  let cleaning = false
+
   const onNewCard = (card: any, owner: any) => {  
     setLatestCard(card)
     setLatestCardOwner(owner)
@@ -37,8 +39,38 @@ function App() {
       setLatestCard(undefined)
       setLatestCardOwner("")
       CardsContract.unsubscribeFromNewCardListener(onNewCard)
+    }else {
+      CardsContract.getCards().then(cards => {
+        cards.forEach((card: BigNumber) => {
+          addCard(card._hex)
+        })
+      })
     }
   }, [currentAccount])
+
+  const cleanUpDuplicates = () => {
+    if(cards.length > 0 && !cleaning) {
+      cleaning = true
+      let newCards = []
+      for(let i = 0; i < cards.length; i++) {
+        if(i>0) {
+          newCards.push(cards[i-1])
+          if(newCards.map(c => c.id).includes(cards[i].id)) {
+            newCards.pop()
+          }
+        }
+        if(i===cards.length-1) {
+          newCards.push(cards[i])
+        }
+      }
+      if(newCards.length !== cards.length) {
+        setCards([...newCards])
+        setTimeout(() => {
+          cleaning = false
+        }, 1000)
+      }
+    }
+  }
 
   useEffect(() => {
     if (window.ethereum && currentAccount){
@@ -68,7 +100,11 @@ function App() {
       id: uniqueID,
       text: `Card`
     }
-    setCards(prevState => [...prevState, newCard])
+    if(!(cards.map((elem)=>elem.id).includes(uniqueID))) {
+      setCards(prevState => {
+          return [...prevState, newCard]
+      })
+    }
   }
 
   const removeCard = (number: number) => {
@@ -96,6 +132,7 @@ function App() {
       <main className="App-main">
         {
           cards.map((card, index) => {
+            cleanUpDuplicates()
             return (
                 <Card
                   key={card.id}
