@@ -7,11 +7,11 @@ import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
 import { connectMetaMask, getBalance } from './metamask.service';
 import { CardsContract } from './contract.service';
+import AppHeader from './Header/AppHeader';
 
 
 function App() {
   const ref = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
   
   const [selectedCard, setSelectedCard] = useState(0)
 
@@ -21,16 +21,8 @@ function App() {
 
   const [currentAccount, setCurrentAccount] = useState("")
 
-  const [latestCard, setLatestCard] = useState<any>(null)
+  const [latestCard, setLatestCard] = useState<ethers.BigNumber>()
   const [latestCardOwner, setLatestCardOwner] = useState("")
-
-  const scrollEffect = () =>{
-    if(headerRef.current) {  
-      if(window.scrollY > headerRef.current.offsetTop - 100) {
-        headerRef.current.style.setProperty("--y", "-" + 100 + "px") 
-      }
-    }
-  }
 
   const onNewCard = (card: any, owner: any) => {  
     setLatestCard(card)
@@ -53,15 +45,6 @@ function App() {
     }
   }, [currentAccount])
 
-  useEffect(() => {
-    if(headerRef.current) {
-      window.addEventListener("scroll", scrollEffect)
-    }
-    return () => {
-      window.removeEventListener("scroll", scrollEffect)
-    }
-  }, [headerRef])
-  
   useEffect(() => {
     if(cards.length <= selectedCard) {
       setSelectedCard(cards.length-1)
@@ -96,18 +79,18 @@ function App() {
 
   return (
     <div className="App" ref={ref}>
-      <header className="App-header" ref={headerRef}>
-          <span className='App-header-title'>You have selected Card Nr. <br/><small>{cards[selectedCard]?.id ?? "-"}</small></span>
-          <button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>
-          <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
-      </header>
+      <AppHeader 
+        cards={cards} 
+        latestCard={latestCard}
+        latestCardOwner={latestCardOwner}
+        selectedCard={selectedCard}
+      />
       <section className='contract'>
           <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
           <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
-          <button onClick={() => CardsContract.getCards()}>Cards</button>
+          <button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>
       </section>
       <main className="App-main">
-        
         {
           cards.map((card, index) => {
             return (
