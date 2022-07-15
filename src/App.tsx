@@ -21,9 +21,7 @@ function App() {
   const [latestCardOwner, setLatestCardOwner] = useState("")
   
   const { currentAccount } = useContext(MetaMaskContext)
-
-  let cleaning = false
-
+  
   const onNewCard = (card: BigNumber, owner: string) => {  
     setLatestCard(card)
     setLatestCardOwner(owner)
