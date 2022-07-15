@@ -24,12 +24,11 @@ function App() {
 
   let cleaning = false
 
-  const onNewCard = (card: any, owner: any) => {  
+  const onNewCard = (card: BigNumber, owner: string) => {  
     setLatestCard(card)
     setLatestCardOwner(owner)
-    if(owner.toString().toUpperCase() == currentAccount.toString().toUpperCase()) {
-      console.log("add card")
-      addCard(card._hex.toString())
+    if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
+      addCard(card._hex)
     }
   }
 
@@ -39,43 +38,14 @@ function App() {
       setLatestCard(undefined)
       setLatestCardOwner("")
       CardsContract.unsubscribeFromNewCardListener(onNewCard)
-    }else {
-      CardsContract.getCards().then(cards => {
-        cards.forEach((card: BigNumber) => {
-          addCard(card._hex)
-        })
-      })
     }
   }, [currentAccount])
 
-  const cleanUpDuplicates = () => {
-    if(cards.length > 0 && !cleaning) {
-      cleaning = true
-      let newCards = []
-      for(let i = 0; i < cards.length; i++) {
-        if(i>0) {
-          newCards.push(cards[i-1])
-          if(newCards.map(c => c.id).includes(cards[i].id)) {
-            newCards.pop()
-          }
-        }
-        if(i===cards.length-1) {
-          newCards.push(cards[i])
-        }
-      }
-      if(newCards.length !== cards.length) {
-        setCards([...newCards])
-        setTimeout(() => {
-          cleaning = false
-        }, 1000)
-        return true
-      }
-    }
-  }
-
   useEffect(() => {
     if (window.ethereum && currentAccount){
-      CardsContract.subscribeToNewCardListener(onNewCard)
+      setTimeout(() => {
+        CardsContract.subscribeToNewCardListener(onNewCard)
+      }, 100)
     }
     return () => {
       CardsContract.unsubscribeFromNewCardListener(onNewCard)
@@ -133,9 +103,6 @@ function App() {
       <main className="App-main">
         {
           cards.map((card, index) => {
-            if(cleanUpDuplicates()) {
-              return null
-            }
             return (
                 <Card
                   key={card.id}
