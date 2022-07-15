@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useContext} from "react"
 import { CardsContract } from "../contract.service"
 import MetaMaskContext from "../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
+import './AppHeader.scss'
 
 function AppHeader(
     { 
@@ -36,7 +37,7 @@ function AppHeader(
                 ?? "-" : "-"}
             </small>
             </span>
-            {!!(currentAccount)??<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>}
+            {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
             {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:<span>MetaMask Connected</span>}
             <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
       </header>
