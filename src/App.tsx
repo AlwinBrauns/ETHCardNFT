@@ -32,6 +32,15 @@ function App() {
   }
 
   useEffect(() => {
+    if(!currentAccount) {
+      setCards([])
+      setLatestCard(undefined)
+      setLatestCardOwner("")
+      CardsContract.unsubscribeFromNewCardListener(onNewCard)
+    }
+  }, [currentAccount])
+
+  useEffect(() => {
     if (window.ethereum && currentAccount){
       CardsContract.subscribeToNewCardListener(onNewCard)
     }

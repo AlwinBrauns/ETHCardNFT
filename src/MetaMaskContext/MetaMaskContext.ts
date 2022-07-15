@@ -3,8 +3,9 @@ import {createContext} from "react";
 type MetaMaskContextType = {
     currentAccount: string,
     accounts: string[],
-    connectMetaMask: () => Promise<boolean>,
-    reconnectMetaMask: () => Promise<boolean>,
+    isConnected: boolean,
+    connectMetaMask: () => void
+    reconnectMetaMask: () => void,
 }
 
 const MetaMaskContext = createContext({} as MetaMaskContextType);
