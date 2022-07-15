@@ -10,6 +10,8 @@ const connectMetaMask = async (setAccounts: Function, setCurrentAccount: Functio
         })
         return success
     }else {
+        setAccounts([] as string[])
+        setCurrentAccount('')
         success = false
         console.log('MetaMask is not installed!');
         return success

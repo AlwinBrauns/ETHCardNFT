@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './App.scss'
 import { useState, useRef, useReducer } from 'react';
 import Card from './Card/Card';
@@ -8,21 +8,19 @@ import { ethers } from 'ethers';
 import { connectMetaMask, getBalance } from './metamask.service';
 import { CardsContract } from './contract.service';
 import AppHeader from './Header/AppHeader';
+import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
 
 
 function App() {
   const ref = useRef<HTMLDivElement>(null)
   
   const [selectedCard, setSelectedCard] = useState(0)
-
   const [cards, setCards] = useState([] as CardProperties[])
-
-  const [accounts, setAccounts] = useState([] as string[])
-
-  const [currentAccount, setCurrentAccount] = useState("")
-
+  
   const [latestCard, setLatestCard] = useState<ethers.BigNumber>()
   const [latestCardOwner, setLatestCardOwner] = useState("")
+  
+  const { currentAccount } = useContext(MetaMaskContext)
 
   const onNewCard = (card: any, owner: any) => {  
     setLatestCard(card)
@@ -34,10 +32,7 @@ function App() {
   }
 
   useEffect(() => {
-    if(!currentAccount && window.ethereum?.isConnected()){
-      console.log("connect...")
-      connectMetaMask(setAccounts, setCurrentAccount)
-    } else if (window.ethereum && currentAccount){
+    if (window.ethereum && currentAccount){
       CardsContract.subscribeToNewCardListener(onNewCard)
     }
     return () => {
@@ -86,9 +81,8 @@ function App() {
         selectedCard={selectedCard}
       />
       <section className='contract'>
-          <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
-          <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
-          <button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>
+        <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
+        <button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>
       </section>
       <main className="App-main">
         {
