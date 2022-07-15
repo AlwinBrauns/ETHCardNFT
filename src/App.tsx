@@ -5,8 +5,8 @@ import Card from './Card/Card';
 import CardProperties from './Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { ethers } from 'ethers';
-import {fetchGreeting, generateCard, getCards, listenToNewCard, listenToNewGreeting, setGreeting, unsubscribeFromNewCard, unsubscribeFromNewGreeting } from './contract.service';
 import { connectMetaMask, getBalance } from './metamask.service';
+import { CardsContract } from './contract.service';
 
 
 function App() {
@@ -21,9 +21,6 @@ function App() {
 
   const [currentAccount, setCurrentAccount] = useState("")
 
-  const [textInput, setTextInput] = useState("")
-
-  const [currentGreet, setCurrentGreet] = useState("")
   const [latestCard, setLatestCard] = useState<any>(null)
   const [latestCardOwner, setLatestCardOwner] = useState("")
 
@@ -33,10 +30,6 @@ function App() {
         headerRef.current.style.setProperty("--y", "-" + 100 + "px") 
       }
     }
-  }
-
-  const onNewGreet = (greeting: string) => {
-    setCurrentGreet(greeting)
   }
 
   const onNewCard = (card: any, owner: any) => {  
@@ -53,12 +46,10 @@ function App() {
       console.log("connect...")
       connectMetaMask(setAccounts, setCurrentAccount)
     } else if (window.ethereum && currentAccount){
-      listenToNewGreeting(onNewGreet)
-      listenToNewCard(onNewCard)
+      CardsContract.subscribeToNewCardListener(onNewCard)
     }
     return () => {
-      unsubscribeFromNewGreeting(onNewGreet)
-      unsubscribeFromNewCard(onNewCard)
+      CardsContract.unsubscribeFromNewCardListener(onNewCard)
     }
   }, [currentAccount])
 
@@ -107,17 +98,13 @@ function App() {
     <div className="App" ref={ref}>
       <header className="App-header" ref={headerRef}>
           <span className='App-header-title'>You have selected Card Nr. <br/><small>{cards[selectedCard]?.id ?? "-"}</small></span>
-          <button className='App-header-addCard accent' onClick={() => generateCard()}>Add Card</button>
-          <span>Current Greet: {currentGreet}</span>
+          <button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>
           <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
       </header>
       <section className='contract'>
           <button onClick={() => connectMetaMask(setAccounts, setCurrentAccount)}>METAMASK</button>
           <button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
-          <button onClick={() => fetchGreeting()}>Fetch Greeting</button>
-          <button onClick={() => setGreeting(textInput, setTextInput)}>Set Greeting</button>
-          <button onClick={() => getCards()}>Cards</button>
-          <input onChange={(e) => setTextInput(e.target.value)} type={"text"}/>
+          <button onClick={() => CardsContract.getCards()}>Cards</button>
       </section>
       <main className="App-main">
         
