@@ -31,7 +31,7 @@ contract CardsOwnership is Cards, ERC721 {
     }
 
     function balanceOf(address _owner) public override view returns(uint256) {
-        return uint(userToCardsCount[_owner]);
+        return userToCardsCount[_owner];
     }
     
     function ownerOf(uint256 _tokenId) public override view returns(address) {
@@ -49,7 +49,9 @@ contract CardsOwnership is Cards, ERC721 {
     }
     
     function transferFrom(address _from, address _to, uint256 _tokenId) public override {
+        _beforeTokenTransfer(_from, _to, _tokenId);
         _transfer(_from, _to, _tokenId);
+        _afterTokenTransfer(_from, _to, _tokenId);
     }
 
     function approve(address _to, uint256 _tokenId) public override isOwnerOf(_tokenId) {

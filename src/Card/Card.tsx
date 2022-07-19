@@ -34,7 +34,7 @@ function Card ({text, onClick, onDelete, id}: CardProperties) {
         backgroundColor: `rgb(${bgColor.red}, ${bgColor.green}, ${bgColor.blue})`
     }} ref={ref} className={"App-main-card"} onClick={handleClick} onAnimationEnd={handleAnimationEnd}>
         <span>{text} <small style={{fontSize: "0.8rem"}}>{id.substring(0, 3)}...</small></span>
-        {onDelete ? <button onClick={handleDelete}>Delete</button>: null}
+        {onDelete ? <button onClick={handleDelete}>Close</button>: null}
     </div>
 )}
 

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useContext} from "react"
+import React, {useRef, useEffect, useContext, useState} from "react"
 import { CardsContract } from "../contract.service"
 import MetaMaskContext from "../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
@@ -12,6 +12,7 @@ function AppHeader(
         selectedCard 
     }: AppHeaderProperties) {
     const headerRef = useRef<HTMLDivElement>(null)
+    const [showCardId, setShowCardId] = useState(false)
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     const scrollEffect = () => {
         if(headerRef.current) {  
@@ -30,16 +31,16 @@ function AppHeader(
     }, [headerRef])
     return (
         <header className="App-header" ref={headerRef}>
-            <span className='App-header-title'>You have selected Card Nr. <br/>
+            {!showCardId?<span className='App-header-title'>You have selected Card Nr. <br/>
             <small>{
                 typeof selectedCard === "number" ? 
                 cards[selectedCard]?.id.slice(0,  10) 
                 ?? "-" : "-"}
             </small>
-            </span>
-            {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
-            {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:<span>MetaMask Connected</span>}
-            <span>Latest Card: {latestCard?._hex} by {latestCardOwner}</span>
+            </span>:""}
+            {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
+            {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
+            <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCard?._hex + "by" + latestCardOwner):""}</span>
       </header>
     )
 }
