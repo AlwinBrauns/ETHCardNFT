@@ -1,9 +1,10 @@
 import Cards from "./artifacts/contracts/Cards.sol/Cards.json"
+import CardsOwnership from "./artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
 import { ethers } from "ethers"
 
 class _CardsContract {
     static instance?: _CardsContract
-    cardsAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    cardsAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
     provider?: ethers.providers.Web3Provider
     signer?: ethers.providers.JsonRpcSigner
     contract?: ethers.Contract
@@ -37,6 +38,12 @@ class _CardsContract {
             const transaction = await this.contract.generateCard()
             await transaction.wait()
             return transaction
+        }
+    }
+    async balanceOfNFT(address: string) {
+        if(this.updateState().success && this.contract) {
+            const balance = await this.contract.balanceOf(address)
+            return balance
         }
     }
     async getCards() {

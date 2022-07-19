@@ -21,8 +21,8 @@ function App() {
   const [latestCardOwner, setLatestCardOwner] = useState("")
   
   const { currentAccount } = useContext(MetaMaskContext)
-  
-  const onNewCard = (card: BigNumber, owner: string) => {  
+
+  const onNewCard = (card: BigNumber, owner: string) => {
     setLatestCard(card)
     setLatestCardOwner(owner)
     if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
@@ -95,8 +95,9 @@ function App() {
         selectedCard={selectedCard}
       />
       <section className='contract'>
-        {!!(currentAccount)?<button onClick={async () => alert(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>:null}
+        {!!(currentAccount)?<button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>:null}
         {!!(currentAccount)?<button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>:null}
+        {!!(currentAccount)?<button onClick={async () => console.log(await CardsContract.balanceOfNFT(currentAccount))}>NFT Balance</button>:null}
       </section>
       <main className="App-main">
         {
