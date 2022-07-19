@@ -17,7 +17,7 @@ function AppHeader(
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
-            headerRef.current.style.setProperty("--y", "-" + 100 + "px") 
+            headerRef.current.style.setProperty("--y", "-" + (100 + (headerRef.current.clientHeight - 130 ) )+ "px") 
           }
         }
     }
@@ -32,11 +32,20 @@ function AppHeader(
     return (
         <header className="App-header" ref={headerRef}>
             {!showCardId?<span className='App-header-title'>You have selected Card Nr. <br/>
-            <small>{
-                typeof selectedCard === "number" ? 
-                cards[selectedCard]?.id.slice(0,  10) 
-                ?? "-" : "-"}
-            </small>
+            <div style={{display: "flex", flexDirection: "column"}}>
+                <small>{
+                    typeof selectedCard === "number" ? 
+                    cards[selectedCard]?.id.slice(0,  10) 
+                    ?? "-" : "-"}{
+                        typeof selectedCard === "number" ? 
+                        cards[selectedCard] ? "..." : "" : ""
+                    }
+                </small>
+                {
+                    typeof selectedCard === "number" ? 
+                    cards[selectedCard] ? <button>Details</button>: "" : ""
+                }
+            </div>
             </span>:""}
             {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
             {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
