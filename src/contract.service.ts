@@ -18,12 +18,12 @@ class _CardsContract {
     constructor() {
         this.updateState()
     }    
-    updateState() {
+    updateState(NFT?:boolean) {
         if(window.ethereum) {
             // @ts-ignore
             this.provider = new ethers.providers.Web3Provider(window.ethereum)
             this.signer = this.provider.getSigner()
-            this.contract = new ethers.Contract(this.cardsAddress, Cards.abi, this.signer)
+            this.contract = new ethers.Contract(this.cardsAddress, NFT?CardsOwnership.abi:Cards.abi, this.signer)
             return {
                 success: !!(this.contract && this.signer && this.provider)
             }
@@ -41,7 +41,7 @@ class _CardsContract {
         }
     }
     async balanceOfNFT(address: string) {
-        if(this.updateState().success && this.contract) {
+        if(this.updateState(true).success && this.contract) {
             const balance = await this.contract.balanceOf(address)
             return balance
         }
