@@ -15,7 +15,7 @@ function App() {
   const ref = useRef<HTMLDivElement>(null)
   
   const [selectedCard, setSelectedCard] = useState(0)
-  const [cards, setCards] = useState([] as CardProperties[])
+  const [cards, setCards] = useState<CardProperties[]>([] as CardProperties[])
   
   const [latestCard, setLatestCard] = useState<ethers.BigNumber>()
   const [latestCardOwner, setLatestCardOwner] = useState("")
@@ -96,7 +96,9 @@ function App() {
       />
       <section className='contract'>
         {!!(currentAccount)?<button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>:null}
-        {!!(currentAccount)?<button onClick={async () => console.log(await CardsContract.getCards())}>Cards</button>:null}
+        {!!(currentAccount)?<button onClick={async () => {
+            (await CardsContract.getCards()).forEach((_card: BigNumber) => {addCard(_card._hex)})}
+          }>Show All Cards</button>:null}
         {!!(currentAccount)?<button onClick={async () => console.log(await CardsContract.balanceOfNFT(currentAccount))}>NFT Balance</button>:null}
       </section>
       <main className="App-main">
