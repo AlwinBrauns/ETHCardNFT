@@ -1,10 +1,11 @@
 import Cards from "./artifacts/contracts/Cards.sol/Cards.json"
 import CardsOwnership from "./artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
 import { ethers } from "ethers"
+import address from './address.json'
 
 class _CardsContract {
     static instance?: _CardsContract
-    cardsAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    cardsAddress = address.address
     provider?: ethers.providers.Web3Provider
     signer?: ethers.providers.JsonRpcSigner
     contract?: ethers.Contract
