@@ -22,11 +22,11 @@ export default function FunctionsPanel({addCard}: {addCard: Function}) {
 
     return <section className='FunctionsPanel'>
         <div className="show-toggel" onClick={switchShowPanel}>{show?"hide":"show"} panel</div>
-        <Panel show={show}/>
+        <Panel show={show} addCard={() => addCard()}/>
     </section>
 }
 
-function Panel ({show}:{show:boolean}){
+function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const { currentAccount } = useContext(MetaMaskContext)
 
     const [isHidden, setIsHidden] = useState<boolean>(false)
