@@ -1,4 +1,4 @@
-# Work in Progress (still playing around with ethers.js solidity)
+# Work in Progress
 
 ## How To:
 1. Install MetaMask
