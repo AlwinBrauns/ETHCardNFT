@@ -9,6 +9,7 @@ import { connectMetaMask, getBalance } from './metamask.service';
 import { CardsContract } from './contract.service';
 import AppHeader from './Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
+import FunctionsPanel from './FunctionsPanel/FunctionsPanel';
 
 
 function App() {
@@ -94,13 +95,7 @@ function App() {
         latestCardOwner={latestCardOwner}
         selectedCard={selectedCard}
       />
-      <section className='contract'>
-        {!!(currentAccount)?<button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>:null}
-        {!!(currentAccount)?<button onClick={async () => {
-            (await CardsContract.getCards()).forEach((_card: BigNumber) => {addCard(_card._hex)})}
-          }>Show All Cards</button>:null}
-        {!!(currentAccount)?<button onClick={async () => console.log(await CardsContract.balanceOfNFT(currentAccount))}>NFT Balance</button>:null}
-      </section>
+      <FunctionsPanel addCard={(card: string) => addCard(card)} currentAccount={currentAccount}/>
       <main className="App-main">
         {
           cards.map((card, index) => {

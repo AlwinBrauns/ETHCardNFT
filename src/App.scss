@@ -1,15 +1,4 @@
-.App { 
-    .contract {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        >* {
-            padding: 1rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            margin-inline: 1rem;
-        }
-    }
+.App {
     .App-main {
         padding: 20px;
         display: grid;
