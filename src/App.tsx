@@ -95,7 +95,7 @@ function App() {
         latestCardOwner={latestCardOwner}
         selectedCard={selectedCard}
       />
-      <FunctionsPanel addCard={(card: string) => addCard(card)} currentAccount={currentAccount}/>
+      <FunctionsPanel addCard={(card: string) => addCard(card)} />
       <main className="App-main">
         {
           cards.map((card, index) => {
