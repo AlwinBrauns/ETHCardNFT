@@ -15,11 +15,7 @@ export default function FunctionsPanel({addCard}: {addCard: Function}) {
             return newState
         })
     }
-
-    useEffect(() => {
-        console.log(show)
-    }, [show])
-
+    
     return <section className='FunctionsPanel'>
         <div className="show-toggel" onClick={switchShowPanel}>{show?"hide":"show"} panel</div>
         <Panel show={show} addCard={() => addCard()}/>
