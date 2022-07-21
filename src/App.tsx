@@ -100,13 +100,14 @@ function App() {
         {
           cards.map((card, index) => {
             return (
+              card.id?
                 <Card
                   key={card.id}
                   text={card.text}
                   onClick={() => selectACard(card.id)}
                   onDelete={() => {removeCard(index)}}
                   id={card.id}
-                />
+                />:null
             )
           })
         }
