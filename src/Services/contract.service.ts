@@ -1,7 +1,7 @@
-import Cards from "./artifacts/contracts/Cards.sol/Cards.json"
-import CardsOwnership from "./artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
+import Cards from "../artifacts/contracts/Cards.sol/Cards.json"
+import CardsOwnership from "../artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
 import { ethers } from "ethers"
-import address from './address.json'
+import address from '../address.json'
 
 class _CardsContract {
     static instance?: _CardsContract

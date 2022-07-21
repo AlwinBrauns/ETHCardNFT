@@ -1,6 +1,6 @@
 import React, {useRef, useEffect, useContext, useState} from "react"
-import { CardsContract } from "../contract.service"
-import MetaMaskContext from "../MetaMaskContext/MetaMaskContext"
+import { CardsContract } from "../../Services/contract.service"
+import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 

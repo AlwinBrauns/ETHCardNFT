@@ -1,15 +1,15 @@
 import { useContext, useEffect } from 'react';
 import './App.scss'
 import { useState, useRef, useReducer } from 'react';
-import Card from './Card/Card';
-import CardProperties from './Card/CardProperties';
+import Card from './Components/Card/Card';
+import CardProperties from './Components/Card/CardProperties';
 import {v5 as uuidv5} from 'uuid';
 import { BigNumber, ethers } from 'ethers';
-import { connectMetaMask, getBalance } from './metamask.service';
-import { CardsContract } from './contract.service';
-import AppHeader from './Header/AppHeader';
+import { connectMetaMask, getBalance } from './Services/metamask.service';
+import { CardsContract } from './Services/contract.service';
+import AppHeader from './Components/Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
-import FunctionsPanel from './FunctionsPanel/FunctionsPanel';
+import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
 
 
 function App() {

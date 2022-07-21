@@ -1,6 +1,6 @@
 import CardProperties from "./CardProperties"
 import React, { useRef } from "react"
-import PulseAnimation from "../Animations/PulseAnimation"
+import PulseAnimation from "../../Animations/PulseAnimation"
 import './Card.scss'
 
 function Card ({text, onClick, onDelete, id}: CardProperties) {

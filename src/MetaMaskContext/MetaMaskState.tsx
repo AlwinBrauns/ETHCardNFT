@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { connectMetaMask } from "../metamask.service"
+import { connectMetaMask } from "../Services/metamask.service"
 import MetaMaskContext from "./MetaMaskContext"
 
 function MetaMaskSate({children}: {children: React.ReactNode}) {

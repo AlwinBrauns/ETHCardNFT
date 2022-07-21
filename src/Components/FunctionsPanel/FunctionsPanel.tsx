@@ -1,8 +1,8 @@
 import { BigNumber, ethers } from 'ethers'
 import { Children, ReactComponentElement, useContext, useEffect, useState } from 'react'
-import { CardsContract } from '../contract.service'
-import { getBalance } from '../metamask.service'
-import MetaMaskContext from '../MetaMaskContext/MetaMaskContext'
+import { CardsContract } from '../../Services/contract.service'
+import { getBalance } from '../../Services/metamask.service'
+import MetaMaskContext from '../../MetaMaskContext/MetaMaskContext'
 import './FunctionsPanel.scss'
 
 export default function FunctionsPanel({addCard}: {addCard: Function}) {
