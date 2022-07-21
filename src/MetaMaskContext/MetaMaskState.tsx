@@ -7,9 +7,11 @@ function MetaMaskSate({children}: {children: React.ReactNode}) {
   const [currentAccount, setCurrentAccount] = useState<string>("")
   const [isConnected, setIsConnected] = useState<boolean>(false)
   const [isListeningToAccountsChanged, setIsListeningToAccountsChanged] = useState<boolean>(false)
-  const _listenToAccountsChanged = (accounts: any) => {
-    setAccounts(accounts)
-    setCurrentAccount(accounts[0])
+  const _listenToAccountsChanged = (_accounts: any) => {
+    setAccounts(_accounts)
+    if(_accounts[0] == currentAccount) {
+      setCurrentAccount(_accounts[0])
+    }
   }
   const _connectMetaMask = () => {
     connectMetaMask(setAccounts, setCurrentAccount).then(connected => {
