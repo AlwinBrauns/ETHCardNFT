@@ -9,7 +9,7 @@ function MetaMaskSate({children}: {children: React.ReactNode}) {
   const [isListeningToAccountsChanged, setIsListeningToAccountsChanged] = useState<boolean>(false)
   const _listenToAccountsChanged = (_accounts: any) => {
     setAccounts(_accounts)
-    if(_accounts[0] == currentAccount) {
+    if(_accounts[0] !== currentAccount) {
       setCurrentAccount(_accounts[0])
     }
   }
