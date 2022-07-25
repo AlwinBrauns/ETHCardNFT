@@ -3,6 +3,7 @@ import { CardsContract } from "../../Services/contract.service"
 import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
+import { BigNumber } from "ethers"
 
 function AppHeader(
     { 
@@ -13,6 +14,7 @@ function AppHeader(
     }: AppHeaderProperties) {
     const headerRef = useRef<HTMLDivElement>(null)
     const [showCardId, setShowCardId] = useState(false)
+    const [latestCardCard, setLatestCardCard] = useState<string>()
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     const scrollEffect = () => {
         if(headerRef.current) {  
@@ -21,6 +23,12 @@ function AppHeader(
           }
         }
     }
+    useEffect(() => {
+        if(!latestCard) return
+        CardsContract.getCard(latestCard).then((card: BigNumber) => {
+            setLatestCardCard(card._hex)
+        })
+    }, [latestCard])
     useEffect(() => { 
         if(headerRef.current) {
         window.addEventListener("scroll", scrollEffect)
@@ -49,7 +57,7 @@ function AppHeader(
             </span>:""}
             {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
             {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
-            <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCard?._hex + "by" + latestCardOwner):""}</span>
+            <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCardCard?latestCardCard:"" + "by" + latestCardOwner):""}</span>
       </header>
     )
 }

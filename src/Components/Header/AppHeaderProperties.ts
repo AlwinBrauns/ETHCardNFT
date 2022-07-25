@@ -3,7 +3,7 @@ import CardProperties from "../Card/CardProperties"
 
 interface AppHeaderProperties {
     cards: CardProperties[], 
-    latestCard?: ethers.BigNumber, 
+    latestCard?: string, 
     latestCardOwner?: string, 
     selectedCard?: number,
 }

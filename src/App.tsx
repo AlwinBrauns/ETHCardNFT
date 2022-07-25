@@ -18,14 +18,14 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(0)
   const [cards, setCards] = useState<CardProperties[]>([] as CardProperties[])
   
-  const [latestCard, setLatestCard] = useState<ethers.BigNumber>()
+  const [latestCard, setLatestCard] = useState<string>()
   const [latestCardOwner, setLatestCardOwner] = useState("")
   
   const { currentAccount } = useContext(MetaMaskContext)
 
   const onNewCard = (cardAddress: string, owner: string) => {
     CardsContract.getCard(cardAddress).then(card => {
-      setLatestCard(card)
+      setLatestCard(cardAddress)
       setLatestCardOwner(owner)
       if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
         addCard(card)
