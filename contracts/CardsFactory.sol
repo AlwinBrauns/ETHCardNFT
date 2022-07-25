@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import './Card.sol';
 
 contract CardsFactory {
-    event newCard(Card card); 
+    event newCard(Card card, address owner); 
     Card[] public cards;
     mapping (uint=>address) public cardIdToUser;
     mapping (uint=>Card) public cardIdToCardContract;
@@ -22,7 +22,7 @@ contract CardsFactory {
         uint cardId = cards.length - 1;
         cardIdToUser[cardId] = msg.sender;
         userToCardsCount[msg.sender] = userToCardsCount[msg.sender] + 1;
-        emit newCard(cards[cardId]);
+        emit newCard(cards[cardId], msg.sender);
     }
 
     function getCardsByOwner(address user) public view returns(Card[] memory _cards) {

@@ -18,7 +18,7 @@ export default function FunctionsPanel({addCard}: {addCard: Function}) {
 
     return <section className='FunctionsPanel'>
         <div className="show-toggel" onClick={switchShowPanel}>{show?"hide":"show"} panel</div>
-        <Panel show={show} addCard={(card: string) => addCard(card)}/>
+        <Panel show={show} addCard={(card: BigNumber) => addCard(card)}/>
     </section>
 }
 
@@ -41,7 +41,12 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     }>
         <button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
         <button onClick={async () => {
-            (await CardsContract.getCards()).forEach((_card: BigNumber) => {addCard(_card._hex)})}
+            (await CardsContract.getCards())
+            .forEach((cardAddress: string) => {
+                CardsContract.getCard(cardAddress).then((card: BigNumber) => {
+                    addCard(card)
+                })
+            })}
         }>Show All Cards</button>
         <button onClick={async () => console.log(await CardsContract.balanceOfNFT(currentAccount))}>NFT Balance</button>
     </div>):null
