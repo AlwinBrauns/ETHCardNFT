@@ -23,12 +23,14 @@ function App() {
   
   const { currentAccount } = useContext(MetaMaskContext)
 
-  const onNewCard = (card: BigNumber, owner: string) => {
-    setLatestCard(card)
-    setLatestCardOwner(owner)
-    if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
-      addCard(card._hex)
-    }
+  const onNewCard = (cardAddress: string, owner: string) => {
+    CardsContract.getCard(cardAddress).then(card => {
+      setLatestCard(card)
+      setLatestCardOwner(owner)
+      if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
+        addCard(card)
+      }
+    })
   }
 
   useEffect(() => {
@@ -64,8 +66,8 @@ function App() {
     setSelectedCard(index)
   }
 
-  const addCard = async (card: string) => {
-    const uniqueID: string = card
+  const addCard = async (card: BigNumber) => {
+    const uniqueID: string = card._hex
     const newCard = {
       id: uniqueID,
       text: `Card`
@@ -95,7 +97,7 @@ function App() {
         latestCardOwner={latestCardOwner}
         selectedCard={selectedCard}
       />
-      <FunctionsPanel addCard={(card: string) => addCard(card)} />
+      <FunctionsPanel addCard={(card: BigNumber) => addCard(card)} />
       <main className="App-main">
         {
           cards.map((card, index) => {

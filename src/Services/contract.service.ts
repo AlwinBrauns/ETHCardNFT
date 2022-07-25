@@ -1,4 +1,5 @@
-import Cards from "../artifacts/contracts/Cards.sol/Cards.json"
+import Card from "../artifacts/contracts/Card.sol/Card.json";
+import Cards from "../artifacts/contracts/CardsFactory.sol/CardsFactory.json";
 import CardsOwnership from "../artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
 import { ethers } from "ethers"
 import address from '../address.json'
@@ -17,14 +18,14 @@ class _CardsContract {
         return _CardsContract.instance
     }
     constructor() {
-        this.updateState()
+        this.updateState(Cards.abi)
     }    
-    updateState(NFT?:boolean) {
+    updateState(abi: any, address?: string) {
         if(window.ethereum) {
             // @ts-ignore
             this.provider = new ethers.providers.Web3Provider(window.ethereum)
             this.signer = this.provider.getSigner()
-            this.contract = new ethers.Contract(this.cardsAddress, NFT?CardsOwnership.abi:Cards.abi, this.signer)
+            this.contract = new ethers.Contract(address?address:this.cardsAddress, abi, this.signer)
             return {
                 success: !!(this.contract && this.signer && this.provider)
             }
@@ -34,32 +35,40 @@ class _CardsContract {
             }
         }
     }
+
+    async getCard(address: string) {
+        if(this.updateState(Card.abi, address).success && this.contract) {
+            const card = await this.contract.getCard()
+            return card
+        }
+    }
+
     async generateCard() {
-        if(this.updateState().success && this.contract) {
+        if(this.updateState(Cards.abi).success && this.contract) {
             const transaction = await this.contract.generateCard()
             await transaction.wait()
             return transaction
         }
     }
     async balanceOfNFT(address: string) {
-        if(this.updateState(true).success && this.contract) {
+        if(this.updateState(CardsOwnership.abi).success && this.contract) {
             const balance = await this.contract.balanceOf(address)
             return balance
         }
     }
     async getCards() {
-        if(this.updateState().success && this.contract) {
+        if(this.updateState(Cards.abi).success && this.contract) {
             const cards = await this.contract.getOwnCards()
             return cards
         }
     }
-    async subscribeToNewCardListener(listener: (card: any, owner: any)=>void) {
-        if(this.updateState().success && this.contract) {
+    async subscribeToNewCardListener(listener: (card: any, owner: string)=>void) {
+        if(this.updateState(Cards.abi).success && this.contract) {
             this.contract.on("newCard", listener)
         }
     }
-    async unsubscribeFromNewCardListener(listener: (card: any, owner: any)=>void) {
-        if(this.updateState().success && this.contract) {
+    async unsubscribeFromNewCardListener(listener: (card: any, owner: string)=>void) {
+        if(this.updateState(Cards.abi).success && this.contract) {
             this.contract.off("newCard", listener)
         }
     }
