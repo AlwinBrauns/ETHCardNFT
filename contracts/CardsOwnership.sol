@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import './Cards.sol';
+import './CardsFactory.sol';
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 
-contract CardsOwnership is Cards, ERC721 {
+contract CardsOwnership is CardsFactory, ERC721 {
 
     mapping (uint256 => address) cardsApproval;
 
@@ -38,7 +38,7 @@ contract CardsOwnership is Cards, ERC721 {
         return cardIdToUser[_tokenId];
     }
 
-    function _transfer(address _from, address _to, uint256  _tokenId) 
+    function _transfer(address _from, address _to, uint256 _tokenId) 
     internal override 
     isApprovedOrAddressesToken(_from, _to, _tokenId)
     {
