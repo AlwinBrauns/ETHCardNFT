@@ -16,6 +16,7 @@ function AppHeader(
     const [showCardId, setShowCardId] = useState(false)
     const [latestCardCard, setLatestCardCard] = useState<string>()
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
+    const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
@@ -37,9 +38,14 @@ function AppHeader(
             window.removeEventListener("scroll", scrollEffect)
         }
     }, [headerRef])
+    useEffect(() => {
+        if(!selectedCard) return
+        setNewSelectedCard(prevState => true)
+
+    }, [selectedCard])
     return (
         <header className="App-header" ref={headerRef}>
-            <div  className="selected-card">
+            <div  className={"selected-card " + (newSelectedCard?"new":"")} onTransitionEnd={() => {setNewSelectedCard(false)}}>
                 {!showCardId?<div className='selected-card-container'>
                     <h4>You have selected Card Nr. </h4>
                     <div style={{display: "flex", flexDirection: "column"}}>
