@@ -39,9 +39,16 @@ function AppHeader(
         }
     }, [headerRef])
     useEffect(() => {
-        if(selectedCard===undefined) return
+        if(!(typeof selectedCard === "number")) {
+            setNewSelectedCard(false)
+            return
+        }
         console.log("selectedCard", selectedCard)
-        setNewSelectedCard(prevState => true)
+        if(!(selectedCard+1 > 0)) {
+            setNewSelectedCard(false)
+            return
+        }
+        setNewSelectedCard(true)
 
     }, [selectedCard])
     return (
