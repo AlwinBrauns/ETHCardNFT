@@ -55,15 +55,17 @@ function AppHeader(
             <div  className={"selected-card " + (newSelectedCard?"new":"")} onTransitionEnd={() => {setNewSelectedCard(false)}}>
                 {!showCardId?<div className='selected-card-container'>
                     <h4>You have selected Card Nr. </h4>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                        <small>{
+                    <small>
+                        {
                             typeof selectedCard === "number" ? 
                             cards[selectedCard]?.id.slice(0,  10) 
                             ?? "-" : "-"}{
                                 typeof selectedCard === "number" ? 
                                 cards[selectedCard] ? "..." : "" : ""
-                            }
-                        </small>
+                        }
+                    </small>
+                    <div>
+                        
                         {
                             typeof selectedCard === "number" ? 
                             cards[selectedCard] ? [
