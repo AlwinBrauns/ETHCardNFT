@@ -67,9 +67,9 @@ function AppHeader(
                         {
                             typeof selectedCard === "number" ? 
                             cards[selectedCard] ? [
-                                <button>Details</button>,
-                                <button>Get Value</button>,
-                                <button>Add Value</button>,
+                                <button key={0}>Details</button>,
+                                <button key={1}>Get Value</button>,
+                                <button key={2}>Add Value</button>,
                         ]: "" : ""
                         }
                     </div>
