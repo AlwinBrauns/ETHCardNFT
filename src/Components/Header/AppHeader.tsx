@@ -31,30 +31,37 @@ function AppHeader(
     }, [latestCard])
     useEffect(() => { 
         if(headerRef.current) {
-        window.addEventListener("scroll", scrollEffect)
+            window.addEventListener("scroll", scrollEffect)
         }
         return () => {
-        window.removeEventListener("scroll", scrollEffect)
+            window.removeEventListener("scroll", scrollEffect)
         }
     }, [headerRef])
     return (
         <header className="App-header" ref={headerRef}>
-            {!showCardId?<span className='App-header-title'>You have selected Card Nr. <br/>
-            <div style={{display: "flex", flexDirection: "column"}}>
-                <small>{
-                    typeof selectedCard === "number" ? 
-                    cards[selectedCard]?.id.slice(0,  10) 
-                    ?? "-" : "-"}{
-                        typeof selectedCard === "number" ? 
-                        cards[selectedCard] ? "..." : "" : ""
-                    }
-                </small>
-                {
-                    typeof selectedCard === "number" ? 
-                    cards[selectedCard] ? <button>Details</button>: "" : ""
-                }
+            <div  className="selected-card">
+                {!showCardId?<div className='selected-card-container'>
+                    <h4>You have selected Card Nr. </h4>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <small>{
+                            typeof selectedCard === "number" ? 
+                            cards[selectedCard]?.id.slice(0,  10) 
+                            ?? "-" : "-"}{
+                                typeof selectedCard === "number" ? 
+                                cards[selectedCard] ? "..." : "" : ""
+                            }
+                        </small>
+                        {
+                            typeof selectedCard === "number" ? 
+                            cards[selectedCard] ? [
+                                <button>Details</button>,
+                                <button>Get Value</button>,
+                                <button>Add Value</button>,
+                        ]: "" : ""
+                        }
+                    </div>
+                </div>:""}
             </div>
-            </span>:""}
             {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
             {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
             <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCardCard?latestCardCard:"" + "by" + latestCardOwner):""}</span>

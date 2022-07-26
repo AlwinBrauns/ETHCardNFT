@@ -48,7 +48,7 @@ function MetaMaskSate({children}: {children: React.ReactNode}) {
     accounts: accounts,
     isConnected: isConnected,
     connectMetaMask: () => _connectMetaMask(),
-    reconnectMetaMask: () => currentAccount ?? _connectMetaMask(),
+    reconnectMetaMask: () => currentAccount ? _connectMetaMask() : undefined,
   }}>
   {children}
   </MetaMaskContext.Provider>

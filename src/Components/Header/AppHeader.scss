@@ -16,10 +16,40 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    .App-header-title {
-        font-size: 1rem;
-    }
     >* {
         margin: 20px;
+    }
+    .selected-card {
+        --y: -270px;
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        background-color: rgba(black, 0.2);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        height: 300px;
+        left: 0;
+        transition: top 0.4s ease-in-out;
+        @media screen and (max-height: 400px) {
+            --y: -170px;
+            height: 200px;
+        }
+        top: var(--y);
+        .selected-card-container{
+            button {
+                margin: 5px;
+            }
+            padding: 20px;
+        }
+        &::after {
+            content: '>';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: rotate(90deg) translateY(50%);
+        }
+        &:hover {
+            top: 0;
+        }
     }
 }
