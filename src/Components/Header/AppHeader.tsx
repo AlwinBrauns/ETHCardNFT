@@ -25,7 +25,7 @@ function AppHeader(
         }
     }
     useEffect(() => {
-        if(!latestCard) return
+        if(latestCard===undefined) return
         CardsContract.getCard(latestCard).then((card: BigNumber) => {
             setLatestCardCard(card._hex)
         })
@@ -39,7 +39,8 @@ function AppHeader(
         }
     }, [headerRef])
     useEffect(() => {
-        if(!selectedCard) return
+        if(latestCard===undefined) return
+        console.log("selectedCard", selectedCard)
         setNewSelectedCard(prevState => true)
 
     }, [selectedCard])
