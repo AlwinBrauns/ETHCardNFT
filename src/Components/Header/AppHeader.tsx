@@ -20,7 +20,7 @@ function AppHeader(
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
-            headerRef.current.style.setProperty("--y", "-" + (100 + (headerRef.current.clientHeight - 130 ) )+ "px") 
+            headerRef.current.style.setProperty("--y", "-" + (70 + (headerRef.current.clientHeight - 130 ) )+ "px") 
           }
         }
     }
@@ -43,7 +43,6 @@ function AppHeader(
             setNewSelectedCard(false)
             return
         }
-        console.log("selectedCard", selectedCard)
         if(!(selectedCard+1 > 0)) {
             setNewSelectedCard(false)
             return
