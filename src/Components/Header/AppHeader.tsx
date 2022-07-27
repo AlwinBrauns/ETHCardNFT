@@ -3,7 +3,7 @@ import { CardsContract } from "../../Services/contract.service"
 import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
-import { BigNumber } from "ethers"
+import { BigNumber, ethers } from "ethers"
 
 function AppHeader(
     { 
@@ -72,8 +72,17 @@ function AppHeader(
                             typeof selectedCard === "number" ? 
                             cards[selectedCard] ? [
                                 <button key={0}>Details</button>,
-                                <button key={1}>Get Value</button>,
-                                <button key={2}>Add Value</button>,
+                                <button onClick={
+                                    async () => {
+                                        const wei = await CardsContract.getCardValue(cards[selectedCard].cardAddress)
+                                        console.log(ethers.utils.formatEther(wei))
+                                    }
+                                } key={1}>Get Value</button>,
+                                <button onClick={
+                                    () => {
+                                        CardsContract.giveCardValue(cards[selectedCard].cardAddress, 1)
+                                    }
+                                } key={2}>Add Value</button>,
                         ]: "" : ""
                         }
                     </div>

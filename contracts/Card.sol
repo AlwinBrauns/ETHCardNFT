@@ -27,6 +27,10 @@ contract Card {
 
     function giveCardValue() payable public isOwnerOfCard(msg.sender) {}
 
+    function getCardValue() public view returns (uint256) {
+        return address(this).balance;
+    }
+
     function withdraw() public isOwnerOfCard(msg.sender) {
         payable(msg.sender).transfer(address(this).balance);
     }

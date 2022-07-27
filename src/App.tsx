@@ -3,9 +3,7 @@ import './App.scss'
 import { useState, useRef, useReducer } from 'react';
 import Card from './Components/Card/Card';
 import CardProperties from './Components/Card/CardProperties';
-import {v5 as uuidv5} from 'uuid';
 import { BigNumber, ethers } from 'ethers';
-import { connectMetaMask, getBalance } from './Services/metamask.service';
 import { CardsContract } from './Services/contract.service';
 import AppHeader from './Components/Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
@@ -28,7 +26,7 @@ function App() {
       setLatestCard(cardAddress)
       setLatestCardOwner(owner)
       if(owner.toString().toUpperCase() === currentAccount.toString().toUpperCase()) {
-        addCard(card)
+        addCard(card, cardAddress)
       }
     })
   }
@@ -66,11 +64,12 @@ function App() {
     setSelectedCard(index)
   }
 
-  const addCard = async (card: BigNumber) => {
+  const addCard = async (card: BigNumber, cardAddress: string) => {
     const uniqueID: string = card._hex
     const newCard = {
       id: uniqueID,
-      text: `Card`
+      text: `Card`,
+      cardAddress: cardAddress
     }
     if(!(cards.map((elem)=>elem.id).includes(uniqueID))) {
       setCards(prevState => {
@@ -97,7 +96,7 @@ function App() {
         latestCardOwner={latestCardOwner}
         selectedCard={selectedCard}
       />
-      <FunctionsPanel addCard={(card: BigNumber) => addCard(card)} />
+      <FunctionsPanel addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
       <main className="App-main">
         {
           cards.map((card, index) => {
@@ -106,6 +105,7 @@ function App() {
                 <Card
                   key={card.id}
                   text={card.text}
+                  cardAddress={card.cardAddress}
                   onClick={() => selectACard(card.id)}
                   onDelete={() => {removeCard(index)}}
                   id={card.id}

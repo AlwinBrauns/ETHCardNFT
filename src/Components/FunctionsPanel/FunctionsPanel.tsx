@@ -7,7 +7,6 @@ import './FunctionsPanel.scss'
 
 export default function FunctionsPanel({addCard}: {addCard: Function}) {
     const [show, setShow] = useState<boolean>(true)
-    const { currentAccount } = useContext(MetaMaskContext)
 
     const switchShowPanel = () => {
         setShow(prevState => {
@@ -18,7 +17,7 @@ export default function FunctionsPanel({addCard}: {addCard: Function}) {
 
     return <section className='FunctionsPanel'>
         <div className="show-toggel" onClick={switchShowPanel}>{show?"hide":"show"} panel</div>
-        <Panel show={show} addCard={(card: BigNumber) => addCard(card)}/>
+        <Panel show={show} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)}/>
     </section>
 }
 
@@ -44,7 +43,7 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
             (await CardsContract.getCards())
             .forEach((cardAddress: string) => {
                 CardsContract.getCard(cardAddress).then((card: BigNumber) => {
-                    addCard(card)
+                    addCard(card, cardAddress)
                 })
             })}
         }>Show All Cards</button>
