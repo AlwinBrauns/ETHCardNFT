@@ -24,7 +24,7 @@ const getBalance = async (address: string) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum) 
         return provider.getBalance(address)
     }
-    return -1;
+    return -1
 }
 
 export { connectMetaMask, getBalance }

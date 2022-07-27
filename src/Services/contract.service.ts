@@ -62,12 +62,6 @@ class _CardsContract {
     }
 
     //--- Card.sol
-    async balanceOfNFT(address: string) {
-        if(this.updateState(Card.abi).success && this.contract) {
-            const balance = await this.contract.balanceOf(address)
-            return balance
-        }
-    }
     async getCard(cardAddress: string) {
         if(this.updateState(Card.abi, cardAddress).success && this.contract) {
             const card = await this.contract.getCard()

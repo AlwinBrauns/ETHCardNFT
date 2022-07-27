@@ -47,6 +47,5 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
                 })
             })}
         }>Show All Cards</button>
-        <button onClick={async () => console.log(await CardsContract.balanceOfNFT(currentAccount))}>NFT Balance</button>
     </div>):null
 }
