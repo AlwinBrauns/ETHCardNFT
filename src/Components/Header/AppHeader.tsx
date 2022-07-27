@@ -52,7 +52,9 @@ function AppHeader(
     }, [selectedCard])
     return (
         <header className="App-header" ref={headerRef}>
-            <div  className={"selected-card " + (newSelectedCard?"new":"")} onTransitionEnd={() => {setNewSelectedCard(false)}}>
+            <div className={"selected-card " + (newSelectedCard?"new":"")} onTransitionEnd={(event: React.TransitionEvent) => {
+                    if(event.elapsedTime > 0.2 && event.propertyName === "top") setNewSelectedCard(false)
+                }}>
                 {!showCardId?<div className='selected-card-container'>
                     <h4>You have selected Card Nr. </h4>
                     <small>
