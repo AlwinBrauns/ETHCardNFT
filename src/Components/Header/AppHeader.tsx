@@ -17,6 +17,7 @@ function AppHeader(
     const [latestCardCard, setLatestCardCard] = useState<string>()
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
+    const [NFTAmount, setNFTAmount] = useState<BigNumber>()
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
@@ -28,6 +29,9 @@ function AppHeader(
         if(latestCard===undefined) return
         CardsContract.getCard(latestCard).then((card: BigNumber) => {
             setLatestCardCard(card._hex)
+        })
+        CardsContract.balanceOfNFT(currentAccount).then((balance: BigNumber) => {
+            setNFTAmount(balance)
         })
     }, [latestCard])
     useEffect(() => { 
@@ -88,6 +92,7 @@ function AppHeader(
                     </div>
                 </div>:""}
             </div>
+            {!showCardId&&!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
             {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
             {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
             <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCardCard?latestCardCard:"" + "by" + latestCardOwner):""}</span>

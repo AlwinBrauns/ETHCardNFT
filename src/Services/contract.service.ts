@@ -36,6 +36,14 @@ class _CardsContract {
         }
     }
 
+    //--- CardsOwnership.sol
+    async balanceOfNFT(address: string) {
+        if(this.updateState(CardsOwnership.abi).success && this.contract) {
+            const balance = await this.contract.balanceOf(address)
+            return balance
+        }
+    }
+
     //--- CardsFactory.sol
     async generateCard() {
         if(this.updateState(Cards.abi).success && this.contract) {
