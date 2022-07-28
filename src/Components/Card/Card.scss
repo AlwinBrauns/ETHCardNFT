@@ -18,6 +18,11 @@
         font-weight: bold;
         pointer-events: none;
     }
+    small {
+        font-size: 0.8rem;
+        font-weight: bold;
+        pointer-events: none;
+    }
     &:hover {
         background-color: #1a1a1a;
         cursor: pointer;
