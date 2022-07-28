@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from 'ethers'
-import { Children, ReactComponentElement, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CardsContract } from '../../Services/contract.service'
 import { getBalance } from '../../Services/metamask.service'
 import MetaMaskContext from '../../MetaMaskContext/MetaMaskContext'
@@ -26,7 +26,6 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
 
     const [isHidden, setIsHidden] = useState<boolean>(false)
     useEffect(() => {
-        console.log(show)
         if(show && isHidden){
             setIsHidden(false)
         }

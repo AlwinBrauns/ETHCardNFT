@@ -10,6 +10,13 @@ function Card ({text, onClick, onDelete, id, cardAddress}: CardProperties) {
         green: Number(id.slice(0,2)+id.slice(4,6)),
         blue: Number(id.slice(0,2)+id.slice(6,8)),
     }
+    const hightContrastColor = () => {
+        const luminance = (0.2126 * bgColor.red) + (0.7152 * bgColor.green) + (0.0722 * bgColor.blue)
+        if (luminance > 128) {
+            return '#000000'
+        }
+        return '#ffffff'
+    }
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if(ref.current) {
             PulseAnimation.start(ref.current, e.nativeEvent)
@@ -21,7 +28,7 @@ function Card ({text, onClick, onDelete, id, cardAddress}: CardProperties) {
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation()
         if (onDelete) {
-        onDelete()
+            onDelete()
         }
     }
     const handleAnimationEnd = () => {
@@ -31,10 +38,10 @@ function Card ({text, onClick, onDelete, id, cardAddress}: CardProperties) {
     }
     return (
     <div style={{
-        backgroundColor: `rgb(${bgColor.red}, ${bgColor.green}, ${bgColor.blue})`
+        backgroundColor: `rgb(${bgColor.red}, ${bgColor.green}, ${bgColor.blue})`,
     }} ref={ref} className={"App-main-card"} onClick={handleClick} onAnimationEnd={handleAnimationEnd}>
-        <small style={{fontSize: "0.8rem"}}>Card: {id.substring(0, 3)}...</small>
-        <small style={{fontSize: "0.8rem"}}>Address: {cardAddress.substring(0, 3)}...</small>
+        <small style={{fontSize: "0.8rem", color: hightContrastColor(),}}>Card: {id.substring(0, 3)}...</small>
+        <small style={{fontSize: "0.8rem", color: hightContrastColor(),}}>Address: {cardAddress.substring(0, 3)}...</small>
         {onDelete ? <button className="close" onClick={handleDelete}>Hide</button>: null}
     </div>
 )}
