@@ -4,6 +4,7 @@ import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 import { BigNumber, ethers } from "ethers"
+import CardsInteraction from "./CardsInteraction/CardsInteraction"
 
 function AppHeader(
     { 
@@ -70,26 +71,7 @@ function AppHeader(
                                 cards[selectedCard] ? "..." : "" : ""
                         }
                     </small>
-                    <div>
-                        
-                        {
-                            typeof selectedCard === "number" ? 
-                            cards[selectedCard] ? [
-                                <button key={0}>Details</button>,
-                                <button onClick={
-                                    async () => {
-                                        const wei = await CardsContract.getCardValue(cards[selectedCard].cardAddress)
-                                        console.log(ethers.utils.formatEther(wei))
-                                    }
-                                } key={1}>Get Value</button>,
-                                <button onClick={
-                                    () => {
-                                        CardsContract.giveCardValue(cards[selectedCard].cardAddress, 1)
-                                    }
-                                } key={2}>Add Value</button>,
-                        ]: "" : ""
-                        }
-                    </div>
+                    <CardsInteraction selectedCard={selectedCard} cards={cards} />
                 </div>:""}
             </div>
             {!showCardId&&!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
