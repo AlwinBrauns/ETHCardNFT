@@ -3,17 +3,33 @@ pragma solidity ^0.8.0;
 
 import './CardsFactory.sol';
 
-contract Card {
+contract Card{
     CardsFactory factory;
     uint card;
+
+    struct Information {
+        string name;
+        string receivingAddress;
+    }
+
+    Information information;
+    bool receivingAddressSet;
+
 
     constructor(uint256 _card, CardsFactory _factory) {
         card = _card;
         factory = _factory;
+        information = Information("", "");
+        receivingAddressSet = false;
     }
 
     modifier isOwnerOfCard(address _address) {
         require(factory.isOwnerOfCard(this, _address));
+        _;
+    }
+
+    modifier isNotSet() {
+        require(!receivingAddressSet);
         _;
     }
 
@@ -25,7 +41,17 @@ contract Card {
         return factory;
     }
 
-    function giveCardValue() payable public isOwnerOfCard(msg.sender) {}
+    function setName(string memory name) public isOwnerOfCard(msg.sender) {
+        information.name = name;
+    }
+
+    function setReceivingAddress(string memory receivingAddress) 
+    public isOwnerOfCard(msg.sender) isNotSet() {
+        information.receivingAddress = receivingAddress;
+        receivingAddressSet = true;
+    }
+
+    function giveCardValue() payable public {}
 
     function getCardValue() public view returns (uint256) {
         return address(this).balance;
@@ -33,6 +59,10 @@ contract Card {
 
     function withdraw() public isOwnerOfCard(msg.sender) {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function transfer() public isOwnerOfCard(msg.sender) {
+
     }
 
 }
