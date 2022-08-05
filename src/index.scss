@@ -31,7 +31,7 @@ body {
     }
 }
 
-button, input[type="submit"], input[type="text"] {
+button, input[type="submit"], input[type="text"], input[type="number"] {
     border-radius: 5px;
     background: linear-gradient(to top, rgb(30, 30, 30) , rgb(60, 70, 70));
     color: white;
@@ -53,6 +53,8 @@ input[type="text"] {
         background-color: #101010;
     }
 }
+
+
 
 button.accent {
     background-color: #4CAF50;

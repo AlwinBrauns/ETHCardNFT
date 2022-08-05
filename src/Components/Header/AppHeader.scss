@@ -38,7 +38,7 @@
         }
         top: var(--y);
         .selected-card-container{
-            button {
+            button, input {
                 margin: 5px;
             }
             padding: 20px;

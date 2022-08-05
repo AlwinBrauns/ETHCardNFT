@@ -1,4 +1,5 @@
 import { ethers } from "ethers"
+import { EventHandler, useState } from "react"
 import { CardsContract } from "../../../Services/contract.service"
 import CardProperties from "../../Card/CardProperties"
 type CardsInteractionProperties = {
@@ -6,23 +7,28 @@ type CardsInteractionProperties = {
     cards: CardProperties[]
 }
 export default function CardsInteraction({selectedCard, cards}: CardsInteractionProperties) {
-    return (<div>
-                        
+    const [value, setValue] = useState(0)
+    const onValueChangeHandler = (e: any) => {
+        if(value>=0) setValue(e.target.value);
+    }
+    return (<div>            
         {
             typeof selectedCard === "number" ? 
-            cards[selectedCard] ? [
+            cards[selectedCard] ? <>
                 <button onClick={
                     async () => {
                         const wei = await CardsContract.getCardValue(cards[selectedCard].cardAddress)
                         console.log(ethers.utils.formatEther(wei))
                     }
-                } key={1}>Get Value</button>,
+                }>Get Value</button>
+                <br />
+                <input min={0} value={value} onChange={e => onValueChangeHandler(e)} type={"number"} />
                 <button onClick={
                     () => {
-                        CardsContract.giveCardValue(cards[selectedCard].cardAddress, 1)
+                        CardsContract.giveCardValue(cards[selectedCard].cardAddress, value)
                     }
-                } key={2}>Add Value</button>,
-        ]: "" : ""
+                }>Add Value</button>
+            </>: null : null
         }
     </div>)
 }

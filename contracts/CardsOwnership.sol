@@ -58,4 +58,6 @@ contract CardsOwnership is CardsFactory, ERC721 {
         cardsApproval[_tokenId] = _to;
         emit Approval(msg.sender, _to, _tokenId);
     }
+
+    
 }
