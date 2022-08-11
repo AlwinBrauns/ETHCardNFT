@@ -10,7 +10,7 @@ async function main() {
   const addressJSON = JSON.stringify({
     address: cardsOwnership.address,
     transactionManager: transactionManager.address
-  })
+  }, null, 4)
   fs.writeFileSync("src/address.json", addressJSON, err => {
     console.log("error while writing json")
   })
