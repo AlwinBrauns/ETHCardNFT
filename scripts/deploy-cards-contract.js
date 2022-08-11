@@ -2,17 +2,14 @@ const hre = require("hardhat")
 const fs = require("fs")
 
 async function main() {
-  //const Cards = await hre.ethers.getContractFactory("Cards")
   const CardsOwnership = await hre.ethers.getContractFactory("CardsOwnership")
-  //const cards = await Cards.deploy()
   const cardsOwnership = await CardsOwnership.deploy()
-  
-  //await cards.deployed()
-  await cardsOwnership.deployed()
+  const TransactionManager = await hre.ethers.getContractFactory("CardTransactionManager")
+  const transactionManager = await TransactionManager.deploy()
 
-  //console.log("Cards deployed to:", cards.address)
   const addressJSON = JSON.stringify({
-    address: cardsOwnership.address
+    address: cardsOwnership.address,
+    transactionManager: transactionManager.address
   })
   fs.writeFileSync("src/address.json", addressJSON, err => {
     console.log("error while writing json")
