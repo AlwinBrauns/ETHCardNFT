@@ -12,6 +12,8 @@ contract CardTransaction {
     string message;
 
     constructor (Card _sender, Card _receiver, uint256 _neededWei, string memory _message) {
+        require(_receiver != _sender, "Cannot transfer to yourself");
+        require(address(_receiver) != address(0), "Cannot transfer to the null address");
         sender = _sender;
         receiver = _receiver;
         neededWei = _neededWei;
@@ -53,6 +55,10 @@ contract CardTransaction {
         _;
     }
 
+    function setSender() public noSender() {
+        sender = Card(msg.sender);
+    }
+
     function addValue() payable public isSender() {}
 
     function discard() public isSenderOrReceiver() {
@@ -73,5 +79,13 @@ contract CardTransaction {
 
     function getIsDiscarded() public view returns(bool) {
         return discarded;
+    }
+
+    function getSender() public view returns(Card) {
+        return sender;
+    }
+    
+    function getReceiver() public view returns(Card) {
+        return receiver;
     }
 }
