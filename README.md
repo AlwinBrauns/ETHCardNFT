@@ -11,6 +11,11 @@
 8. ```npm run dev```
 
 ## Smart Contract Diagramm (WIP)
+### meanings
+- +> external
+- -< internal
+- +$ public payable
+
 ![smart-contract](cards_diagramm.jpg)
 
 
