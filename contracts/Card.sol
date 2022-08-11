@@ -9,18 +9,18 @@ contract Card{
 
     struct Information {
         string name;
-        string receivingAddress;
+        string postfach;
     }
 
     Information information;
-    bool receivingAddressSet;
+    bool postfachSet;
 
 
     constructor(uint256 _card, CardsFactory _factory) {
         card = _card;
         factory = _factory;
         information = Information("", "");
-        receivingAddressSet = false;
+        postfachSet = false;
     }
 
     modifier isOwnerOfCard(address _address) {
@@ -29,7 +29,7 @@ contract Card{
     }
 
     modifier isNotSet() {
-        require(!receivingAddressSet);
+        require(!postfachSet);
         _;
     }
 
@@ -45,10 +45,10 @@ contract Card{
         information.name = name;
     }
 
-    function setReceivingAddress(string memory receivingAddress) 
+    function setReceivingAddress(string memory _postfach) 
     public isOwnerOfCard(msg.sender) isNotSet() {
-        information.receivingAddress = receivingAddress;
-        receivingAddressSet = true;
+        information.postfach = _postfach;
+        postfachSet = true;
     }
 
     function giveCardValue() payable public {}
