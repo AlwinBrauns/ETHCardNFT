@@ -45,7 +45,7 @@ contract Card{
         information.name = name;
     }
 
-    function setReceivingAddress(string memory _postfach) 
+    function setPostfach(string memory _postfach) 
     public isOwnerOfCard(msg.sender) isNotSet() {
         information.postfach = _postfach;
         postfachSet = true;
