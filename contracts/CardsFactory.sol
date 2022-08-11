@@ -15,7 +15,7 @@ contract CardsFactory {
         nonce = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender)));
     }
 
-    function generateCard() payable external {
+    function generateCard() external {
         uint card = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce++)));
         Card cardAddress = new Card(card, this);
         cards.push(cardAddress);

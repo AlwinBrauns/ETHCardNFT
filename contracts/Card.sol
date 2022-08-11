@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import './CardsFactory.sol';
 
 contract Card{
-    CardsFactory factory;
+    CardsFactory private factory;
     uint card;
 
     struct Information {
@@ -62,7 +62,7 @@ contract Card{
     }
 
     function transfer() public isOwnerOfCard(msg.sender) {
-
+        //TODO: Implement
     }
 
 }
