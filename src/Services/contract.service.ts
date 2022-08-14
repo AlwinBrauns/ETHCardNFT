@@ -10,7 +10,7 @@ class _CardsContract {
     provider?: ethers.providers.Web3Provider
     signer?: ethers.providers.JsonRpcSigner
     contract?: ethers.Contract
-    static getCardsContract() {
+    static getInstance() {
         if(_CardsContract.instance) {
             return _CardsContract.instance
         }
@@ -100,7 +100,7 @@ class _CardsContract {
     }
 }
 
-const CardsContract = _CardsContract.getCardsContract()
+const CardsContract = _CardsContract.getInstance()
 export {
     CardsContract
 }

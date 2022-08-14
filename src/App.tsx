@@ -96,7 +96,7 @@ function App() {
         latestCardOwner={latestCardOwner}
         selectedCard={selectedCard}
       />
-      <FunctionsPanel addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
+      <FunctionsPanel getSelectedCard={() => cards[selectedCard]} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
       <main className="App-main">
         {
           cards.map((card, index) => {
