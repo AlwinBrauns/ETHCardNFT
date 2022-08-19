@@ -7,7 +7,7 @@ class _CardsTransactionManager extends Contract {
     async createNewTransaction(sender: string, receiver: string,  neededWei: number, message: string) {
         if(this.updateState(CardsTransactionManagerSol.abi, this.address).success && this.contract) {
             const transaction = await this.contract.createNewTransaction(
-                sender, receiver, neededWei, message
+                sender, receiver, neededWei, message, sender
             )
             await transaction.wait()
             console.log(transaction)

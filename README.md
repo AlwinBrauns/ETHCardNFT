@@ -10,7 +10,7 @@
 7. Import address (src/address.json) into MetaMask to see NFT
 8. ```npm run dev```
 
-## Smart Contract Diagramm (WIP)
+## Smart Contract Diagramm (WIP) (**deprecated**)
 ### meanings
 - +> external
 - -< internal

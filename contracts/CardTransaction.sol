@@ -2,22 +2,25 @@
 pragma solidity ^0.8.0;
 
 import './Card.sol';
+import './Offer.sol';
 
 contract CardTransaction {
     Card private sender;
     Card private receiver;
+    address private creater;
     bool private approved;
     bool private discarded;
     uint256 private neededWei;
     string message;
 
-    constructor (Card _sender, Card _receiver, uint256 _neededWei, string memory _message) {
+    constructor (Card _sender, Card _receiver, uint256 _neededWei, string memory _message, address _creater) {
         require(_receiver != _sender, "Cannot transfer to yourself");
         require(address(_receiver) != address(0), "Cannot transfer to the null address");
         sender = _sender;
         receiver = _receiver;
         neededWei = _neededWei;
         message = _message;
+        creater = _creater;
     }
 
     modifier isApproved() {

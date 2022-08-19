@@ -1,10 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import './CardsFactory.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
-contract Card{
-    CardsFactory private factory;
+contract Card is Ownable {
     uint card;
 
     struct Information {
@@ -16,16 +15,10 @@ contract Card{
     bool postfachSet;
 
 
-    constructor(uint256 _card, CardsFactory _factory) {
+    constructor(uint256 _card) Ownable() {
         card = _card;
-        factory = _factory;
         information = Information("", "");
         postfachSet = false;
-    }
-
-    modifier isOwnerOfCard(address _address) {
-        require(factory.isOwnerOfCard(this, _address));
-        _;
     }
 
     modifier isNotSet() {
@@ -37,16 +30,12 @@ contract Card{
         return card;
     }
 
-    function getFactory() public view returns(CardsFactory) {
-        return factory;
-    }
-
-    function setName(string memory name) public isOwnerOfCard(msg.sender) {
+    function setName(string memory name) public onlyOwner() {
         information.name = name;
     }
 
     function setPostfach(string memory _postfach) 
-    public isOwnerOfCard(msg.sender) isNotSet() {
+    public onlyOwner() isNotSet() {
         information.postfach = _postfach;
         postfachSet = true;
     }
@@ -57,12 +46,7 @@ contract Card{
         return address(this).balance;
     }
 
-    function withdraw() public isOwnerOfCard(msg.sender) {
+    function withdraw() public onlyOwner() {
         payable(msg.sender).transfer(address(this).balance);
     }
-
-    function transfer() public isOwnerOfCard(msg.sender) {
-        //TODO: Implement
-    }
-
 }

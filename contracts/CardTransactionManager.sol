@@ -1,6 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import './Card.sol';
 import './CardTransaction.sol';
 
 contract CardTransactionManager {
@@ -9,9 +10,9 @@ contract CardTransactionManager {
 
     mapping(Card => uint256) cardToCountTransaction;
 
-    function createNewTransaction(Card _sender, Card _receiver, uint256 _neededWei, string memory _message) 
+    function createNewTransaction(Card _sender, Card _receiver, uint256 _neededWei, string memory _message, address _creater) 
     public returns(CardTransaction) {
-        CardTransaction transaction = new CardTransaction(_sender, _receiver, _neededWei, _message);
+        CardTransaction transaction = new CardTransaction(_sender, _receiver, _neededWei, _message, _creater);
         cardTransactions.push(transaction);
         cardToCountTransaction[_sender]++;
         cardToCountTransaction[_receiver]++;
@@ -23,7 +24,7 @@ contract CardTransactionManager {
         CardTransaction[] memory result = new CardTransaction[](cardToCountTransaction[_sender]);
         for (uint i = 0; i < _cards.length; i++) {
             if (cardTransactions[i].getSender() == _sender) {
-                result[i] =cardTransactions[i];
+                result[i] = cardTransactions[i];
             }
         }
         return result;
@@ -33,7 +34,7 @@ contract CardTransactionManager {
         CardTransaction[] memory result = new CardTransaction[](cardToCountTransaction[_receiver]);
         for (uint i = 0; i < _cards.length; i++) {
             if (cardTransactions[i].getReceiver() == _receiver) {
-                result[i] =cardTransactions[i];
+                result[i] = cardTransactions[i];
             }
         }
         return result;
