@@ -8,6 +8,8 @@ import { CardsContract } from './Services/cards.contract.service';
 import AppHeader from './Components/Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
 import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
+import Interaction from './Components/Interaction/Interaction';
+import CardsInteraction from './Components/Interaction/CardsInteraction/CardsInteraction';
 
 
 function App() {
@@ -88,6 +90,20 @@ function App() {
     setCards(newCards)
   }
 
+  const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
+  useEffect(() => {
+    if(!(typeof selectedCard === "number")) {
+        setNewSelectedCard(false)
+        return
+    }
+    if(!(selectedCard+1 > 0)) {
+        setNewSelectedCard(false)
+        return
+    }
+    setNewSelectedCard(true)
+
+  }, [selectedCard])
+
   return (
     <div className="App" ref={ref}>
       <AppHeader 
@@ -98,6 +114,9 @@ function App() {
       />
       <FunctionsPanel getSelectedCard={() => cards[selectedCard]} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
       <main className="App-main">
+        <Interaction changed={newSelectedCard} setChanged={setNewSelectedCard}>
+                <CardsInteraction cards={cards} selectedCard={selectedCard}/>
+        </Interaction>
         {
           cards.map((card, index) => {
             return (

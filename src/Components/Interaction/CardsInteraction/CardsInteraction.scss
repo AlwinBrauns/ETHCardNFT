@@ -1,0 +1,14 @@
+.selected-card-container{
+    button, input {
+        margin: 5px;
+    }
+    padding: 20px;
+    >div {
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        @media screen and (max-height: 400px) {
+            flex-direction: row;
+        }
+    }
+}
