@@ -12,18 +12,10 @@ contract Card is Ownable {
     }
 
     Information information;
-    bool postfachSet;
-
 
     constructor(uint256 _card) Ownable() {
         card = _card;
         information = Information("", "");
-        postfachSet = false;
-    }
-
-    modifier isNotSet() {
-        require(!postfachSet);
-        _;
     }
 
     function getCard() public view returns(uint256) {
@@ -35,9 +27,8 @@ contract Card is Ownable {
     }
 
     function setPostfach(string memory _postfach) 
-    public onlyOwner() isNotSet() {
+    public onlyOwner() {
         information.postfach = _postfach;
-        postfachSet = true;
     }
 
     function giveCardValue() payable public {}
