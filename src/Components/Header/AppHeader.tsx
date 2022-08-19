@@ -3,9 +3,7 @@ import { CardsContract } from "../../Services/cards.contract.service"
 import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
-import { BigNumber, ethers } from "ethers"
-import CardsInteraction from "../Interaction/CardsInteraction/CardsInteraction"
-import Interaction from "../Interaction/Interaction"
+import { BigNumber } from "ethers"
 
 function AppHeader(
     { 
