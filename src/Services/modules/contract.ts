@@ -2,14 +2,11 @@ import { ethers } from "ethers"
 
 export default class Contract {
     address: string = ""
-    abi: any = null
     provider?: ethers.providers.Web3Provider
     signer?: ethers.providers.JsonRpcSigner
     contract?: ethers.Contract
-    constructor(address: string, abi: any) {
+    constructor(address: string) {
         this.address = address
-        this.abi = abi
-        this.updateState(abi)
     }    
     updateState(abi: any, address?: string) {
         if(window.ethereum) {

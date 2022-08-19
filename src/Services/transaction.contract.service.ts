@@ -18,7 +18,7 @@ class _CardsTransactionManager extends Contract {
     //Transaction
 }
 
-const CardsTransactionManager: _CardsTransactionManager = new _CardsTransactionManager(address.transactions, CardsTransactionManagerSol.abi)
+const CardsTransactionManager: _CardsTransactionManager = new _CardsTransactionManager(address.transactions)
 
 export { 
     CardsTransactionManager
