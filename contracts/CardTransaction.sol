@@ -91,4 +91,8 @@ contract CardTransaction {
     function getReceiver() public view returns(Card) {
         return receiver;
     }
+
+    function getCreater() public view returns(address) {
+        return creater;
+    }
 }
