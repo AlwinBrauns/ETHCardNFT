@@ -11,24 +11,26 @@ export default function CardsInteraction({selectedCard, cards}: CardsInteraction
     const onValueChangeHandler = (e: any) => {
         if(value>=0) setValue(e.target.value);
     }
-    return (<div>            
-        {
-            typeof selectedCard === "number" ? 
-            cards[selectedCard] ? <>
-                <button onClick={
-                    async () => {
-                        const wei = await CardsContract.getCardValue(cards[selectedCard].cardAddress)
-                        console.log(ethers.utils.formatEther(wei))
-                    }
-                }>Get Value</button>
-                <br />
-                <input min={0} value={value} onChange={e => onValueChangeHandler(e)} type={"number"} />
-                <button onClick={
-                    () => {
-                        CardsContract.giveCardValue(cards[selectedCard].cardAddress, value)
-                    }
-                }>Add Value</button>
-            </>: null : null
-        }
-    </div>)
+    return (
+        <div>            
+            {
+                typeof selectedCard === "number" ? 
+                cards[selectedCard] ? <>
+                    <button onClick={
+                        async () => {
+                            const wei = await CardsContract.getCardValue(cards[selectedCard].cardAddress)
+                            console.log(ethers.utils.formatEther(wei))
+                        }
+                    }>Get Value</button>
+                    <br />
+                    <input min={0} value={value} onChange={e => onValueChangeHandler(e)} type={"number"} />
+                    <button onClick={
+                        () => {
+                            CardsContract.giveCardValue(cards[selectedCard].cardAddress, value)
+                        }
+                    }>Add Value</button>
+                </>: null : null
+            }
+        </div>
+    )
 }

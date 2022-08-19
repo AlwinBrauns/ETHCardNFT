@@ -7,7 +7,6 @@ import "./CardTransactionManager.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract Offer is Ownable{
-    CardTransactionManager private cardTransactionManager;
     Card private offerCard;
     string private description;
     uint256 private neededWei;
@@ -17,14 +16,12 @@ contract Offer is Ownable{
     uint256 private ratingCounter;
 
     constructor(
-        CardTransactionManager _cardTransactionManager,
         Card _offerCard,
         string memory _description,
         uint256 _neededWei,
         bool _online,
         uint256 _stock
         ) Ownable(){
-            cardTransactionManager = _cardTransactionManager;
             offerCard = _offerCard;
             description = _description;
             neededWei = _neededWei;
@@ -32,7 +29,7 @@ contract Offer is Ownable{
             stock = _stock;
     }
 
-    function buy(Card sender, uint256 expectedWei, string memory message) external returns(CardTransaction) {
+    function buy(CardTransactionManager cardTransactionManager, Card sender, uint256 expectedWei, string memory message) external returns(CardTransaction) {
         require(stock>0);
         require(neededWei==expectedWei);
         require(online);

@@ -10,12 +10,9 @@ function AppHeader(
     { 
         cards, 
         latestCard, 
-        latestCardOwner, 
         selectedCard 
     }: AppHeaderProperties) {
     const headerRef = useRef<HTMLDivElement>(null)
-    const [showCardId, setShowCardId] = useState(false)
-    const [latestCardCard, setLatestCardCard] = useState<string>()
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
     const [NFTAmount, setNFTAmount] = useState<BigNumber>()
@@ -28,9 +25,6 @@ function AppHeader(
     }
     useEffect(() => {
         if(latestCard===undefined) return
-        CardsContract.getCard(latestCard).then((card: BigNumber) => {
-            setLatestCardCard(card._hex)
-        })
         CardsContract.balanceOfNFT(currentAccount).then((balance: BigNumber) => {
             setNFTAmount(balance)
         })
@@ -57,27 +51,33 @@ function AppHeader(
     }, [selectedCard])
     return (
         <header className="App-header" ref={headerRef}>
-            <div className={"selected-card " + (newSelectedCard?"new":"")} onTransitionEnd={(event: React.TransitionEvent) => {
+            <div 
+                className={"selected-card " + (newSelectedCard?"new":"")} 
+                onTransitionEnd={(event: React.TransitionEvent) => {
                     if(event.elapsedTime > 0.2 && event.propertyName === "top") setNewSelectedCard(false)
-                }}>
-                {!showCardId?<div className='selected-card-container'>
-                    <h4>You have selected Card Nr. </h4>
-                    <small>
-                        {
-                            typeof selectedCard === "number" ? 
-                            cards[selectedCard]?.id.slice(0,  10) 
-                            ?? "-" : "-"}{
-                                typeof selectedCard === "number" ? 
-                                cards[selectedCard] ? "..." : "" : ""
-                        }
-                    </small>
-                    <CardsInteraction selectedCard={selectedCard} cards={cards} />
-                </div>:""}
+                }}
+            >
+                {
+                        <div className='selected-card-container'>
+                            <h4>You have selected Card Nr. </h4>
+                            <small>
+                                {
+                                    typeof selectedCard === "number" ? 
+                                    cards[selectedCard]?.id.slice(0,  10) 
+                                    ?? "-" : "-"
+                                }
+                                {
+                                    typeof selectedCard === "number" ? 
+                                    cards[selectedCard] ? "..." : "" : ""
+                                }
+                            </small>
+                            <CardsInteraction selectedCard={selectedCard} cards={cards} />
+                        </div>
+                }
             </div>
-            {!showCardId&&!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
-            {!showCardId&&!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
-            {!showCardId&&!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
-            <span style={{cursor: "pointer", wordBreak: (showCardId?"break-all":undefined)}} onClick={() => setShowCardId(prevState => {let newState = !prevState; return newState})}>{!showCardId?"Show":"Hide"} Latest Card {showCardId?(latestCardCard?latestCardCard:"" + "by" + latestCardOwner):""}</span>
+            {!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
+            {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
+            {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
       </header>
     )
 }
