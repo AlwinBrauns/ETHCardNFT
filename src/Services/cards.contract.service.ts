@@ -1,7 +1,7 @@
 import Card from "../artifacts/contracts/Card.sol/Card.json";
 import Cards from "../artifacts/contracts/CardsFactory.sol/CardsFactory.json";
 import CardsOwnership from "../artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
-import { BigNumber, ethers } from "ethers"
+import { ethers } from "ethers"
 import address from '../address.json'
 import Contract from './modules/contract'
 

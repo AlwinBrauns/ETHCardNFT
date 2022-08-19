@@ -1,7 +1,6 @@
 import { ethers } from "ethers"
 
 export default class Contract {
-    static instance?: Contract
     address: string = ""
     abi: any = null
     provider?: ethers.providers.Web3Provider
