@@ -4,7 +4,7 @@ import { useState, useRef, useReducer } from 'react';
 import Card from './Components/Card/Card';
 import CardProperties from './Components/Card/CardProperties';
 import { BigNumber, ethers } from 'ethers';
-import { CardsContract } from './Services/contract.service';
+import { CardsContract } from './Services/cards.contract.service';
 import AppHeader from './Components/Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
 import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';

@@ -3,39 +3,9 @@ import Cards from "../artifacts/contracts/CardsFactory.sol/CardsFactory.json";
 import CardsOwnership from "../artifacts/contracts/CardsOwnership.sol/CardsOwnership.json"
 import { BigNumber, ethers } from "ethers"
 import address from '../address.json'
+import Contract from './modules/contract'
 
-class _CardsContract {
-    static instance?: _CardsContract
-    cardsAddress = address.address
-    provider?: ethers.providers.Web3Provider
-    signer?: ethers.providers.JsonRpcSigner
-    contract?: ethers.Contract
-    static getInstance() {
-        if(_CardsContract.instance) {
-            return _CardsContract.instance
-        }
-        _CardsContract.instance = new _CardsContract()
-        return _CardsContract.instance
-    }
-    constructor() {
-        this.updateState(Cards.abi)
-    }    
-    updateState(abi: any, address?: string) {
-        if(window.ethereum) {
-            // @ts-ignore
-            this.provider = new ethers.providers.Web3Provider(window.ethereum)
-            this.signer = this.provider.getSigner()
-            this.contract = new ethers.Contract(address?address:this.cardsAddress, abi, this.signer)
-            return {
-                success: !!(this.contract && this.signer && this.provider)
-            }
-        }else {
-            return {
-                success: false
-            }
-        }
-    }
-
+class _CardsContract extends Contract {
     //--- CardsOwnership.sol
     async balanceOfNFT(address: string) {
         if(this.updateState(CardsOwnership.abi).success && this.contract) {
@@ -100,7 +70,7 @@ class _CardsContract {
     }
 }
 
-const CardsContract = _CardsContract.getInstance()
+const CardsContract: _CardsContract = new _CardsContract(address.address, Card.abi)
 export {
     CardsContract
 }

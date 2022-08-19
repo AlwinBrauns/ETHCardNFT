@@ -1,6 +1,6 @@
 import { ethers } from "ethers"
 import { EventHandler, useState } from "react"
-import { CardsContract } from "../../../Services/contract.service"
+import { CardsContract } from "../../../Services/cards.contract.service"
 import CardProperties from "../../Card/CardProperties"
 type CardsInteractionProperties = {
     selectedCard?: number,
