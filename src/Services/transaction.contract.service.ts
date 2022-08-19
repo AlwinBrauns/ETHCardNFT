@@ -3,8 +3,9 @@ import CardsTransactionManagerSol from "../artifacts/contracts/CardTransactionMa
 import Contract from './modules/contract'
 
 class _CardsTransactionManager extends Contract {
+    //Manager
     async createNewTransaction(sender: string, receiver: string,  neededWei: number, message: string) {
-        if(this.updateState(CardsTransactionManagerSol.abi, address.transactionManager).success && this.contract) {
+        if(this.updateState(CardsTransactionManagerSol.abi, this.address).success && this.contract) {
             const transaction = await this.contract.createNewTransaction(
                 sender, receiver, neededWei, message
             )
@@ -13,9 +14,11 @@ class _CardsTransactionManager extends Contract {
             return transaction
         }
     }
+
+    //Transaction
 }
 
-const CardsTransactionManager: _CardsTransactionManager = new _CardsTransactionManager(address.transactionManager, CardsTransactionManagerSol.abi)
+const CardsTransactionManager: _CardsTransactionManager = new _CardsTransactionManager(address.transactions, CardsTransactionManagerSol.abi)
 
 export { 
     CardsTransactionManager

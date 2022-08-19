@@ -70,7 +70,7 @@ class _CardsContract extends Contract {
     }
 }
 
-const CardsContract: _CardsContract = new _CardsContract(address.address, Card.abi)
+const CardsContract: _CardsContract = new _CardsContract(address.cards, Card.abi)
 export {
     CardsContract
 }
