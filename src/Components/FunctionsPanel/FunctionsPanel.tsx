@@ -7,7 +7,7 @@ import './FunctionsPanel.scss'
 import { CardsTransactionManager } from '../../Services/transaction.contract.service'
 
 export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Function, getSelectedCard: Function}) {
-    const [show, setShow] = useState<boolean>(true)
+    const [show, setShow] = useState<boolean>(false)
 
     const switchShowPanel = () => {
         setShow(prevState => {
@@ -64,7 +64,7 @@ function Panel ({show, addCard, getSelectedCard}:{show:boolean, addCard:Function
                     addCard(card, cardAddress)
                 })
             })}
-        }>Show All Cards</button>
+        }>Load All Cards</button>
         <input type={"text" } placeholder="message" value={message} onChange={(e)=>setMessage(e.target.value)} />
         <input type={"number" } placeholder="neededWei" value={neededWei} onChange={(e)=>setNeededWei(Number(e.target.value))} />
         <button onClick={() => {
