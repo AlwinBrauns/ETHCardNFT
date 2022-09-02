@@ -12,6 +12,7 @@ contract CardTransaction {
     bool private discarded;
     uint256 private neededWei;
     string message;
+    bool private completed;
 
     constructor (Card _sender, Card _receiver, uint256 _neededWei, string memory _message, address _creater) {
         require(_receiver != _sender, "Cannot transfer to yourself");
@@ -58,6 +59,11 @@ contract CardTransaction {
         _;
     }
 
+    modifier notCompleted() {
+        require(completed==false);
+        _;
+    }
+
     function setSender() public noSender() {
         sender = Card(msg.sender);
     }
@@ -66,14 +72,20 @@ contract CardTransaction {
 
     function discard() public isSenderOrReceiver() {
         discarded = true;
+        approved = false;
     }
 
-    function widthdraw() public isReceiver() isApproved() {
+    function widthdraw() public isReceiver() isApproved() neededWeiReached() notCompleted() {
         payable(msg.sender).transfer(address(this).balance);
+        completed = true;
     }
 
     function payback() public isSender() isDiscarded() {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function approve() public isSender() {
+        approved = true;
     }
 
     function getIsApproved() public view returns(bool) {

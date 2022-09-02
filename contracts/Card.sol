@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
+import './CardTransaction.sol';
 
 contract Card is Ownable {
     uint card;
@@ -39,5 +40,17 @@ contract Card is Ownable {
 
     function withdraw() public onlyOwner() {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function addValueToTransaction(CardTransaction _transaction, uint256 _wei) public onlyOwner() {
+        _transaction.addValue{value: _wei}();
+    }
+
+    function approveTransaction(CardTransaction _transaction) public onlyOwner() {
+        _transaction.approve();
+    }
+
+    function withdrawTransaction(CardTransaction _transaction) public onlyOwner() {
+        _transaction.widthdraw();
     }
 }
