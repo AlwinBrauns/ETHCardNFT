@@ -5,6 +5,7 @@ import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 import { BigNumber } from "ethers"
 import { Link, NavLink, useLocation } from "react-router-dom"
+import { Offer } from "../../Services/offer.contract.service"
 
 function AppHeader(
     { 
@@ -37,7 +38,9 @@ function AppHeader(
     }, [headerRef])
     const MainFunction = () => {
         if(location.pathname === "/marketplace") {
-            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => {} /* TODO */}>Add Offer</button>:null
+            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => latestCard?Offer.createOffer(
+                latestCard, "test", 1000, true, 9999999
+            ):null}>Add Offer</button>:null
         }else {
             return !!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null
         }
