@@ -1,15 +1,14 @@
 import { useContext, useEffect } from 'react';
 import './App.scss'
-import { useState, useRef, useReducer } from 'react';
-import Card from './Components/Card/Card';
+import { useState, useRef } from 'react';
 import CardProperties from './Components/Card/CardProperties';
 import { BigNumber, ethers } from 'ethers';
 import { CardsContract } from './Services/cards.contract.service';
 import AppHeader from './Components/Header/AppHeader';
 import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
 import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
-import Interaction from './Components/Interaction/Interaction';
-import CardsInteraction from './Components/Interaction/CardsInteraction/CardsInteraction';
+import CardsScreen from './Screens/CardsScreen/CardsScreen';
+import { Route, Routes } from 'react-router-dom';
 
 
 function App() {
@@ -22,6 +21,21 @@ function App() {
   const [latestCardOwner, setLatestCardOwner] = useState("")
   
   const { currentAccount } = useContext(MetaMaskContext)
+
+  const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
+  
+  useEffect(() => {
+    if(!(typeof selectedCard === "number")) {
+        setNewSelectedCard(false)
+        return
+    }
+    if(!(selectedCard+1 > 0)) {
+        setNewSelectedCard(false)
+        return
+    }
+    setNewSelectedCard(true)
+
+  }, [selectedCard])
 
   const onNewCard = (cardAddress: string, owner: string) => {
     CardsContract.getCard(cardAddress).then(card => {
@@ -90,20 +104,6 @@ function App() {
     setCards(newCards)
   }
 
-  const [newSelectedCard, setNewSelectedCard] = useState<boolean>(false)
-  useEffect(() => {
-    if(!(typeof selectedCard === "number")) {
-        setNewSelectedCard(false)
-        return
-    }
-    if(!(selectedCard+1 > 0)) {
-        setNewSelectedCard(false)
-        return
-    }
-    setNewSelectedCard(true)
-
-  }, [selectedCard])
-
   return (
     <div className="App" ref={ref}>
       <AppHeader 
@@ -114,24 +114,23 @@ function App() {
       />
       <FunctionsPanel getSelectedCard={() => cards[selectedCard]} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
       <main className="App-main">
-        <Interaction changed={newSelectedCard} setChanged={setNewSelectedCard}>
-                <CardsInteraction cards={cards} selectedCard={selectedCard}/>
-        </Interaction>
-        {
-          cards.map((card, index) => {
-            return (
-              card.id?
-                <Card
-                  key={card.id}
-                  text={card.text}
-                  cardAddress={card.cardAddress}
-                  onClick={() => selectACard(card.id)}
-                  onDelete={() => {removeCard(index)}}
-                  id={card.id}
-                />:null
-            )
-          })
-        }
+        <Routes>
+          <Route path='/' element=
+            {
+            <CardsScreen 
+              cards={cards}
+              selectedCard={selectedCard}
+              newSelectedCard={newSelectedCard}
+              setNewSelectedCard={setNewSelectedCard}
+              selectACard={selectACard}
+              removeCard={removeCard}
+              />
+            }
+          />
+          <Route path='/marketplace' element={
+            <div>Marketplace...</div>
+          }/>
+          </Routes>
       </main>
     </div>
   )

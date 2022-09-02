@@ -12,11 +12,16 @@
     background-color: #282c34;
     box-shadow: 0px 0px 10px #000000;
     padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    >* {
-        margin: 20px;
+    display: grid;
+    place-items: center;
+    .MainFunctions {
+        >* {
+            margin: 20px;
+        }
+    }
+    nav {
+        >* {
+            margin: 20px;
+        }
     }
 }

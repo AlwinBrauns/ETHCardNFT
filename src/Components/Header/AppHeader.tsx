@@ -4,6 +4,7 @@ import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 import { BigNumber } from "ethers"
+import { Link } from "react-router-dom"
 
 function AppHeader(
     { 
@@ -35,9 +36,19 @@ function AppHeader(
     }, [headerRef])
     return (
         <header className="App-header" ref={headerRef}>
-                {!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
-                {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
-                {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
+                <div className="MainFunctions">
+                    {!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
+                    {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
+                    {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
+                </div>
+                <nav>
+                    <Link to={""}>
+                        Your Cards
+                    </Link>
+                    <Link to={"marketplace"}>
+                        Marketplace
+                    </Link>
+                </nav>
         </header>
     )
 }
