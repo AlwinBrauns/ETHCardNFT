@@ -4,7 +4,7 @@ import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 import { BigNumber } from "ethers"
-import { Link } from "react-router-dom"
+import { Link, NavLink, useLocation } from "react-router-dom"
 
 function AppHeader(
     { 
@@ -13,6 +13,7 @@ function AppHeader(
     const headerRef = useRef<HTMLDivElement>(null)
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     const [NFTAmount, setNFTAmount] = useState<BigNumber>()
+    const location = useLocation();
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
@@ -34,20 +35,27 @@ function AppHeader(
             window.removeEventListener("scroll", scrollEffect)
         }
     }, [headerRef])
+    const MainFunction = () => {
+        if(location.pathname === "/marketplace") {
+            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => {} /* TODO */}>Add Offer</button>:null
+        }else {
+            return !!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null
+        }
+    }
     return (
         <header className="App-header" ref={headerRef}>
                 <div className="MainFunctions">
                     {!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
-                    {!!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null}
+                    <MainFunction />
                     {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
                 </div>
                 <nav>
-                    <Link to={""}>
+                    <NavLink to={""} style={({isActive}) => ({textDecoration: isActive?"underline":"none"})}>
                         Your Cards
-                    </Link>
-                    <Link to={"marketplace"}>
+                    </NavLink>
+                    <NavLink to={"marketplace"} style={({isActive}) => ({textDecoration: isActive?"underline":"none"})}>
                         Marketplace
-                    </Link>
+                    </NavLink>
                 </nav>
         </header>
     )

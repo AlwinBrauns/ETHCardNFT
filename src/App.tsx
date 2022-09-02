@@ -9,6 +9,7 @@ import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
 import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
 import CardsScreen from './Screens/CardsScreen/CardsScreen';
 import { Route, Routes } from 'react-router-dom';
+import MarketplaceScreen from './Screens/MarketplaceScreen/MarketplaceScreen';
 
 
 function App() {
@@ -128,7 +129,7 @@ function App() {
             }
           />
           <Route path='/marketplace' element={
-            <div>Marketplace...</div>
+            <MarketplaceScreen />
           }/>
           </Routes>
       </main>
