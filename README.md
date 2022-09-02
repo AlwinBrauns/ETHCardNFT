@@ -10,7 +10,10 @@
 7. Import address (src/address.json) into MetaMask to see NFT
 8. ```npm run dev```
 
-## Smart Contract Diagramm (WIP) (**deprecated**)
+## Storie-Diagramms (non-standard)
+![User(Frontend) Stories](PrimaryStories.jpg)
+
+## Smart Contract Diagramm (non-standard) (**deprecated**)
 ### meanings
 - +> external
 - -< internal
