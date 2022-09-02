@@ -108,10 +108,7 @@ function App() {
   return (
     <div className="App" ref={ref}>
       <AppHeader 
-        cards={cards} 
         latestCard={latestCard}
-        latestCardOwner={latestCardOwner}
-        selectedCard={selectedCard}
       />
       <FunctionsPanel getSelectedCard={() => cards[selectedCard]} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} />
       <main className="App-main">
