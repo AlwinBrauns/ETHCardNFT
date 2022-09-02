@@ -13,7 +13,7 @@
 ## Storie-Diagramms (non-standard)
 ![User(Frontend) Stories](PrimaryStories.jpg)
 
-## Smart Contract Diagramm (non-standard) (**deprecated**)
+## Smart Contract Diagramm (non-standard - kinda UML Class Diagramm) (**deprecated**)
 ### meanings
 - +> external
 - -< internal
