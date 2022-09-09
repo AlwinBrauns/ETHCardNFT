@@ -68,6 +68,37 @@ class _CardsContract extends Contract {
             return value
         }
     }
+    async withdraw(cardAddress: string) {
+        if(this.updateState(Card.abi, cardAddress).success && this.contract) {
+            const transaction = await this.contract.withdraw()
+            return transaction
+        }
+    }
+    //Interactions with an offer
+    async addValueToTransaction(cardAddress: string, transactionAddress: string, ether: number) {
+        if(this.updateState(Card.abi, cardAddress).success && this.contract) {
+            const transaction = await this.contract.addValueToTransaction(
+                    transactionAddress, 
+                    ethers.utils.parseEther(ether.toString())
+                )
+            await transaction.wait()
+            return transaction
+        }
+    }
+    async approveTransaction(cardAddress: string, transactionAddress: string) {
+        if(this.updateState(Card.abi, cardAddress).success && this.contract) {
+            const transaction = await this.contract.approveTransaction(transactionAddress)
+            await transaction.wait()
+            return transaction
+        }
+    }
+    async withdrawTransaction(cardAddress: string, transactionAddress: string) {
+        if(this.updateState(Card.abi, cardAddress).success && this.contract) {
+            const transaction = await this.contract.withdrawTransaction(transactionAddress)
+            await transaction.wait()
+            return transaction
+        }
+    }
 }
 
 const CardsContract: _CardsContract = new _CardsContract(address.cards)

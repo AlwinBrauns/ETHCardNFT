@@ -1,10 +1,12 @@
 import address from '../address.json'
 import CardsTransactionManagerSol from "../artifacts/contracts/CardTransactionManager.sol/CardTransactionManager.json"
+import CardsTransactionContract from "../artifacts/contracts/CardTransaction.sol/CardTransaction.json"
 import Contract from './modules/contract'
+import { ethers } from 'ethers'
 
 class _CardsTransactionManager extends Contract {
     //Manager
-    async createNewTransaction(sender: string, receiver: string,  neededWei: number, message: string) {
+    async createNewTransaction(sender: string, receiver: string,  neededWei: string, message: string) {
         if(this.updateState(CardsTransactionManagerSol.abi, this.address).success && this.contract) {
             const transaction = await this.contract.createNewTransaction(
                 sender, receiver, neededWei, message, sender

@@ -8,11 +8,17 @@ export default class Contract {
     constructor(address: string) {
         this.address = address
     }    
-    updateState(abi: any, address?: string) {
+    updateState(abi: any, address?: string, signer?: string) {
         if(window.ethereum) {
             // @ts-ignore
             this.provider = new ethers.providers.Web3Provider(window.ethereum)
-            this.signer = this.provider.getSigner()
+            this.signer = 
+            (
+                signer?
+                this.provider.getSigner(signer)
+                :
+                this.provider.getSigner()
+            )
             this.contract = new ethers.Contract(address?address:this.address, abi, this.signer)
             return {
                 success: !!(this.contract && this.signer && this.provider)

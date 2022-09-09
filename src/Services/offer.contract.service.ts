@@ -1,5 +1,7 @@
+import { BigNumber } from 'ethers'
 import address from '../address.json'
 import OfferFactory from "../artifacts/contracts/OfferFactory.sol/OfferFactory.json"
+import OfferContract from "../artifacts/contracts/Offer.sol/Offer.json"
 import Contract from './modules/contract'
 
 class _Offer extends Contract {
@@ -18,6 +20,20 @@ class _Offer extends Contract {
             await offer.wait()
             console.log(offer)
             return offer
+        }
+    }
+
+    //Offer
+    async buy(offerAddress: string, cardTransactionManager: string, sender: string, expectedWei: string, message: string) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const transaction = await this.contract.buy(
+                cardTransactionManager,
+                sender,
+                expectedWei,
+                message
+            )
+            await transaction.wait()
+            return transaction
         }
     }
 }

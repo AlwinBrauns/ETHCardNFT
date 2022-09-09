@@ -26,7 +26,7 @@ function Panel ({show, addCard, getSelectedCard}:{show:boolean, addCard:Function
     const { currentAccount } = useContext(MetaMaskContext)
     const [sender, setSender] = useState<string>()
     const [receiver, setReceiver] = useState<string>()
-    const [neededWei, setNeededWei] = useState<number>(0)
+    const [neededWei, setNeededWei] = useState<string>("")
     const [message, setMessage] = useState<string>("")
 
     const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -66,7 +66,7 @@ function Panel ({show, addCard, getSelectedCard}:{show:boolean, addCard:Function
             })}
         }>Load All Cards</button>
         <input type={"text" } placeholder="message" value={message} onChange={(e)=>setMessage(e.target.value)} />
-        <input type={"number" } placeholder="neededWei" value={neededWei} onChange={(e)=>setNeededWei(Number(e.target.value))} />
+        <input type={"number" } placeholder="neededWei" value={neededWei} onChange={(e)=>setNeededWei(e.target.value)} />
         <button onClick={() => {
             setSender(getSelectedCard().cardAddress)
         }}>Set Sender</button>
