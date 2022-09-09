@@ -22,6 +22,16 @@ class _Offer extends Contract {
             return offer
         }
     }
+    async subscribeToNewOfferListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+        if(this.updateState(OfferFactory.abi).success && this.contract) {
+            this.contract.on("NewOffer", listener)
+        }
+    }
+    async unsubscribeFromNewOfferListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+        if(this.updateState(OfferFactory.abi).success && this.contract) {
+            this.contract.off("NewOffer", listener)
+        }
+    }
 
     //Offer
     async buy(offerAddress: string, cardTransactionManager: string, sender: string, expectedWei: string, message: string) {

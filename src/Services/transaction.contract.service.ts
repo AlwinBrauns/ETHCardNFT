@@ -16,6 +16,16 @@ class _CardsTransactionManager extends Contract {
             return transaction
         }
     }
+    async subscribeToNewTransactionListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+        if(this.updateState(CardsTransactionManagerSol.abi).success && this.contract) {
+            this.contract.on("NewTransaction", listener)
+        }
+    }
+    async unsubscribeFromNewTransactionListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+        if(this.updateState(CardsTransactionManagerSol.abi).success && this.contract) {
+            this.contract.off("NewTransaction", listener)
+        }
+    }
 
     //Transaction
 }
