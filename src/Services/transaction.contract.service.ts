@@ -1,8 +1,6 @@
 import address from '../address.json'
 import CardsTransactionManagerSol from "../artifacts/contracts/CardTransactionManager.sol/CardTransactionManager.json"
-import CardsTransactionContract from "../artifacts/contracts/CardTransaction.sol/CardTransaction.json"
 import Contract from './modules/contract'
-import { ethers } from 'ethers'
 
 class _CardsTransactionManager extends Contract {
     //Manager

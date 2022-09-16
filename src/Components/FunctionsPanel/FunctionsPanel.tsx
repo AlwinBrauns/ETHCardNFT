@@ -1,11 +1,11 @@
 import { BigNumber, ethers } from 'ethers'
 import { useContext, useEffect, useState } from 'react'
 import { CardsContract } from '../../Services/cards.contract.service'
-import { connectMetaMask, getBalance } from '../../Services/metamask.service'
+import { getBalance } from '../../Services/metamask.service'
 import MetaMaskContext from '../../MetaMaskContext/MetaMaskContext'
 import './FunctionsPanel.scss'
-import { CardsTransactionManager } from '../../Services/transaction.contract.service'
 import { useLocation } from 'react-router-dom'
+import { Offer } from '../../Services/offer.contract.service'
 
 export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Function, getSelectedCard: Function}) {
     const [show, setShow] = useState<boolean>(false)
@@ -19,18 +19,40 @@ export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Fun
 
     return <section className='FunctionsPanel'>
         <div className={"show-toggel " + (show?'show':'hide')} onClick={switchShowPanel}>{show?"hide":"show"} panel</div>
-        <Panel show={show} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)} getSelectedCard={() => getSelectedCard()}/>
+        <Panel show={show} addCard={(card: BigNumber, cardAddress: string) => addCard(card, cardAddress)}/>
     </section>
 }
 
-function Panel ({show, addCard, getSelectedCard}:{show:boolean, addCard:Function, getSelectedCard: Function}) {
+function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const {currentAccount} = useContext(MetaMaskContext)
     const [isHidden, setIsHidden] = useState<boolean>(false)
     const location = useLocation();
 
+    const addOffer = () => {
+        const isValid = () => offerData.offerCard !== "_"
+        let offerData = {
+            offerCard: "_",
+            description: "",
+            neededWei: 0,
+            online: true,
+            stock: 99999
+        }
+        if(isValid()){
+            let offer = Offer.createOffer(
+                offerData.offerCard,
+                offerData.description,
+                offerData.neededWei,
+                offerData.online,
+                offerData.stock
+            )
+        }else {
+            console.log("wrong input")
+        }
+    }
+
     const MainFunction = () => {
         if(location.pathname === "/marketplace") {
-            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => console.log("is coming...")}>Add Offer</button>:null
+            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => addOffer()}>Add Offer</button>:null
         }else {
             return !!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null
         }

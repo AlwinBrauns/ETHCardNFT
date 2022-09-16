@@ -29,19 +29,19 @@ export default function CardsScreen(
                     <CardsInteraction cards={cards} selectedCard={selectedCard}/>
             </Interaction>
             {
-            cards.map((card, index) => {
-                return (
-                card.id?
-                    <Card
-                    key={card.id}
-                    text={card.text}
-                    cardAddress={card.cardAddress}
-                    onClick={() => selectACard(card.id)}
-                    onDelete={() => {removeCard(index)}}
-                    id={card.id}
-                    />:null
-                )
-            })
+                cards.map((card, index) => {
+                    return (
+                    card.id?
+                        <Card
+                        key={card.id}
+                        text={card.text}
+                        cardAddress={card.cardAddress}
+                        onClick={() => selectACard(card.id)}
+                        onDelete={() => {removeCard(index)}}
+                        id={card.id}
+                        />:null
+                    )
+                })
             }
         </section>
     )
