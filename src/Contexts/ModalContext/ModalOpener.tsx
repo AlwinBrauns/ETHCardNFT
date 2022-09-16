@@ -1,15 +1,21 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import ModalContext from "./ModalContext";
 
 import "./Modal.scss"
-import { BigNumber, ethers } from "ethers";
 
 export default function ModalOpener({children}: {children: React.ReactNode}) {
     const [show, setShow] = useState(false)
+    const [modalClassAddition, setModalClassAddition] = useState("")
     const [Content, setContent] = useState(() => <></>)
     const [resultPromise, setResultPromise] = useState({resolve: (data: any) => {}, reject: (data: any) => {}})
-    const getModalClass = () => ("Modal" + (show?" show ":" hide "))
-    
+    const getModalClass = () => (("Modal" + (show?" show ":" hide ")) + modalClassAddition)
+    const [modalClass, setModalClass] = useState(getModalClass())
+
+    useEffect(() => {
+        console.log(getModalClass())
+        setModalClass(getModalClass())
+    }, [show, modalClassAddition])
+
     enum CloseModalE {
         DO_REJECT,
         DONT_REJECT
@@ -18,6 +24,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         if(doReject === CloseModalE.DO_REJECT) resultPromise.reject({message: "Modal got closed before resolve!"})
         setShow(false)
         setContent(() => <></>)
+        setModalClassAddition("")
     }
 
     type OfferModal = {
@@ -70,8 +77,14 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         return promise
     }
 
+    const openSuccessModal = (message: string) => {
+        setModalClassAddition("success")
+        setShow(true)
+        setContent(<div className="content">{message}</div>)
+    }
+
     const Modal = () => (
-        <div className={getModalClass()}>
+        <div className={modalClass}>
             <div className="close" onClick={() => closeModal(CloseModalE.DO_REJECT)}>Close</div>
             {Content}
         </div>
@@ -79,7 +92,8 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
 
     return <ModalContext.Provider value={
         {
-            openOfferModal: openOfferModal
+            openOfferModal: openOfferModal,
+            openSuccessModal: openSuccessModal
         }
     }>
         <Modal></Modal>

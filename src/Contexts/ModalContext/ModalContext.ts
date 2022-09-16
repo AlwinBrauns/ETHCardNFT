@@ -1,7 +1,8 @@
 import {createContext} from "react";
 
 type ModalContextType = {
-    openOfferModal: Function
+    openOfferModal: Function,
+    openSuccessModal: Function,
 }
 
 const ModalContext = createContext({} as ModalContextType);
