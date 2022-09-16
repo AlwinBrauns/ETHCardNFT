@@ -17,15 +17,17 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         resultPromise.resolve()
     }
 
+    const OfferModal = () => {
+        return (
+            <div>
+                OFFER MODAL
+            </div>
+        )
+    }
+
     const openOfferModal = () => {
         setShow(true)
-        setContent(
-            () => (
-                <div>
-                    OFFER MODAL
-                </div>
-            )
-        )
+        setContent(<OfferModal></OfferModal>)
         const promise = new Promise((resolve, reject) => {
             setResultPromise({
                 resolve: () => resolve({data: "abc"}),
