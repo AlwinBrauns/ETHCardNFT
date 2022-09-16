@@ -52,6 +52,8 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
             }else {
                 console.log("wrong input")
             }
+        }).catch((e: any)=> {
+            console.log(e.message)
         })
     }
 
