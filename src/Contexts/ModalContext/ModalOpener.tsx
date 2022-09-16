@@ -6,15 +6,20 @@ import "./Modal.scss"
 export default function ModalOpener({children}: {children: React.ReactNode}) {
 
     
+
     const [show, setShow] = useState(false)
     const [Content, setContent] = useState(() => <></>)
     const [resultPromise, setResultPromise] = useState({resolve: (data: any) => {}, reject: (data: any) => {}})
     const getModalClass = () => ("Modal" + (show?" show ":" hide "))
-
-    const closeModal = () => {
+    
+    enum CloseModalE {
+        DO_REJECT,
+        DONT_REJECT
+    }
+    const closeModal = (doReject: CloseModalE) => {
         setShow(false)
         setContent(() => <></>)
-        resultPromise.reject({message: "Modal got closed!"})
+        if(doReject === CloseModalE.DO_REJECT) resultPromise.reject({message: "Modal got closed before resolve!"})
     }
 
     type OfferModal = {
@@ -35,7 +40,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
                     resolve({
                         description: description
                     })
-                    closeModal()
+                    closeModal(CloseModalE.DONT_REJECT);
                 }}>Create</button>
             </div>
         )
@@ -55,7 +60,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
 
     const Modal = () => (
         <div className={getModalClass()}>
-            <div className="close" onClick={closeModal}>Close</div>
+            <div className="close" onClick={() => closeModal(CloseModalE.DO_REJECT)}>Close</div>
             {Content}
         </div>
     )
