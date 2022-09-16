@@ -1,6 +1,6 @@
 .Modal {
     position: absolute;
-    padding: 4rem;
+    padding: 2rem;
     border-radius: 20px;
     box-shadow: 0px 0px 100px gray;
     transform: translateX(-50%) translateY(0);
@@ -18,8 +18,10 @@
         display: grid;
         margin: 1rem;
         >* {
-            padding: 0.5rem;
-            margin: 0.5rem
+            margin: 0.5rem;
+        }
+        label>span{
+            margin-inline: 0.5rem;
         }
     }
     background-color: rgba(white, 0.2);

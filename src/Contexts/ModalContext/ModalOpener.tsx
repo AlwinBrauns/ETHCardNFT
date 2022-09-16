@@ -2,6 +2,7 @@ import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import ModalContext from "./ModalContext";
 
 import "./Modal.scss"
+import { BigNumber, ethers } from "ethers";
 
 export default function ModalOpener({children}: {children: React.ReactNode}) {
     const [show, setShow] = useState(false)
@@ -25,17 +26,31 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
     }
     const OfferModal = ({resolve, reject}: OfferModal) => {
         const [description, setDescription] = useState("")
-        const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            setDescription(e.currentTarget.value)
-        }
+        const [neededWei, setNeededWei] = useState(0)
+        const [online, setOnline] = useState(true)
+        const [stock, setStock] = useState(99999)
 
         return (
             <div className="content">
                 <h4>Create Offer</h4>
-                <input placeholder="description" value={description} onChange={handleDescriptionChange} type={"text"}></input>
+                <input placeholder="description" value={description} onChange={(e) => setDescription(e.currentTarget.value)} type={"text"}></input>
+                <label>
+                    <span>price (wei)</span>
+                    <input placeholder="neededWei" value={neededWei} onChange={(e) => setNeededWei(parseInt(e.currentTarget.value))} type={"number"} min="0"></input>
+                </label>
+                <label>
+                    <input type={"checkbox"} 
+                    checked={online}
+                    onChange={() => setOnline(prevState => !prevState)}
+                    />
+                    <span>Set Public</span>
+                </label>
                 <button onClick={() => {
                     resolve({
-                        description: description
+                        description: description,
+                        neededWei: neededWei,
+                        online: online,
+                        stock: stock
                     })
                     closeModal(CloseModalE.DONT_REJECT);
                 }}>Create</button>
