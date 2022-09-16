@@ -1,26 +1,30 @@
 .FunctionsPanel {
+    $gap: 1rem;
+    $padding: 3rem;
+    $buttonheight: 3rem;
+    $buttons: 3;
     @keyframes show {
         0% {
             opacity: 0;
             transform: scale(0) translateY(-1rem);
-            max-height: 0px;
+            max-height: 0rem;
         }
         100% {
             opacity: 1;
             transform: scale(1) translateY(0rem);
-            max-height: 500px;
+            max-height: calc(($buttons - 1) * $gap + $buttons * $buttonheight + 2 * $padding);
         }
     }
     @keyframes hide {
         0% {
             opacity: 1;
             transform: scale(1) translateY(0rem);
-            max-height: 500px;
+            max-height: calc(($buttons - 1) * $gap + $buttons * $buttonheight + 2 * $padding);
         }
         100% {
             opacity: 0;
             transform: scale(0) translateY(-1rem);
-            max-height: 0px;
+            max-height: 0rem;
         }  
     }
     @keyframes showtoggle {
@@ -28,12 +32,12 @@
             transform: translateX(-50%) translateY(0rem);
         }
         100% {
-            transform: translateX(-50%) translateY(-1.5rem);
+            transform: translateX(-50%) translateY(-1.75rem);
         }
     }
     @keyframes hidetoggle {
         0% {
-            transform: translateX(-50%) translateY(-1.5rem);
+            transform: translateX(-50%) translateY(-1.75rem);
         }
         100% {
             transform: translateX(-50%) translateY(0rem);
@@ -64,10 +68,14 @@
     }
     .panel {
         position: relative;
-        padding: 3rem;
+        padding: $padding;
         display: grid;
-        place-items: center;
-        gap: 1rem;
+        justify-content: space-evenly;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 150px));
+        gap: $gap;
+        >* {
+            height: $buttonheight;
+        }
         
         &.show {
             animation: show 0.5s ease-in-out forwards;
@@ -78,14 +86,6 @@
         }
         &.hidden{
             visibility: hidden;
-        }
-        .SubFunctions {
-            width: 100%;
-            max-width: 400px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            place-items: center;
-            gap: 1rem;
         }
     }
 }

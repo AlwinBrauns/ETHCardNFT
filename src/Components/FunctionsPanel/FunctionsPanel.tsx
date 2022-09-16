@@ -49,19 +49,15 @@ function Panel ({show, addCard, getSelectedCard}:{show:boolean, addCard:Function
             }
         }
     }>
-        <div className="MainFunctions">
-            <MainFunction />
-        </div>
-        <div className="SubFunctions">
-            <button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
-            <button onClick={async () => {
-                (await CardsContract.getCards())
-                .forEach((cardAddress: string) => {
-                    CardsContract.getCard(cardAddress).then((card: BigNumber) => {
-                        addCard(card, cardAddress)
-                    })
-                })}
-            }>Load All Cards</button>
-        </div>
+        <button onClick={async () => console.log(ethers.utils.formatEther(await getBalance(currentAccount)) + " ETH")}>Your Balance</button>
+        <MainFunction />
+        <button onClick={async () => {
+            (await CardsContract.getCards())
+            .forEach((cardAddress: string) => {
+                CardsContract.getCard(cardAddress).then((card: BigNumber) => {
+                    addCard(card, cardAddress)
+                })
+            })}
+        }>Load All Cards</button>
     </div>):null
 }
