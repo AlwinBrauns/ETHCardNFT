@@ -29,10 +29,34 @@
         label>span{
             margin-inline: 0.5rem;
         }
+        @keyframes close-indicator {
+            0% {
+                width: 90%;
+            }
+            100% {
+                width: 0%;
+            }
+        }
+        .closetime-indicator {
+            position: absolute;
+            font-size: 0.7rem;
+            text-align: end;
+            margin: 0;
+            padding: 0;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            animation: close-indicator var(--t) linear forwards;
+            height: 5px;
+            background-color: lightgreen;
+        }
     }
     
     &.hide {
         visibility: hidden;
         display: none;
     }
+
+    
 }

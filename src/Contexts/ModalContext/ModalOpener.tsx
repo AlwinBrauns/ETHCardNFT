@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import ModalContext from "./ModalContext";
 
 import "./Modal.scss"
@@ -64,6 +64,36 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
             </div>
         )
     }
+    type SuccesModalProperties = {
+        message: string,
+        closeTime?: number
+    }
+    const SuccessModal = ({message, closeTime=9000}:SuccesModalProperties) => {
+        const [timeTillClose, setTimeTillClose] = useState(closeTime/100)
+        const content = useRef(null)
+        let _interval: any
+        useEffect(() => {
+            //@ts-ignore
+            if(content?.current?.style?.setProperty) content.current.style.setProperty("--t", `${closeTime/1000}s`)
+            if(!(_interval)){
+                new Promise(resolve => {
+                    _interval = setInterval(() => {
+                        setTimeTillClose(prevState => prevState-1)
+                    }, 100)
+                    setTimeout(() => {
+                        clearInterval(_interval)
+                        resolve(null)
+                    }, closeTime)
+                }).then(() => {
+                    closeModal(CloseModalE.DONT_REJECT)
+                })
+            }
+        }, [])
+        return <div className="content" ref={content}>
+            <span className="closetime-indicator">{timeTillClose}</span>
+            <span>{message}</span>
+        </div>
+    }
 
     const openOfferModal = () => {
         setShow(true)
@@ -80,7 +110,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
     const openSuccessModal = (message: string) => {
         setModalClassAddition("success")
         setShow(true)
-        setContent(<div className="content">{message}</div>)
+        setContent(<SuccessModal message={message}></SuccessModal>)
     }
 
     const Modal = () => (
