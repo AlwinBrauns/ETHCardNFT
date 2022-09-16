@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers'
 import { useContext, useEffect, useState } from 'react'
 import { CardsContract } from '../../Services/cards.contract.service'
 import { getBalance } from '../../Services/metamask.service'
-import MetaMaskContext from '../../MetaMaskContext/MetaMaskContext'
+import MetaMaskContext from '../../Contexts/MetaMaskContext/MetaMaskContext'
 import './FunctionsPanel.scss'
 import { useLocation } from 'react-router-dom'
 import { Offer } from '../../Services/offer.contract.service'
@@ -37,6 +37,7 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
             online: true,
             stock: 99999
         }
+        // TODO: offerData = openOfferModal()
         if(isValid()){
             let offer = Offer.createOffer(
                 offerData.offerCard,

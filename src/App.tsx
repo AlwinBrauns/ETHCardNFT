@@ -5,7 +5,7 @@ import CardProperties from './Components/Card/CardProperties';
 import { BigNumber, ethers } from 'ethers';
 import { CardsContract } from './Services/cards.contract.service';
 import AppHeader from './Components/Header/AppHeader';
-import MetaMaskContext from './MetaMaskContext/MetaMaskContext';
+import MetaMaskContext from './Contexts/MetaMaskContext/MetaMaskContext';
 import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
 import CardsScreen from './Screens/CardsScreen/CardsScreen';
 import { Route, Routes } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import React, {useRef, useEffect, useContext, useState} from "react"
 import { CardsContract } from "../../Services/cards.contract.service"
-import MetaMaskContext from "../../MetaMaskContext/MetaMaskContext"
+import MetaMaskContext from "../../Contexts/MetaMaskContext/MetaMaskContext"
 import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
 import { BigNumber } from "ethers"
