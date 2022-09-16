@@ -4,9 +4,6 @@ import ModalContext from "./ModalContext";
 import "./Modal.scss"
 
 export default function ModalOpener({children}: {children: React.ReactNode}) {
-
-    
-
     const [show, setShow] = useState(false)
     const [Content, setContent] = useState(() => <></>)
     const [resultPromise, setResultPromise] = useState({resolve: (data: any) => {}, reject: (data: any) => {}})
@@ -17,9 +14,9 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         DONT_REJECT
     }
     const closeModal = (doReject: CloseModalE) => {
+        if(doReject === CloseModalE.DO_REJECT) resultPromise.reject({message: "Modal got closed before resolve!"})
         setShow(false)
         setContent(() => <></>)
-        if(doReject === CloseModalE.DO_REJECT) resultPromise.reject({message: "Modal got closed before resolve!"})
     }
 
     type OfferModal = {
@@ -33,9 +30,9 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         }
 
         return (
-            <div>
-                <input value={description} onChange={handleDescriptionChange} type={"text"}></input>
-                OFFER MODAL
+            <div className="content">
+                <h4>Create Offer</h4>
+                <input placeholder="description" value={description} onChange={handleDescriptionChange} type={"text"}></input>
                 <button onClick={() => {
                     resolve({
                         description: description
