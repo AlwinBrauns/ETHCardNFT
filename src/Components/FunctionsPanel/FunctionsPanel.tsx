@@ -6,6 +6,7 @@ import MetaMaskContext from '../../Contexts/MetaMaskContext/MetaMaskContext'
 import './FunctionsPanel.scss'
 import { useLocation } from 'react-router-dom'
 import { Offer } from '../../Services/offer.contract.service'
+import ModalContext from '../../Contexts/ModalContext/ModalContext'
 
 export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Function, getSelectedCard: Function}) {
     const [show, setShow] = useState<boolean>(false)
@@ -25,6 +26,7 @@ export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Fun
 
 function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const {currentAccount} = useContext(MetaMaskContext)
+    const {openOfferModal} = useContext(ModalContext)
     const [isHidden, setIsHidden] = useState<boolean>(false)
     const location = useLocation();
 
@@ -37,18 +39,20 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
             online: true,
             stock: 99999
         }
-        // TODO: offerData = openOfferModal()
-        if(isValid()){
-            let offer = Offer.createOffer(
-                offerData.offerCard,
-                offerData.description,
-                offerData.neededWei,
-                offerData.online,
-                offerData.stock
-            )
-        }else {
-            console.log("wrong input")
-        }
+        openOfferModal().then((result: any) => {
+            console.log(result)
+            if(isValid()){
+                let offer = Offer.createOffer(
+                    offerData.offerCard,
+                    offerData.description,
+                    offerData.neededWei,
+                    offerData.online,
+                    offerData.stock
+                )
+            }else {
+                console.log("wrong input")
+            }
+        })
     }
 
     const MainFunction = () => {

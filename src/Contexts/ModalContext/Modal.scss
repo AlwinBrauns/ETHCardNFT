@@ -1,0 +1,9 @@
+.Modal {
+    position: absolute;
+    z-index: 99999;
+    .close {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
