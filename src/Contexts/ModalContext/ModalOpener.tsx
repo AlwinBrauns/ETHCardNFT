@@ -68,20 +68,16 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
         message: string,
         closeTime?: number
     }
-    const SuccessModal = ({message, closeTime=9000}:SuccesModalProperties) => {
-        const [timeTillClose, setTimeTillClose] = useState(closeTime/100)
+    const SuccessModal = ({message, closeTime=4000}:SuccesModalProperties) => {
         const content = useRef(null)
-        let _interval: any
+        let _startetOnce = false
         useEffect(() => {
             //@ts-ignore
             if(content?.current?.style?.setProperty) content.current.style.setProperty("--t", `${closeTime/1000}s`)
-            if(!(_interval)){
+            if(!(_startetOnce)){
+                _startetOnce = true
                 new Promise(resolve => {
-                    _interval = setInterval(() => {
-                        setTimeTillClose(prevState => prevState-1)
-                    }, 100)
                     setTimeout(() => {
-                        clearInterval(_interval)
                         resolve(null)
                     }, closeTime)
                 }).then(() => {
@@ -90,7 +86,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
             }
         }, [])
         return <div className="content" ref={content}>
-            <span className="closetime-indicator">{timeTillClose}</span>
+            <span className="closetime-indicator"></span>
             <span>{message}</span>
         </div>
     }

@@ -31,16 +31,11 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const location = useLocation();
 
     const addOffer = () => {
-        const isValid = () => offerData.offerCard !== "_"
-        let offerData = {
-            offerCard: "_",
-            description: "",
-            neededWei: 0,
-            online: true,
-            stock: 99999
-        }
+        const isValid = () => !!(offerData.offerCard)
+        let offerData: any;
         openOfferModal().then((result: any) => {
-            console.log(result)
+            offerData = result
+            console.log(offerData)
             if(isValid()){
                 let offer = Offer.createOffer(
                     offerData.offerCard,
