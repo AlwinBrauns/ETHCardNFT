@@ -35,6 +35,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
                     resolve({
                         description: description
                     })
+                    closeModal()
                 }}>Create</button>
             </div>
         )
