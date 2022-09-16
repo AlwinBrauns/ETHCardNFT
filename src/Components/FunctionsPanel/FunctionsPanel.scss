@@ -1,66 +1,91 @@
 .FunctionsPanel {
-    padding: 20px;
+    @keyframes show {
+        0% {
+            opacity: 0;
+            transform: scale(0) translateY(-1rem);
+            max-height: 0px;
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0rem);
+            max-height: 500px;
+        }
+    }
+    @keyframes hide {
+        0% {
+            opacity: 1;
+            transform: scale(1) translateY(0rem);
+            max-height: 500px;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0) translateY(-1rem);
+            max-height: 0px;
+        }  
+    }
+    @keyframes showtoggle {
+        0% {
+            transform: translateX(-50%) translateY(0rem);
+        }
+        100% {
+            transform: translateX(-50%) translateY(-1.5rem);
+        }
+    }
+    @keyframes hidetoggle {
+        0% {
+            transform: translateX(-50%) translateY(-1.5rem);
+        }
+        100% {
+            transform: translateX(-50%) translateY(0rem);
+        }
+    }
     position: relative;
     .show-toggel {
         user-select: none;
         margin: 0;
         position: absolute;
         text-align: center;
-        top: 20px;
+        transform: translateX(-50%) translateY(0px);
+        top: 2.75rem;
         left: 50%;
         width: 100%;
-        transform: translateX(-50%);
         color: rgba(white, 0.5);
         cursor: pointer;
         z-index: 10;
         &.ishidden {
             position: relative;
         }
+        &.show {
+            animation: showtoggle 0.5s ease-in-out forwards;
+        }
+        &.hide {
+            animation: hidetoggle 0.5s ease-in-out forwards;
+        }
     }
     .panel {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        >* {
-            padding: 1rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            margin-inline: 1rem;
-        }
-        @keyframes show {
-            0% {
-                opacity: 0;
-                transform: scale(0) translateY(-20px);
-                max-height: 0px;
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0px);
-                max-height: 500px;
-            }
-        }
-        @keyframes hide {
-            0% {
-                opacity: 1;
-                transform: scale(1) translateY(0px);
-                max-height: 500px;
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0) translateY(-20px);
-                max-height: 0px;
-            }  
-        }
+        padding: 3rem;
+        display: grid;
+        place-items: center;
+        gap: 1rem;
+        
         &.show {
             animation: show 0.5s ease-in-out forwards;
         }
         &.hide {
             animation: hide 0.5s ease-in-out forwards;
+            animation-delay: 0.05s;
         }
         &.hidden{
             visibility: hidden;
+        }
+        .SubFunctions {
+            width: 100%;
+            max-width: 400px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            place-items: center;
+            gap: 1rem;
         }
     }
 }

@@ -13,8 +13,7 @@ function AppHeader(
     }: AppHeaderProperties) {
     const headerRef = useRef<HTMLDivElement>(null)
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
-    const [NFTAmount, setNFTAmount] = useState<BigNumber>()
-    const location = useLocation();
+    
     const scrollEffect = () => {
         if(headerRef.current) {  
           if(window.scrollY > headerRef.current.offsetTop - 100) {
@@ -22,12 +21,6 @@ function AppHeader(
           }
         }
     }
-    useEffect(() => {
-        if(latestCard===undefined) return
-        CardsContract.balanceOfNFT(currentAccount).then((balance: BigNumber) => {
-            setNFTAmount(balance)
-        })
-    }, [latestCard])
     useEffect(() => { 
         if(headerRef.current) {
             window.addEventListener("scroll", scrollEffect)
@@ -36,22 +29,10 @@ function AppHeader(
             window.removeEventListener("scroll", scrollEffect)
         }
     }, [headerRef])
-    const MainFunction = () => {
-        if(location.pathname === "/marketplace") {
-            return !!(currentAccount)?<button className='App-header-addOffer accent' onClick={() => latestCard?Offer.createOffer(
-                latestCard, "test", 1000, true, 9999999
-            ):null}>Add Offer</button>:null
-        }else {
-            return !!(currentAccount)?<button className='App-header-addCard accent' onClick={() => CardsContract.generateCard()}>Add Card</button>:null
-        }
-    }
+    
     return (
-        <header className="App-header" ref={headerRef}>
-                <div className="MainFunctions">
-                    {!!(NFTAmount)?<span>NFTs: {NFTAmount._hex}</span>:null}
-                    <MainFunction />
-                    {!currentAccount?<button onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
-                </div>
+        <header className="App-header" ref={headerRef}> 
+            {!currentAccount?<button className="connect-metamask" onClick={() => connectMetaMask()}>Connect with MetaMask</button>:null}
                 <nav>
                     <NavLink to={""} style={({isActive}) => ({textDecoration: isActive?"underline":"none"})}>
                         Your Cards
