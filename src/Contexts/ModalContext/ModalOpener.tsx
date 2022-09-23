@@ -9,7 +9,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
     const [Content, setContent] = useState(() => <></>)
     const getModalClass = () => (("Modal" + (show?" show ":" hide ")) + modalClassAddition)
     const [modalClass, setModalClass] = useState(getModalClass())
-    const [result, setResult] = useState<any>(null)
+    const [result, setResult] = useState<Object>({})
 
     useEffect(() => {
         setModalClass(getModalClass())
@@ -49,12 +49,19 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
                         online: online,
                         stock: stock
                     }
-                    setResult(result);
+                    setResult(
+                        prevState => (
+                            {
+                                ...prevState, 
+                                offer: result
+                            }
+                        ));
                     closeModal();
                 }}>Create</button>
             </div>
         )
     }
+
     type SuccesModalProperties = {
         message: string,
         closeTime?: number

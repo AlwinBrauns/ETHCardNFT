@@ -30,21 +30,31 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const [isHidden, setIsHidden] = useState<boolean>(false)
     const location = useLocation();
 
+    type OfferType = {
+        offerCard: string,
+        description: string,
+        neededWei: number,
+        online: boolean,
+        stock: number
+    }
+    const handleOfferModalFormData = (offerData: OfferType) => {
+        const isValid = () => !!(offerData.offerCard)
+        if(isValid()){
+            let offer = Offer.createOffer(
+                offerData.offerCard,
+                offerData.description,
+                offerData.neededWei,
+                offerData.online,
+                offerData.stock
+            )
+        }else {
+            console.log("wrong input: ", offerData)
+        }
+    }
+
     useEffect(() => {
-        if(result) {
-            console.log(result);
-            const isValid = () => !!(result.offerCard)
-            if(isValid()){
-                let offer = Offer.createOffer(
-                    result.offerCard,
-                    result.description,
-                    result.neededWei,
-                    result.online,
-                    result.stock
-                )
-            }else {
-                console.log("wrong input")
-            }
+        if(result?.offer) {
+            handleOfferModalFormData(result.offer)
         }
     }, [result])
 
