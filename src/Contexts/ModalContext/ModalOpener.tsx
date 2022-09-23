@@ -7,31 +7,21 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
     const [show, setShow] = useState(false)
     const [modalClassAddition, setModalClassAddition] = useState("")
     const [Content, setContent] = useState(() => <></>)
-    const [resultPromise, setResultPromise] = useState({resolve: (data: any) => {}, reject: (data: any) => {}})
     const getModalClass = () => (("Modal" + (show?" show ":" hide ")) + modalClassAddition)
     const [modalClass, setModalClass] = useState(getModalClass())
+    const [result, setResult] = useState<any>(null)
 
     useEffect(() => {
-        console.log(getModalClass())
         setModalClass(getModalClass())
     }, [show, modalClassAddition])
 
-    enum CloseModalE {
-        DO_REJECT,
-        DONT_REJECT
-    }
-    const closeModal = (doReject: CloseModalE) => {
-        if(doReject === CloseModalE.DO_REJECT) resultPromise.reject({message: "Modal got closed before resolve!"})
+    const closeModal = () => {
         setShow(false)
         setContent(() => <></>)
         setModalClassAddition("")
     }
 
-    type OfferModal = {
-        resolve: Function,
-        reject: Function
-    }
-    const OfferModal = ({resolve, reject}: OfferModal) => {
+    const OfferModal = () => {
         const [description, setDescription] = useState("")
         const [neededWei, setNeededWei] = useState(0)
         const [online, setOnline] = useState(true)
@@ -53,13 +43,14 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
                     <span>Set Public</span>
                 </label>
                 <button onClick={() => {
-                    resolve({
+                    const result = {
                         description: description,
                         neededWei: neededWei,
                         online: online,
                         stock: stock
-                    })
-                    closeModal(CloseModalE.DONT_REJECT);
+                    }
+                    setResult(result);
+                    closeModal();
                 }}>Create</button>
             </div>
         )
@@ -81,7 +72,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
                         resolve(null)
                     }, closeTime)
                 }).then(() => {
-                    closeModal(CloseModalE.DONT_REJECT)
+                    closeModal()
                 })
             }
         }, [])
@@ -93,14 +84,7 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
 
     const openOfferModal = () => {
         setShow(true)
-        const promise = new Promise((resolve, reject) => {
-            setContent(<OfferModal reject={reject} resolve={resolve}></OfferModal>)
-            setResultPromise({
-                resolve: (data) => resolve(data),
-                reject: (data) => reject(data)
-            })
-        })
-        return promise
+        setContent(<OfferModal></OfferModal>)
     }
 
     const openSuccessModal = (message: string) => {
@@ -111,13 +95,14 @@ export default function ModalOpener({children}: {children: React.ReactNode}) {
 
     const Modal = () => (
         <div className={modalClass}>
-            <div className="close" onClick={() => closeModal(CloseModalE.DO_REJECT)}>Close</div>
+            <div className="close" onClick={() => closeModal()}>Close</div>
             {Content}
         </div>
     )
 
     return <ModalContext.Provider value={
         {
+            result: result,
             openOfferModal: openOfferModal,
             openSuccessModal: openSuccessModal
         }

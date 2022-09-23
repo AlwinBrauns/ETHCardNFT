@@ -31,25 +31,21 @@ function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const location = useLocation();
 
     const addOffer = () => {
-        const isValid = () => !!(offerData.offerCard)
-        let offerData: any;
-        openOfferModal().then((result: any) => {
-            offerData = result
-            console.log(offerData)
-            if(isValid()){
-                let offer = Offer.createOffer(
-                    offerData.offerCard,
-                    offerData.description,
-                    offerData.neededWei,
-                    offerData.online,
-                    offerData.stock
-                )
-            }else {
-                console.log("wrong input")
-            }
-        }).catch((e: any)=> {
-            console.log(e.message)
-        })
+        openOfferModal()
+        
+        //const isValid = () => !!(offerData.offerCard)
+        //let offerData: any;
+        //if(isValid()){
+        //    let offer = Offer.createOffer(
+        //        offerData.offerCard,
+        //        offerData.description,
+        //        offerData.neededWei,
+        //        offerData.online,
+        //        offerData.stock
+        //    )
+        //}else {
+        //    console.log("wrong input")
+        //}
     }
 
     const MainFunction = () => {
