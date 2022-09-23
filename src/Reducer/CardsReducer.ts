@@ -10,7 +10,7 @@ export enum CardsReducerActions {
   SET_LATEST_CARDOWNER = "SET_LATEST_CARDOWNER",
   SET_SELECTED_CARD = "SET_SELECTED_CARD",
 }
-export type Card = {
+export type CardType = {
   id: string
   text: string
   cardAddress: string
@@ -26,7 +26,7 @@ export type CardsReducerAction = {
   removeCardNumber?: number
 }
 export type CardsReducerState = {
-  cards: Card[]
+  cards: CardType[]
   latestCard: string
   latestCardOwner: string
   selectedCard: number
@@ -45,7 +45,7 @@ export function cardsReducer(state: CardsReducerState, action: CardsReducerActio
       if (!action.card || !action.cardAddress) throw new Error("missing action arguments")
       let newCardsWithAdded = state.cards
       const uniqueID: string = action.card._hex
-      const newCard: Card = {
+      const newCard: CardType = {
         id: uniqueID,
         text: `Card`,
         cardAddress: action.cardAddress,

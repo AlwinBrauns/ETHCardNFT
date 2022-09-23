@@ -3,33 +3,20 @@ import Card from "../../Components/Card/Card"
 import CardProperties from "../../Components/Card/CardProperties"
 import CardsInteraction from "../../Components/Interaction/CardsInteraction/CardsInteraction"
 import Interaction from "../../Components/Interaction/Interaction"
+import { CardType } from '../../Reducer/CardsReducer'
+import { useContext } from 'react'
+import CardsContext from '../../Contexts/CardsContext/CardsContext'
 
-type CardsScreenProps = {
-    cards: CardProperties[],
-    selectedCard?: number,
-    newSelectedCard: boolean,
-    setNewSelectedCard: Function,
-    selectACard: Function,
-    removeCard: Function
-}
+export default function CardsScreen() {
+    const {cardsState, selectACard, setNewSelectedCard, removeCard, addCard} = useContext(CardsContext)
 
-export default function CardsScreen(
-    {
-        cards,
-        selectedCard,
-        newSelectedCard,
-        setNewSelectedCard,
-        selectACard,
-        removeCard
-    }: CardsScreenProps
-) {
     return (
         <section className="CardsScreen">
-            <Interaction changed={newSelectedCard} setChanged={setNewSelectedCard}>
-                    <CardsInteraction cards={cards} selectedCard={selectedCard}/>
+            <Interaction changed={cardsState.newSelectedCard} setChanged={setNewSelectedCard}>
+                    <CardsInteraction cards={cardsState.cards} selectedCard={cardsState.selectedCard}/>
             </Interaction>
             {
-                cards.map((card, index) => {
+                cardsState.cards.map((card, index) => {
                     return (
                     card.id?
                         <Card

@@ -1,16 +1,9 @@
-import React, {useRef, useEffect, useContext, useState} from "react"
-import { CardsContract } from "../../Services/cards.contract.service"
+import {useRef, useEffect, useContext} from "react"
 import MetaMaskContext from "../../Contexts/MetaMaskContext/MetaMaskContext"
-import AppHeaderProperties from "./AppHeaderProperties"
 import './AppHeader.scss'
-import { BigNumber } from "ethers"
-import { Link, NavLink, useLocation } from "react-router-dom"
-import { Offer } from "../../Services/offer.contract.service"
+import { NavLink } from "react-router-dom"
 
-function AppHeader(
-    { 
-        latestCard
-    }: AppHeaderProperties) {
+function AppHeader() {
     const headerRef = useRef<HTMLDivElement>(null)
     const {currentAccount, connectMetaMask } = useContext(MetaMaskContext)
     
