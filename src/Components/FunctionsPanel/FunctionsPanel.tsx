@@ -9,7 +9,7 @@ import { Offer } from '../../Services/offer.contract.service'
 import ModalContext from '../../Contexts/ModalContext/ModalContext'
 
 export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Function, getSelectedCard: Function}) {
-    const [show, setShow] = useState<boolean>(false)
+    const [show, setShow] = useState<boolean>(true)
 
     const switchShowPanel = () => {
         setShow(prevState => {
