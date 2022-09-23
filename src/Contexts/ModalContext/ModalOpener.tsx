@@ -69,10 +69,10 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
               }
               setOfferResult((prevState) => ({
                 ...prevState,
-                offer: result,
+                ...result,
               }))
-              setFormIndex(prevState => {
-                const newState = prevState + 1;
+              setFormIndex((prevState) => {
+                const newState = prevState + 1
                 return newState
               })
             }}
@@ -84,37 +84,52 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
     }
 
     const ChooseCardForm = () => {
-        const [offerCard, setOfferCard] = useState("")
-        const {cardsState, reloadCards} = useContext(CardsContext)
-        useEffect(() => {
-          reloadCards()
-        }, [])
-        return (
-            <div>
-                <h5>choose your card</h5>
-                <div>
-                    {
-                        cardsState.cards.map(
-                            card => <Card
-                              id={card.id}
-                              text={card.text}
-                              cardAddress={card.cardAddress}
-                            ></Card>
-                        )
-                    }
-                </div>
-            </div>
-        )
+      const [offerCard, setOfferCard] = useState("")
+      const { cardsState, reloadCards } = useContext(CardsContext)
+      useEffect(() => {
+        reloadCards()
+      }, [])
+      return (
+        <div>
+          <h5>choose your card</h5>
+          <div>
+            {cardsState.cards.map((card) => (
+              <Card
+                id={card.id}
+                text={card.text}
+                cardAddress={card.cardAddress}
+                onClick={() => {
+                  setOfferCard(card.cardAddress)
+                }}
+              ></Card>
+            ))}
+          </div>
+          <button
+            onClick={() => {
+              setResult((prevState) => ({
+                ...prevState,
+                offer: {
+                  ...offerResult,
+                  offerCard: offerCard,
+                },
+              }))
+              closeModal()
+            }}
+          >
+            Create Offer
+          </button>
+        </div>
+      )
     }
 
     const forms = [<OfferForm></OfferForm>, <ChooseCardForm></ChooseCardForm>]
 
     return (
       <div className="content">
-        <h4>Create Offer {formIndex+1}/{forms.length}</h4>
-        {
-            forms[formIndex]
-        }
+        <h4>
+          Create Offer {formIndex + 1}/{forms.length}
+        </h4>
+        {forms[formIndex]}
       </div>
     )
   }

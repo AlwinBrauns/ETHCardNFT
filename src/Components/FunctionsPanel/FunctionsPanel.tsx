@@ -47,6 +47,7 @@ function Panel({ show }: { show: boolean}) {
   const handleOfferModalFormData = (offerData: OfferType) => {
     const isValid = () => !!offerData.offerCard
     if (isValid()) {
+      console.log(offerData)
       let offer = Offer.createOffer(
         offerData.offerCard,
         offerData.description,
