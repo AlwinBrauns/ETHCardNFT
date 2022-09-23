@@ -1,4 +1,15 @@
 .Modal {
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    &.show {
+        animation: fadeIn 0.2s ease-in-out forwards;
+    }
     position: absolute;
     padding: 2rem;
     border-radius: 20px;
@@ -48,6 +59,54 @@
             animation: close-indicator var(--t) linear forwards;
             height: 5px;
             background-color: lightgreen;
+        }
+        &.offer {
+            position: relative;
+            .card-choice{
+                >* {
+                    margin: 1rem;
+                    transition: transform 0.5s ease-in-out;
+                }
+                .selected {
+                    transform: scale(1.2);
+                }
+            }
+            .back {
+                &:hover {
+                    cursor: pointer;
+                }
+                position: absolute;
+                height: 40px;
+                width: 30px;
+                right: 0;
+                top: 10px;
+                transform: translateX(-50%) translateY(-50%);
+                >* {
+                    border-radius: 20px;
+                    background-color: rgb(189, 189, 189);
+                    width: 6px;
+                    height: 20px;
+                    transition: background-color 0.2s ease-in-out;
+                }
+
+                &:hover {
+                    >* {
+                        background-color: white;
+                    }
+                }
+                >*:nth-child(1) {
+                    position: absolute;
+                    top:0;
+                    left: 50%;
+                    transform: rotate(45deg) translateY(3.2px) translateX(50%);
+                }
+                >*:nth-child(2) {
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: rotate(-45deg) translateY(-3.2px) translateX(50%);     
+                }
+            }
         }
     }
     

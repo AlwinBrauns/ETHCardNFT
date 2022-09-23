@@ -1,12 +1,8 @@
-import { ChangeEvent, ChangeEventHandler, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import ModalContext from "./ModalContext"
 
 import "./Modal.scss"
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import { CardType } from "../../Reducer/CardsReducer"
 import Card from "../../Components/Card/Card"
-import { CardsContract } from "../../Services/cards.contract.service"
-import { BigNumber } from "ethers"
 import CardsContext from "../CardsContext/CardsContext"
 
 export default function ModalOpener({ children }: { children: React.ReactNode }) {
@@ -28,14 +24,24 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
   }
 
   const OfferModal = () => {
-    const [offerResult, setOfferResult] = useState({})
+    const [offerResult, setOfferResult] = useState<any>({
+      description: "",
+      neededWei: 0,
+      online: true,
+      stock: 99999
+    })
     const [formIndex, setFormIndex] = useState(0)
 
-    const OfferForm = () => {
-      const [description, setDescription] = useState("")
-      const [neededWei, setNeededWei] = useState(0)
-      const [online, setOnline] = useState(true)
-      const [stock, setStock] = useState(99999)
+    const OfferForm = ({initialValues = {
+      description: "",
+      neededWei: 0,
+      online: true,
+      stock: 99999
+    }}) => {
+      const [description, setDescription] = useState(initialValues.description)
+      const [neededWei, setNeededWei] = useState(initialValues.neededWei)
+      const [online, setOnline] = useState(initialValues.online)
+      const [stock, setStock] = useState(initialValues.stock)
 
       return (
         <>
@@ -67,7 +73,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
                 online: online,
                 stock: stock,
               }
-              setOfferResult((prevState) => ({
+              setOfferResult((prevState: any) => ({
                 ...prevState,
                 ...result,
               }))
@@ -85,14 +91,14 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
 
     const ChooseCardForm = () => {
       const [offerCard, setOfferCard] = useState("")
-      const { cardsState, reloadCards } = useContext(CardsContext)
+      const { cardsState, reloadCards} = useContext(CardsContext)
       useEffect(() => {
         reloadCards()
       }, [])
       return (
-        <div>
+        <>
           <h5>choose your card</h5>
-          <div>
+          <div className="card-choice">
             {cardsState.cards.map((card) => (
               <Card
                 id={card.id}
@@ -101,6 +107,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
                 onClick={() => {
                   setOfferCard(card.cardAddress)
                 }}
+                classAddition={offerCard===card.cardAddress?"selected":""}
               ></Card>
             ))}
           </div>
@@ -118,17 +125,30 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
           >
             Create Offer
           </button>
-        </div>
+        </>
       )
     }
 
-    const forms = [<OfferForm></OfferForm>, <ChooseCardForm></ChooseCardForm>]
+    const forms = [<OfferForm initialValues={{
+      description: offerResult.description,
+      neededWei: offerResult.neededWei,
+      online: offerResult.online,
+      stock: offerResult.stock
+    }}></OfferForm>, <ChooseCardForm></ChooseCardForm>]
 
     return (
-      <div className="content">
+      <div className="content offer">
         <h4>
           Create Offer {formIndex + 1}/{forms.length}
         </h4>
+        {
+          formIndex>0?
+          <div className="back" onClick={() => setFormIndex(prevIndex => --prevIndex)}>
+            <div></div>
+            <div></div>
+          </div>
+          :null
+        }
         {forms[formIndex]}
       </div>
     )
