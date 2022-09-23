@@ -26,26 +26,30 @@ export default function FunctionsPanel({addCard, getSelectedCard}: {addCard: Fun
 
 function Panel ({show, addCard}:{show:boolean, addCard:Function}) {
     const {currentAccount} = useContext(MetaMaskContext)
-    const {openOfferModal} = useContext(ModalContext)
+    const {result, openOfferModal} = useContext(ModalContext)
     const [isHidden, setIsHidden] = useState<boolean>(false)
     const location = useLocation();
 
+    useEffect(() => {
+        if(result) {
+            console.log(result);
+            const isValid = () => !!(result.offerCard)
+            if(isValid()){
+                let offer = Offer.createOffer(
+                    result.offerCard,
+                    result.description,
+                    result.neededWei,
+                    result.online,
+                    result.stock
+                )
+            }else {
+                console.log("wrong input")
+            }
+        }
+    }, [result])
+
     const addOffer = () => {
         openOfferModal()
-        
-        //const isValid = () => !!(offerData.offerCard)
-        //let offerData: any;
-        //if(isValid()){
-        //    let offer = Offer.createOffer(
-        //        offerData.offerCard,
-        //        offerData.description,
-        //        offerData.neededWei,
-        //        offerData.online,
-        //        offerData.stock
-        //    )
-        //}else {
-        //    console.log("wrong input")
-        //}
     }
 
     const MainFunction = () => {
