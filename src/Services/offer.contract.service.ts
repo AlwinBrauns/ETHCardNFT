@@ -3,6 +3,7 @@ import address from '../address.json'
 import OfferFactory from "../artifacts/contracts/OfferFactory.sol/OfferFactory.json"
 import OfferContract from "../artifacts/contracts/Offer.sol/Offer.json"
 import Contract from './modules/contract'
+import { Offer, OfferData } from '../Reducer/OffersReducer'
 
 class _Offer extends Contract {
     //OfferFactory
@@ -22,12 +23,12 @@ class _Offer extends Contract {
             return offer
         }
     }
-    async subscribeToNewOfferListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+    async subscribeToNewOfferListener(listener: (offerAddress: string)=>void) {
         if(this.updateState(OfferFactory.abi).success && this.contract) {
             this.contract.on("NewOffer", listener)
         }
     }
-    async unsubscribeFromNewOfferListener(listener: (sender: any, receiver: any, transaction: any)=>void) {
+    async unsubscribeFromNewOfferListener(listener: (offerAddress: string)=>void) {
         if(this.updateState(OfferFactory.abi).success && this.contract) {
             this.contract.off("NewOffer", listener)
         }
@@ -48,8 +49,8 @@ class _Offer extends Contract {
     }
 }
 
-const Offer: _Offer = new _Offer(address.offerFactory)
+const OfferContractService: _Offer = new _Offer(address.offerFactory)
 
 export { 
-    Offer
+    OfferContractService
 }

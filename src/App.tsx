@@ -10,10 +10,10 @@ function App() {
   const ref = useRef<HTMLDivElement>(null)
   
   return (
-    <div className="App" ref={ref}>
+    <main className="App" ref={ref}>
       <AppHeader />
       <FunctionsPanel />
-      <main className="App-main">
+      <section className="App-content">
         <Routes>
           <Route path='/' element=
             {
@@ -24,8 +24,8 @@ function App() {
             <MarketplaceScreen />
           }/>
           </Routes>
-      </main>
-    </div>
+      </section>
+    </main>
   )
 }
 

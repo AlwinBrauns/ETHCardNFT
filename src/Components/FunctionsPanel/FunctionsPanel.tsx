@@ -5,7 +5,7 @@ import { getBalance } from "../../Services/metamask.service"
 import MetaMaskContext from "../../Contexts/MetaMaskContext/MetaMaskContext"
 import "./FunctionsPanel.scss"
 import { useLocation } from "react-router-dom"
-import { Offer } from "../../Services/offer.contract.service"
+import { OfferContractService } from "../../Services/offer.contract.service"
 import ModalContext from "../../Contexts/ModalContext/ModalContext"
 import { CardType } from "../../Reducer/CardsReducer"
 import CardsContext from "../../Contexts/CardsContext/CardsContext"
@@ -48,7 +48,7 @@ function Panel({ show }: { show: boolean}) {
     const isValid = () => !!offerData.offerCard
     if (isValid()) {
       console.log(offerData)
-      let offer = Offer.createOffer(
+      let offer = OfferContractService.createOffer(
         offerData.offerCard,
         offerData.description,
         offerData.neededWei,
@@ -73,15 +73,27 @@ function Panel({ show }: { show: boolean}) {
   const MainFunction = () => {
     if (location.pathname === "/marketplace") {
       return !!currentAccount ? (
+        <>
         <button className="App-header-addOffer accent" onClick={() => addOffer()}>
           Add Offer
         </button>
+        <button
+          onClick={() => {}}>
+          Load All Offers
+        </button>
+        </>
       ) : null
     } else {
       return !!currentAccount ? (
+        <>
         <button className="App-header-addCard accent" onClick={() => CardsContract.generateCard()}>
           Add Card
         </button>
+        <button
+          onClick={() => reloadCards()}>
+          Load All Cards
+        </button>
+        </>
       ) : null
     }
   }
@@ -105,10 +117,6 @@ function Panel({ show }: { show: boolean}) {
         Your Balance
       </button>
       <MainFunction />
-      <button
-        onClick={() => reloadCards()}>
-        Load All Cards
-      </button>
     </div>
   ) : null
 }

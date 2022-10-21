@@ -28,16 +28,18 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
       description: "",
       neededWei: 0,
       online: true,
-      stock: 99999
+      stock: 99999,
     })
     const [formIndex, setFormIndex] = useState(0)
 
-    const OfferForm = ({initialValues = {
-      description: "",
-      neededWei: 0,
-      online: true,
-      stock: 99999
-    }}) => {
+    const OfferForm = ({
+      initialValues = {
+        description: "",
+        neededWei: 0,
+        online: true,
+        stock: 99999,
+      },
+    }) => {
       const [description, setDescription] = useState(initialValues.description)
       const [neededWei, setNeededWei] = useState(initialValues.neededWei)
       const [online, setOnline] = useState(initialValues.online)
@@ -91,7 +93,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
 
     const ChooseCardForm = () => {
       const [offerCard, setOfferCard] = useState("")
-      const { cardsState, reloadCards} = useContext(CardsContext)
+      const { cardsState, reloadCards } = useContext(CardsContext)
       useEffect(() => {
         reloadCards()
       }, [])
@@ -107,7 +109,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
                 onClick={() => {
                   setOfferCard(card.cardAddress)
                 }}
-                classAddition={offerCard===card.cardAddress?"selected":""}
+                classAddition={offerCard === card.cardAddress ? "selected" : ""}
               ></Card>
             ))}
           </div>
@@ -129,26 +131,29 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
       )
     }
 
-    const forms = [<OfferForm initialValues={{
-      description: offerResult.description,
-      neededWei: offerResult.neededWei,
-      online: offerResult.online,
-      stock: offerResult.stock
-    }}></OfferForm>, <ChooseCardForm></ChooseCardForm>]
+    const forms = [
+      <OfferForm
+        initialValues={{
+          description: offerResult.description,
+          neededWei: offerResult.neededWei,
+          online: offerResult.online,
+          stock: offerResult.stock,
+        }}
+      ></OfferForm>,
+      <ChooseCardForm></ChooseCardForm>,
+    ]
 
     return (
       <div className="content offer">
         <h4>
           Create Offer {formIndex + 1}/{forms.length}
         </h4>
-        {
-          formIndex>0?
-          <div className="back" onClick={() => setFormIndex(prevIndex => --prevIndex)}>
+        {formIndex > 0 ? (
+          <div className="back" onClick={() => setFormIndex((prevIndex) => --prevIndex)}>
             <div></div>
             <div></div>
           </div>
-          :null
-        }
+        ) : null}
         {forms[formIndex]}
       </div>
     )
