@@ -5,11 +5,11 @@ import { initialOffersState, OfferData, offersReducer, OffersReducerActions } fr
 export default function useOffers() {
     const [offersState, offersDispatch] = useReducer(offersReducer, initialOffersState)
 
-    const addOffer = (offerAddress: BigNumber, offerData: OfferData) => {
+    const addOffer = (offerAddress: string, offerData: OfferData) => {
         offersDispatch(
                 {
                     type: OffersReducerActions.ADD_OFFER, 
-                    offerAddress: offerAddress, 
+                    offerAddress: BigNumber.from(offerAddress), 
                     offerData: offerData
                 }
             )

@@ -35,7 +35,13 @@ class _Offer extends Contract {
     }
 
     //Offer
-    async buy(offerAddress: string, cardTransactionManager: string, sender: string, expectedWei: string, message: string) {
+    async buy(
+        offerAddress: string, 
+        cardTransactionManager: string, 
+        sender: string, 
+        expectedWei: string, 
+        message: string
+        ) {
         if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
             const transaction = await this.contract.buy(
                 cardTransactionManager,
@@ -45,6 +51,14 @@ class _Offer extends Contract {
             )
             await transaction.wait()
             return transaction
+        }
+    }
+    async getDescription(
+        offerAddress: string
+    ) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const description = await this.contract.getDescription()
+            return description
         }
     }
 }

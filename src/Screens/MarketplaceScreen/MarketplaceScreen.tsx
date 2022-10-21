@@ -6,8 +6,17 @@ import useOffers from '../../States/OffersState'
 import './MarketplaceScreen.scss'
 export default function MarketplaceScreen() {
     const {offersState, addOffer} = useOffers()
-    const onNewOffer = (offerAddress: string) => {
-        console.log(offerAddress)
+    const onNewOffer = async (offerAddress: string) => {
+        const offerData: OfferData = {
+            offerCard: BigNumber.from("0x0"),
+            description: await OfferContractService.getDescription(offerAddress),
+            neededWei: 0,
+            online: true,
+            stock: 0,
+            rating: 0,
+            ratingCounter: 0
+        }
+        addOffer(offerAddress, offerData)
     }
     useEffect(() => {
         OfferContractService.subscribeToNewOfferListener(onNewOffer)
@@ -19,7 +28,7 @@ export default function MarketplaceScreen() {
         <div className='MarketplaceScreen'>
             {
                 offersState.offers.map(offer => {
-                    return <div>{offer.id} {offer.description}</div>
+                    return <div key={offer.id}>{offer.id} {offer.description}</div>
                 })
             }
         </div>
