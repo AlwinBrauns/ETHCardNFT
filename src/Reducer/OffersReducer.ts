@@ -24,12 +24,12 @@ export type OfferData = {
     ratingCounter: number
 }
 
-export interface Offer extends OfferData {
+export interface OfferType extends OfferData {
     id: string
 }
 
 export type OffersReducerState = {
-    offers: Offer[]
+    offers: OfferType[]
     latestOffer: string,
     selectedOffer: number,
 }
@@ -44,9 +44,9 @@ export function offersReducer (state: OffersReducerState, action: OffersReducerA
     switch (action.type) {
         case OffersReducerActions.ADD_OFFER: 
             if (!action.offerData || !action.offerAddress) throw new Error("missing action arguments")
-            let offersWithAddedOffer: Offer[] = state.offers
+            let offersWithAddedOffer: OfferType[] = state.offers
             const uniqueID = action.offerAddress._hex
-            const newOffer: Offer = {
+            const newOffer: OfferType = {
                 id: uniqueID,
                 offerCard: action.offerData.offerCard,
                 description: action.offerData.description,

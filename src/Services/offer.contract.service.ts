@@ -3,7 +3,8 @@ import address from '../address.json'
 import OfferFactory from "../artifacts/contracts/OfferFactory.sol/OfferFactory.json"
 import OfferContract from "../artifacts/contracts/Offer.sol/Offer.json"
 import Contract from './modules/contract'
-import { Offer, OfferData } from '../Reducer/OffersReducer'
+import { OfferType, OfferData } from '../Reducer/OffersReducer'
+import { CardsContract } from './cards.contract.service'
 
 class _Offer extends Contract {
     //OfferFactory
@@ -59,6 +60,30 @@ class _Offer extends Contract {
         if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
             const description = await this.contract.getDescription()
             return description
+        }
+    }
+    async getNeededWei(
+        offerAddress: string
+    ) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const neededWei = await this.contract.getNeededWei()
+            return neededWei
+        }
+    }
+    async getOfferCard(
+        offerAddress: string
+    ) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const offerCard = await this.contract.getOfferCard()
+            return offerCard
+        }
+    }
+    async isOnline(
+        offerAddress: string
+    ) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const isOnline = await this.contract.isOnline()
+            return isOnline
         }
     }
 }

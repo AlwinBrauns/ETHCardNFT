@@ -12,7 +12,6 @@ function App() {
   return (
     <main className="App" ref={ref}>
       <AppHeader />
-      <FunctionsPanel />
       <section className="App-content">
         <Routes>
           <Route path='/' element=

@@ -1,0 +1,13 @@
+.Offer {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: adjust-hue($color: #315423, $degrees: 100);
+    >* {
+        margin: 0.5rem;
+    }
+    .offer-id {
+        font-size: 0.5rem;
+        padding: 0.5rem;
+        border-bottom: 1px solid rgba(white, 0.3);
+    }
+}
