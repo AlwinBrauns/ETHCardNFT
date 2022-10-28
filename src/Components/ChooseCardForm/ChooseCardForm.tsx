@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react"
 import CardsContext from "../../Contexts/CardsContext/CardsContext"
 import Card from "../Card/Card"
 type ChooseCardFormProperties = {
-    onFinish: (offerCard: string) => void
+    onFinish: (selectedCard: string) => void
 }
 export default function ChooseCardForm({onFinish}: ChooseCardFormProperties) {
-    const [offerCard, setOfferCard] = useState("")
+    const [selectedCard, setSelectedCard] = useState("")
     const { cardsState, reloadCards } = useContext(CardsContext)
     useEffect(() => {
       reloadCards()
@@ -21,15 +21,15 @@ export default function ChooseCardForm({onFinish}: ChooseCardFormProperties) {
               text={card.text}
               cardAddress={card.cardAddress}
               onClick={() => {
-                setOfferCard(card.cardAddress)
+                setSelectedCard(card.cardAddress)
               }}
-              classAddition={offerCard === card.cardAddress ? "selected" : ""}
+              classAddition={selectedCard === card.cardAddress ? "selected" : ""}
             ></Card>
           ))}
         </div>
         <button
           onClick={() => { 
-            onFinish(offerCard)
+            onFinish(selectedCard)
           }}
         >
           Create Offer

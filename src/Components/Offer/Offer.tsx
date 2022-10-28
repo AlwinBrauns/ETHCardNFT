@@ -1,6 +1,7 @@
 import { BigNumber } from "ethers";
 import { formatEther, parseEther } from "ethers/lib/utils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import ModalContext from "../../Contexts/ModalContext/ModalContext";
 import { OfferType } from "../../Reducer/OffersReducer";
 import { CardsContract } from "../../Services/cards.contract.service"
 import { OfferContractService } from "../../Services/offer.contract.service";
@@ -12,6 +13,7 @@ type OfferProperties = {
 export default function Offer({offer}: OfferProperties) {
 
     const [sellerCard, setSellerCard] = useState("")
+    const {openBuyOfferModal} = useContext(ModalContext)
 
     const priceInEth = () => {
         return formatEther(offer.neededWei)
@@ -46,8 +48,6 @@ export default function Offer({offer}: OfferProperties) {
             <div>{offer.offerCard.toString()}</div>
             <div className="offer-description">{offer.description} </div>
             <div className="offer-price">{priceInEth()} ETH</div>
-            <button onClick={() => buyOffer(
-                "0xB7A5bd0345EF1Cc5E66bf61BdeC17D2461fBd968", "_"
-                )}>Buy</button>
+            <button onClick={openBuyOfferModal}>Buy</button>
         </div>
 }

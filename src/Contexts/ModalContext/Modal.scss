@@ -10,7 +10,7 @@
     &.show {
         animation: fadeIn 0.2s ease-in-out forwards;
     }
-    position: absolute;
+    position: fixed;
     padding: 2rem;
     border-radius: 20px;
     background-color: rgba(white, 0.2);

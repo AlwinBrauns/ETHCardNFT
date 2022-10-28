@@ -3,6 +3,7 @@ import ModalContext from "./ModalContext"
 
 import "./Modal.scss"
 import OfferModal from "../../Modale/OfferModal/OfferModal"
+import BuyOfferModal from "../../Modale/BuyOfferModal/BuyOfferModal"
 
 export default function ModalOpener({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState(false)
@@ -60,6 +61,15 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
     />)
   }
 
+  const openBuyOfferModal = () => {
+    setShow(true)
+    setContent(
+      <BuyOfferModal 
+        closeModal={closeModal}
+      />
+    )
+  }
+
   const openSuccessModal = (message: string) => {
     setModalClassAddition("success")
     setShow(true)
@@ -80,6 +90,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
       value={{
         result: result,
         openOfferModal: openOfferModal,
+        openBuyOfferModal: openBuyOfferModal,
         openSuccessModal: openSuccessModal,
       }}
     >

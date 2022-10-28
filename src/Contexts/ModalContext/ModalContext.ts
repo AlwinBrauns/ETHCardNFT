@@ -4,6 +4,7 @@ import { CardType } from "../../Reducer/CardsReducer";
 type ModalContextType = {
     result: any,
     openOfferModal: () => void,
+    openBuyOfferModal: () => void,
     openSuccessModal: Function,
 }
 
