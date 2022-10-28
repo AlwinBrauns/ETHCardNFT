@@ -1,9 +1,8 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ModalContext from "./ModalContext"
 
 import "./Modal.scss"
-import Card from "../../Components/Card/Card"
-import CardsContext from "../CardsContext/CardsContext"
+import OfferModal from "../../Modale/OfferModal/OfferModal"
 
 export default function ModalOpener({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState(false)
@@ -21,142 +20,6 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
     setShow(false)
     setContent(() => <></>)
     setModalClassAddition("")
-  }
-
-  const OfferModal = () => {
-    const [offerResult, setOfferResult] = useState<any>({
-      description: "",
-      neededWei: 0,
-      online: true,
-      stock: 99999,
-    })
-    const [formIndex, setFormIndex] = useState(0)
-
-    const OfferForm = ({
-      initialValues = {
-        description: "",
-        neededWei: 0,
-        online: true,
-        stock: 99999,
-      },
-    }) => {
-      const [description, setDescription] = useState(initialValues.description)
-      const [neededWei, setNeededWei] = useState(initialValues.neededWei)
-      const [online, setOnline] = useState(initialValues.online)
-      const [stock, setStock] = useState(initialValues.stock)
-
-      return (
-        <>
-          <input
-            placeholder="description"
-            value={description}
-            onChange={(e) => setDescription(e.currentTarget.value)}
-            type={"text"}
-          ></input>
-          <label>
-            <span>price (wei)</span>
-            <input
-              placeholder="neededWei"
-              value={neededWei}
-              onChange={(e) => setNeededWei(parseInt(e.currentTarget.value))}
-              type={"number"}
-              min="0"
-            ></input>
-          </label>
-          <label>
-            <input type={"checkbox"} checked={online} onChange={() => setOnline((prevState) => !prevState)} />
-            <span>Set Public</span>
-          </label>
-          <button
-            onClick={() => {
-              const result = {
-                description: description,
-                neededWei: neededWei,
-                online: online,
-                stock: stock,
-              }
-              setOfferResult((prevState: any) => ({
-                ...prevState,
-                ...result,
-              }))
-              setFormIndex((prevState) => {
-                const newState = prevState + 1
-                return newState
-              })
-            }}
-          >
-            Choose Card to create Offer
-          </button>
-        </>
-      )
-    }
-
-    const ChooseCardForm = () => {
-      const [offerCard, setOfferCard] = useState("")
-      const { cardsState, reloadCards } = useContext(CardsContext)
-      useEffect(() => {
-        reloadCards()
-      }, [])
-      return (
-        <>
-          <h5>choose your card</h5>
-          <div className="card-choice">
-            {cardsState.cards.map((card) => (
-              <Card
-                id={card.id}
-                text={card.text}
-                cardAddress={card.cardAddress}
-                onClick={() => {
-                  setOfferCard(card.cardAddress)
-                }}
-                classAddition={offerCard === card.cardAddress ? "selected" : ""}
-              ></Card>
-            ))}
-          </div>
-          <button
-            onClick={() => {
-              setResult((prevState) => ({
-                ...prevState,
-                offer: {
-                  ...offerResult,
-                  offerCard: offerCard,
-                },
-              }))
-              closeModal()
-            }}
-          >
-            Create Offer
-          </button>
-        </>
-      )
-    }
-
-    const forms = [
-      <OfferForm
-        initialValues={{
-          description: offerResult.description,
-          neededWei: offerResult.neededWei,
-          online: offerResult.online,
-          stock: offerResult.stock,
-        }}
-      ></OfferForm>,
-      <ChooseCardForm></ChooseCardForm>,
-    ]
-
-    return (
-      <div className="content offer">
-        <h4>
-          Create Offer {formIndex + 1}/{forms.length}
-        </h4>
-        {formIndex > 0 ? (
-          <div className="back" onClick={() => setFormIndex((prevIndex) => --prevIndex)}>
-            <div></div>
-            <div></div>
-          </div>
-        ) : null}
-        {forms[formIndex]}
-      </div>
-    )
   }
 
   type SuccesModalProperties = {
@@ -181,7 +44,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
       }
     }, [])
     return (
-      <div className="content" ref={content}>
+      <div className="modal-content" ref={content}>
         <span className="closetime-indicator"></span>
         <span>{message}</span>
       </div>
@@ -190,7 +53,11 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
 
   const openOfferModal = () => {
     setShow(true)
-    setContent(<OfferModal></OfferModal>)
+    setContent(
+    <OfferModal 
+      setResult={setResult}
+      closeModal={closeModal}
+    />)
   }
 
   const openSuccessModal = (message: string) => {

@@ -38,7 +38,7 @@ export default function Offer({offer}: OfferProperties) {
         })
     }, [])
 
-    return <div className="Offer" key={offer.id}>
+    return <div className="Offer">
             <div className="offer-id">{offer.id}</div>
             <div className="offer-seller">Seller: {
                 sellerCard

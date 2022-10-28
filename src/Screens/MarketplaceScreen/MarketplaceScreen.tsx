@@ -65,7 +65,7 @@ export default function MarketplaceScreen() {
             <section className='MarketplaceScreen'>
                 {
                     offersState.offers.map(offer => {
-                        return <Offer offer={offer}></Offer>
+                        return <Offer key={offer.id} offer={offer}></Offer>
                     })
                 }
             </section>
