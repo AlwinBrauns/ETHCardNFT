@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import CardsContext from "../../Contexts/CardsContext/CardsContext"
 import Card from "../Card/Card"
+import "./ChooseCardForm.scss"
 type ChooseCardFormProperties = {
     onFinish: (selectedCard: string) => void
 }
@@ -32,7 +33,7 @@ export default function ChooseCardForm({onFinish}: ChooseCardFormProperties) {
             onFinish(selectedCard)
           }}
         >
-          Create Offer
+          Finish
         </button>
       </>
     )

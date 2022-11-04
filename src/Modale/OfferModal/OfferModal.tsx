@@ -1,8 +1,9 @@
 import { useState } from "react"
 import ChooseCardForm from "../../Components/ChooseCardForm/ChooseCardForm"
+import { ModalResult, ModalResultTyp } from "../../Contexts/ModalContext/ModalContext"
 import "./OfferModal.scss"
 type OfferModalProperties = {
-    setResult: React.Dispatch<React.SetStateAction<Object>>,
+    setResult: React.Dispatch<React.SetStateAction<ModalResult>>,
     closeModal: () => void
 }
 export default function OfferModal({setResult, closeModal}: OfferModalProperties) {
@@ -74,13 +75,14 @@ export default function OfferModal({setResult, closeModal}: OfferModalProperties
   }
 
   const finishOffer = (offerCard: string) => {
-    setResult((prevState) => ({
-      ...prevState,
-      offer: {
+    setResult((prevState) => {
+      let newState = {...prevState}
+      newState[ModalResultTyp.OFFER] = {
         ...offerResult,
-        offerCard: offerCard,
-      },
-    }))
+        offerCard: offerCard
+      }
+      return newState
+    })
     closeModal()
   }
 

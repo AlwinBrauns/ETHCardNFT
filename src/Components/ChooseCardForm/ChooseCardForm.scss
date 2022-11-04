@@ -1,0 +1,9 @@
+.card-choice{
+    >* {
+        margin: 1rem;
+        transition: transform 0.5s ease-in-out;
+    }
+    .selected {
+        transform: scale(1.2);
+    }
+}

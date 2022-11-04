@@ -1,10 +1,19 @@
 import {createContext} from "react";
-import { CardType } from "../../Reducer/CardsReducer";
+import { OfferType } from "../../Reducer/OffersReducer";
+
+export enum ModalResultTyp{
+    OFFER = "offer",
+}
+  
+export type ModalResult = {
+[ModalResultTyp.OFFER]?: OfferType
+}
 
 type ModalContextType = {
     result: any,
+    reset: (resultTyp: ModalResultTyp) => void,
     openOfferModal: () => void,
-    openBuyOfferModal: () => void,
+    openBuyOfferModal: (offer: OfferType) => void,
     openSuccessModal: Function,
 }
 

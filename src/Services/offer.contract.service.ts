@@ -1,10 +1,7 @@
-import { BigNumber } from 'ethers'
 import address from '../address.json'
 import OfferFactory from "../artifacts/contracts/OfferFactory.sol/OfferFactory.json"
 import OfferContract from "../artifacts/contracts/Offer.sol/Offer.json"
 import Contract from './modules/contract'
-import { OfferType, OfferData } from '../Reducer/OffersReducer'
-import { CardsContract } from './cards.contract.service'
 
 class _Offer extends Contract {
     //OfferFactory
@@ -52,6 +49,14 @@ class _Offer extends Contract {
             )
             await transaction.wait()
             return transaction
+        }
+    }
+    async getStock(
+        offerAddress: string
+    ) {
+        if(this.updateState(OfferContract.abi, offerAddress).success && this.contract) {
+            const stock = await this.contract.getStock()
+            return stock
         }
     }
     async getDescription(

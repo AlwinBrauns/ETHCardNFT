@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react"
-import ModalContext from "./ModalContext"
+import ModalContext, { ModalResult, ModalResultTyp } from "./ModalContext"
 
 import "./Modal.scss"
 import OfferModal from "../../Modale/OfferModal/OfferModal"
 import BuyOfferModal from "../../Modale/BuyOfferModal/BuyOfferModal"
+import { OfferType } from "../../Reducer/OffersReducer"
 
 export default function ModalOpener({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState(false)
@@ -11,7 +12,15 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
   const [Content, setContent] = useState(() => <></>)
   const getModalClass = () => "Modal" + (show ? " show " : " hide ") + modalClassAddition
   const [modalClass, setModalClass] = useState(getModalClass())
-  const [result, setResult] = useState<Object>({})
+  const [result, setResult] = useState<ModalResult>({})
+
+  const reset = (resultTyp: ModalResultTyp) => {
+    setResult(prevState => {
+      let newState = {...prevState}
+      newState[resultTyp] = undefined
+      return newState
+    })
+  }
 
   useEffect(() => {
     setModalClass(getModalClass())
@@ -61,11 +70,12 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
     />)
   }
 
-  const openBuyOfferModal = () => {
+  const openBuyOfferModal = (offer: OfferType) => {
     setShow(true)
     setContent(
       <BuyOfferModal 
         closeModal={closeModal}
+        offer={offer}
       />
     )
   }
@@ -89,6 +99,7 @@ export default function ModalOpener({ children }: { children: React.ReactNode })
     <ModalContext.Provider
       value={{
         result: result,
+        reset: reset,
         openOfferModal: openOfferModal,
         openBuyOfferModal: openBuyOfferModal,
         openSuccessModal: openSuccessModal,

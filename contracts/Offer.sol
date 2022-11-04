@@ -57,6 +57,10 @@ contract Offer is Ownable{
         stock = _stock;
     }
 
+    function getStock() public view returns(uint256) {
+        return stock;
+    }
+
     function getOfferCard() public view returns(Card){
         return offerCard;
     }
