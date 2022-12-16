@@ -1,5 +1,6 @@
 import address from '../address.json'
 import CardsTransactionManagerSol from "../artifacts/contracts/CardTransactionManager.sol/CardTransactionManager.json"
+import CardTransaction from "../artifacts/contracts/CardTransaction.sol/CardTransaction.json"
 import Contract from './modules/contract'
 
 class _CardsTransactionManager extends Contract {
@@ -26,6 +27,14 @@ class _CardsTransactionManager extends Contract {
     }
 
     //Transaction
+    async getSender(transactionAddress: string) {
+        if(this.updateState(CardTransaction.abi, transactionAddress).success && this.contract) {
+            const sender = this.contract.getSender()
+            this.contract.message
+            return sender
+        }
+    }
+
 }
 
 const CardsTransactionManager: _CardsTransactionManager = new _CardsTransactionManager(address.transactions)

@@ -14,7 +14,7 @@ type ModalContextType = {
     reset: (resultTyp: ModalResultTyp) => void,
     openOfferModal: () => void,
     openBuyOfferModal: (offer: OfferType) => void,
-    openSuccessModal: Function,
+    openSuccessModal: (message: string) => void,
 }
 
 const ModalContext = createContext({} as ModalContextType);

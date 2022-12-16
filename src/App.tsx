@@ -5,6 +5,7 @@ import FunctionsPanel from './Components/FunctionsPanel/FunctionsPanel';
 import CardsScreen from './Screens/CardsScreen/CardsScreen';
 import { Route, Routes } from 'react-router-dom';
 import MarketplaceScreen from './Screens/MarketplaceScreen/MarketplaceScreen';
+import TransactionsScreen from './Screens/TransactionsScreen/TransactionsScreen';
 
 function App() {
   const ref = useRef<HTMLDivElement>(null)
@@ -21,6 +22,9 @@ function App() {
           />
           <Route path='/marketplace' element={
             <MarketplaceScreen />
+          }/>
+          <Route path='/transactions' element={
+            <TransactionsScreen />
           }/>
           </Routes>
       </section>

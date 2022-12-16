@@ -7,6 +7,7 @@ import './Offer.sol';
 contract CardTransaction {
     Card private sender;
     Card private receiver;
+    //TODO fix schreibfehler
     address private creater;
     bool private approved;
     bool private discarded;

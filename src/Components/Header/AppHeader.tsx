@@ -33,6 +33,9 @@ function AppHeader() {
                     <NavLink to={"marketplace"} style={({isActive}) => ({textDecoration: isActive?"underline":"none"})}>
                         Marketplace
                     </NavLink>
+                    <NavLink to={"transactions"} style={({isActive}) => ({textDecoration: isActive?"underline":"none"})}>
+                        Transactions
+                    </NavLink>
                 </nav>
         </header>
     )
