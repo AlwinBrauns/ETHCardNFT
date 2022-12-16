@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import FunctionsPanel from "../../Components/FunctionsPanel/FunctionsPanel"
 import { CardsTransactionManager } from "../../Services/transaction.contract.service"
 import useTransactions from "../../States/TransactionState"
+import Transaction from "../../Components/Transaction/Transaction"
 
 export default function TransactionsScreen() {
     const {transactionState,addTransaction} = useTransactions()
@@ -38,12 +39,10 @@ export default function TransactionsScreen() {
             <button>WIP</button>
         </FunctionsPanel>
             <div>
-                Transactionsscreen...
                 {
-                    transactionState.transactions.map(transaction => <div>
-                        sender: {transaction.sender._hex} <br />
-                        receiver: {transaction.receiver._hex}
-                    </div>)
+                    transactionState.transactions.map(
+                        trx => <Transaction sender={trx.sender.toHexString()} receiver={trx.receiver.toHexString()} id={trx.id} />
+                    )
                 }
             </div>
         </>
